@@ -1,4 +1,4 @@
-package org.example;
+package org.example.Utils;
 
 import com.fazecast.jSerialComm.SerialPort;
 import com.fazecast.jSerialComm.SerialPortDataListener;
@@ -11,9 +11,9 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 public  class ConectionCardReader {
-    static SerialPort serialPort;
-    static String dataTagUID="";
-    static String portName="";
+    public static SerialPort serialPort;
+    public static String dataTagUID="";
+    public static String portName="COM7";
 
     public static void initSerialPort(String name, int baud) throws Exception {
         if (serialPort != null && serialPort.isOpen()) {
@@ -38,6 +38,7 @@ public  class ConectionCardReader {
         serialPort.addDataListener(new SerialPortDataListener() {
             @Override
             public int getListeningEvents() {
+
                 return SerialPort.LISTENING_EVENT_DATA_RECEIVED;
             }
 

@@ -29,7 +29,7 @@ public class App extends Application {
     static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));
     }
-    static  void setNextRootScene(String fxml) throws IOException {
+    public static  void setNextRootScene(String fxml) throws IOException {
         linkedListSceneName.add(fxml);
         scene.setRoot(loadFXML(fxml));
     }
