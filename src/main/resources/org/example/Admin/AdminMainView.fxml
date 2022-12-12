@@ -26,11 +26,11 @@
    </left>
    <center>
       <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="574.0">
-            <Button mnemonicParsing="false" onAction="#logOutUser" prefHeight="42.0" prefWidth="117.0" text="Wyjdź" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="8.0">
+            <Button mnemonicParsing="false" onAction="#logOutUser" prefHeight="42.0" prefWidth="117.0" text="Wyloguj" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="8.0">
             <graphic>
-               <ImageView fitHeight="32.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
+               <ImageView fitHeight="27.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
                   <image>
-                     <Image url="@../../../img/arrow-small-left.png" />
+                     <Image url="@../../../img/exit.png" />
                   </image></ImageView>
             </graphic></Button>
                <Label alignment="CENTER" contentDisplay="CENTER" layoutX="189.0" layoutY="33.0" text="Panel administratora" textAlignment="CENTER">

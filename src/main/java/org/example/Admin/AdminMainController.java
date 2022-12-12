@@ -12,7 +12,9 @@ public class AdminMainController implements Initializable {
     public void logOutUser() throws IOException {
         App.setPrevRootScene();
     }
-    public void showWorkers(){}
+    public void showWorkers() throws IOException {
+        App.setNextRootScene("Admin/WorkerMenager");
+    }
     public void showVulcaniserView(){}
     public void showCheckerView(){}
     public void showStoremenView(){}

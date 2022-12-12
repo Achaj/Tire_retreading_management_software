@@ -3,6 +3,7 @@ package org.example.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
+import java.util.List;
 
 public class WorkerRepositoryImpl implements WorkerRepository{
     EntityManager entityManager = ConnectionToDB.entityManager;
@@ -48,6 +49,15 @@ public class WorkerRepositoryImpl implements WorkerRepository{
         } else {
             return userTypedQuery.getResultList().get(0);
         }
+    }
+
+    @Override
+    public List<Workers> getWorkers() {
+        if (!entityTransaction.isActive()) {
+            entityTransaction.begin();
+        }
+        TypedQuery<Workers> workersTypedQuery = entityManager.createQuery("SELECT p FROM Workers p", Workers.class);
+        return workersTypedQuery.getResultList();
     }
 
     @Override
