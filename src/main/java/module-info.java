@@ -14,6 +14,7 @@ module org.example {
     requires layout;
 
     opens org.example to javafx.fxml;
+    opens org.example.Admin to javafx.fxml;
 
 
     opens org.example.Entity to org.hibernate.orm.core, javafx.base;

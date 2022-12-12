@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.Admin.WorkersMenagerControler">
+    <left>
+        <AnchorPane prefHeight="316.0" prefWidth="122.0" style="-fx-background-color: #404040;" BorderPane.alignment="CENTER">
+         <children>
+            <VBox prefHeight="318.0" prefWidth="122.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#getAllSealer" prefHeight="25.0" prefWidth="121.0" style="-fx-background-color: white;" text="Sprzedawcy">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin></Button>
+                  <Button mnemonicParsing="false" onAction="#getAllStorekeeper" prefHeight="25.0" prefWidth="120.0" style="-fx-background-color: white;" text="Magazynierzy">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin></Button>
+                  <Button mnemonicParsing="false" onAction="#getAllWorker" prefHeight="25.0" prefWidth="126.0" style="-fx-background-color: white;" text="Wszyscy">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin></Button>
+                  <Button fx:id="editUserBTN" mnemonicParsing="false" onAction="#editOneUser" prefHeight="25.0" prefWidth="126.0" style="-fx-background-color: white;" text="Edytuj">
+                     <graphic>
+                        <ImageView fitHeight="17.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../img/edit.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding></VBox>
+         </children>
+        </AnchorPane>
+    </left>
+    <right>
+        <AnchorPane prefHeight="313.0" prefWidth="406.0" BorderPane.alignment="CENTER">
+         <children>
+            <TableView fx:id="tableUsers" layoutX="-72.0" prefHeight="319.0" prefWidth="480.0">
+              <columns>
+                <TableColumn fx:id="id" prefWidth="70.0" style="-fx-background-color: #f5f2f2;" text="ID" />
+                <TableColumn fx:id="name" prefWidth="104.0" style="-fx-background-color: #f5f2f2;" text="Imie" />
+                  <TableColumn fx:id="surname" prefWidth="72.0" style="-fx-background-color: #f5f2f2;" text="Nazwisko" />
+                  <TableColumn fx:id="email" prefWidth="141.0" style="-fx-background-color: #f5f2f2;" text="E-mail" />
+                  <TableColumn fx:id="rola" prefWidth="92.0" style="-fx-background-color: #f5f2f2;" text="Stanowisko" />
+              </columns>
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
+            </TableView>
+         </children>
+        </AnchorPane>
+    </right>
+   <top>
+      <AnchorPane prefHeight="82.0" prefWidth="609.0" style="-fx-background-color: #404040;" BorderPane.alignment="CENTER">
+         <children>
+            <Text fill="WHITE" layoutX="149.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User Menager" wrappingWidth="303.0">
+               <font>
+                  <Font name="System Bold" size="46.0" />
+               </font>
+            </Text>
+            <Button layoutX="14.0" layoutY="26.0" mnemonicParsing="false" onAction="#backToMainViewOfAdmin" prefHeight="31.0" prefWidth="99.0" style="-fx-background-color: white;" text=" Cofnij ">
+               <graphic>
+                  <ImageView fitHeight="23.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" style="-fx-background-color: white;">
+                     <image>
+                        <Image url="@../../../img/arrow-small-left.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </children>
+      </AnchorPane>
+   </top>
+</BorderPane>

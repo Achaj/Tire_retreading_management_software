@@ -33,7 +33,7 @@ public class App extends Application {
         linkedListSceneName.add(fxml);
         scene.setRoot(loadFXML(fxml));
     }
-    static  void setPrevRootScene() throws IOException {
+    public static  void setPrevRootScene() throws IOException {
         linkedListSceneName.removeLast();
         scene.setRoot(loadFXML(linkedListSceneName.getLast()));
     }

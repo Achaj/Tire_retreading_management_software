@@ -2,10 +2,15 @@ package org.example.Login;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
-import org.example.Utils.ConectionCardReader;
-import org.example.Entity.workerRepository;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ChoiceDialog;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
+import org.example.App;
+import org.example.Entity.WorkerRepositoryImpl;
 import org.example.Entity.Workers;
+import org.example.Utils.ConectionCardReader;
 import org.example.Utils.ValidadiotData;
 
 import java.io.IOException;
@@ -15,15 +20,12 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
-    @FXML public TextField username;
-    @FXML public PasswordField password;
+    @FXML
+    public TextField username;
+    @FXML
+    public PasswordField password;
 
-
-
-
-
-
-    org.example.Entity.workerRepository workerRepository = new workerRepository();
+    org.example.Entity.WorkerRepositoryImpl workerRepository = new WorkerRepositoryImpl();
 
     public void logInApplication() throws IOException {
 
@@ -32,14 +34,16 @@ public class LoginController implements Initializable {
 
         Alert alert = new Alert(Alert.AlertType.NONE);
         if (ValidadiotData.validdateEmail(username.getText()) && ValidadiotData.validatePassword(password.getText())) {
-            Workers worker = workerRepository.getWorkers(username.getText());
+            Workers worker = workerRepository.getWorkerByEmail(username.getText());
             if (worker != null) {
                 if (password.getText().equals(worker.getPassword())) {
                     if (!ConectionCardReader.dataTagUID.equals("")) {
                         if (ConectionCardReader.dataTagUID.trim().equals(worker.getTag())) {
                             alert.setAlertType(Alert.AlertType.INFORMATION);
-                            alert.setHeaderText("Welcome " + worker.getFirstName() + ":)");
-                            //App.setNextRootScene("ReadData");
+                            alert.setHeaderText("Welcome " + worker.getFirstName());
+                            alert.setGraphic(new ImageView(this.getClass().getResource("/img/user24px.png").toString()));
+                            App.setNextRootScene("Admin/AdminMainView");
+                            ConectionCardReader.closePort();
                             ConectionCardReader.dataTagUID = "";
                         } else {
                             alert.setAlertType(Alert.AlertType.INFORMATION);
@@ -94,31 +98,31 @@ public class LoginController implements Initializable {
 
     }
 
-    public void  listinerFileds(){
+    public void listinerFileds() {
         // Listen for TextField text changes
         password.textProperty().addListener((observable, oldValue, newValue) -> {
-           if(ValidadiotData.validatePassword(newValue)){
-               password.setStyle("-fx-background-color:  transparent;-fx-border-color:   green;-fx-border-width:   0px 0px 4px 0px;");
+            if (ValidadiotData.validatePassword(newValue)) {
+                password.setStyle("-fx-background-color:  transparent;-fx-border-color:   green;-fx-border-width:   0px 0px 4px 0px;");
 
-           }else{
-               password.setStyle("-fx-background-color:  transparent;-fx-border-color:   #404040;-fx-border-width:   0px 0px 2px 0px;");
-           }
+            } else {
+                password.setStyle("-fx-background-color:  transparent;-fx-border-color:   #404040;-fx-border-width:   0px 0px 2px 0px;");
+            }
 
         });
         // Listen for TextField text changes
         username.textProperty().addListener((observable, oldValue, newValue) -> {
-            if(ValidadiotData.validdateEmail(newValue)){
+            if (ValidadiotData.validdateEmail(newValue)) {
                 username.setStyle("-fx-background-color:  transparent;-fx-border-color:   green;-fx-border-width:   0px 0px 4px 0px;");
 
-            }else{
+            } else {
                 username.setStyle("-fx-background-color:  transparent;-fx-border-color:   #404040;-fx-border-width:   0px 0px 2px 0px;");
             }
 
         });
 
 
-
     }
+
     public void connectionCardReader() throws Exception {
         ConectionCardReader.initSerialPort(ConectionCardReader.portName, 9600);
         if (!ConectionCardReader.serialPort.isOpen()) {

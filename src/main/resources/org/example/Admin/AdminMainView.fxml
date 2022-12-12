@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.Admin.AdminMainController">
+   <left>
+      <VBox alignment="CENTER" fillWidth="false" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="226.0" style="-fx-background-color: #404040;">
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Hurtownia" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="39.0" />
+               </font>
+            </Text>
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Części Samochodowych" textAlignment="CENTER">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Text>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </VBox>
+   </left>
+   <center>
+      <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="574.0">
+            <Button mnemonicParsing="false" onAction="#logOutUser" prefHeight="42.0" prefWidth="117.0" text="Wyjdź" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="8.0">
+            <graphic>
+               <ImageView fitHeight="32.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../../../img/arrow-small-left.png" />
+                  </image></ImageView>
+            </graphic></Button>
+               <Label alignment="CENTER" contentDisplay="CENTER" layoutX="189.0" layoutY="33.0" text="Panel administratora" textAlignment="CENTER">
+                  <font>
+                     <Font name="System Bold" size="20.0" />
+                  </font>
+               </Label>
+         <VBox layoutX="41.0" layoutY="86.0" prefHeight="481.0" prefWidth="505.0">
+            <children>
+               <HBox prefHeight="110.0" prefWidth="492.0" style="-fx-background-color: #dedad9;">
+                  <children>
+                              <Button mnemonicParsing="false" onAction="#showWorkers" prefHeight="77.0" prefWidth="143.0" text="Pracownicy">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Button>
+                     <Label prefHeight="63.0" prefWidth="322.0" text="Panel kontrolny menedżera użytkowników wyświetla elementy panelu kontrolnego, które są skonfigurowane dla roli menedżera użytkowników. " textAlignment="JUSTIFY" wrapText="true">
+                        <HBox.margin>
+                           <Insets left="5.0" />
+                        </HBox.margin>
+                     </Label>
+                  </children>
+                  <padding>
+                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                  </padding>
+                  <VBox.margin>
+                     <Insets bottom="10.0" top="10.0" />
+                  </VBox.margin>
+               </HBox>
+               <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #dedad9;">
+                  <children>
+                              <Button mnemonicParsing="false" onAction="#showVulcaniserView" prefHeight="61.0" prefWidth="146.0" text="Wulkanizator">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Button>
+                     <Label prefHeight="63.0" prefWidth="322.0" text="Zajmuje się naprawą, w tym regeneracją i konserwacją, opon i dętek oraz innychelementów gumowych." textAlignment="JUSTIFY" wrapText="true">
+                        <HBox.margin>
+                           <Insets left="5.0" />
+                        </HBox.margin>
+                     </Label>
+                  </children>
+                  <padding>
+                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                  </padding>
+                  <VBox.margin>
+                     <Insets bottom="10.0" top="10.0" />
+                  </VBox.margin>
+               </HBox>
+               <HBox prefHeight="110.0" prefWidth="505.0" style="-fx-background-color: #dedad9;">
+                  <children>
+                     <Button mnemonicParsing="false" onAction="#showCheckerView" prefHeight="74.0" prefWidth="150.0" text="Kontroler jakości">
+                        <font>
+                           <Font size="16.0" />
+                        </font>
+                     </Button>
+                     <Label prefHeight="80.0" prefWidth="341.0" text=" Kontrola jakości to dział, w którym pracują osoby gwarantujące najwyższą jakość wyrobów. Posiadają one szereg kompetencji pozwalających na wychwycenie, rozpoznanie i naprawę błędów, które zdarzają się podczas produkcji." textAlignment="JUSTIFY" wrapText="true">
+                        <HBox.margin>
+                           <Insets left="5.0" />
+                        </HBox.margin>
+                     </Label>
+                  </children>
+                  <padding>
+                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                  </padding>
+                  <VBox.margin>
+                     <Insets bottom="10.0" top="10.0" />
+                  </VBox.margin>
+               </HBox>
+               <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #dedad9;">
+                  <children>
+                     <Button mnemonicParsing="false" onAction="#showStoremenView" prefHeight="76.0" prefWidth="150.0" text="Magazynier">
+                        <font>
+                           <Font size="16.0" />
+                        </font>
+                     </Button>
+                     <Label prefHeight="90.0" prefWidth="341.0" text="Magzynier pełni jedną z najważniejszych ról dla efektywnego funkcjonowania działu logistyki." textAlignment="JUSTIFY" wrapText="true">
+                        <padding>
+                           <Insets left="5.0" />
+                        </padding>
+                     </Label>
+                  </children>
+                  <padding>
+                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                  </padding>
+                  <VBox.margin>
+                     <Insets bottom="10.0" top="10.0" />
+                  </VBox.margin>
+               </HBox>
+               <HBox prefHeight="108.0" prefWidth="505.0" style="-fx-background-color: #dedad9;">
+                  <children>
+                     <Button mnemonicParsing="false" onAction="#showPDFGenerator" prefHeight="89.0" prefWidth="148.0" text="Generowanie PDF">
+                        <font>
+                           <Font size="16.0" />
+                        </font>
+                     </Button>
+                     <Label prefHeight="90.0" prefWidth="341.0" text="W systemie istnieje możliwość generowania utworzonych dokumentów w formacie PDF." textAlignment="JUSTIFY" wrapText="true">
+                        <HBox.margin>
+                           <Insets left="5.0" />
+                        </HBox.margin>
+                     </Label>
+                  </children>
+                  <padding>
+                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                  </padding>
+                  <VBox.margin>
+                     <Insets bottom="10.0" top="10.0" />
+                  </VBox.margin>
+               </HBox>
+            </children>
+         </VBox>
+      </AnchorPane>
+   </center>
+</BorderPane>

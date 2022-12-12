@@ -36,7 +36,8 @@ public class WorkerRepositoryImpl implements WorkerRepository{
         productTypedQuery.setParameter("id", id);
         return productTypedQuery.getResultList().get(0);
     }
-    public Workers getWorkers(String email){
+    @Override
+    public Workers getWorkerByEmail(String email){
         if(!entityTransaction.isActive()) {
             entityTransaction.begin();
         }
