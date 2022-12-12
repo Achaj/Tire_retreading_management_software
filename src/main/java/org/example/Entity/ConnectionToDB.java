@@ -27,5 +27,4 @@ public class ConnectionToDB {
     static EntityManager entityManager = ConnectionToDB.getEntityManagerFactory().createEntityManager();
     static EntityTransaction entityTransaction = entityManager.getTransaction();
 
-
 }

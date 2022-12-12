@@ -3,6 +3,8 @@ package org.example.Entity;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "Workers", schema = "public")
@@ -15,27 +17,38 @@ public class Workers implements Serializable {
     private String firstName;
     @Column(name = "last_name", nullable = false)
     private String lastName;
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
     @Column(name = "password", nullable = false)
     private String password;
     @Column(name = "tag", nullable = false)
     private String tag;
+    @Column(name = "position", nullable = false)
+    private String position;
     @Column(name = "employment_date", nullable = false)
     private Date enploymentDate;
-    @Column(name = "stacking_date", nullable =false)
+    @Column(name = "stacking_date", nullable =true)
     private Date stackingDate;
+
+    @ManyToOne
+    @JoinColumn(name = "id_department", nullable = false)
+    private Departments departments;
+
+    @OneToMany(mappedBy = "workers")
+    private List<Works> worksList = new ArrayList<>();
+
 
     public Workers() {
     }
 
-    public Workers(int idWorker, String firstName, String lastName, String email, String password, String tag, Date enploymentDate, Date stackingDate) {
+    public Workers(int idWorker, String firstName, String lastName, String email, String password, String tag, String position, Date enploymentDate, Date stackingDate) {
         this.idWorker = idWorker;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.tag = tag;
+        this.position = position;
         this.enploymentDate = enploymentDate;
         this.stackingDate = stackingDate;
     }
@@ -88,20 +101,41 @@ public class Workers implements Serializable {
         this.tag = tag;
     }
 
-    public Date getEnploymentDate() {
-        return enploymentDate;
+    public String getPosition() {
+        return position;
     }
 
-    public Date getStackingDate() {
-        return stackingDate;
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
+    public Date getEnploymentDate() {
+        return enploymentDate;
     }
 
     public void setEnploymentDate(Date enploymentDate) {
         this.enploymentDate = enploymentDate;
     }
 
+    public Date getStackingDate() {
+        return stackingDate;
+    }
+
     public void setStackingDate(Date stackingDate) {
         this.stackingDate = stackingDate;
     }
+
+    public Departments getDepartments() {
+        return departments;
+    }
+
+    public void setDepartments(Departments departments) {
+        this.departments = departments;
+    }
+
+    public List<Works> getWorksList() {
+        return worksList;
+    }
+
 }
 

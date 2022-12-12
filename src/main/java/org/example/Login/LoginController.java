@@ -1,16 +1,10 @@
 package org.example.Login;
 
-import com.fazecast.jSerialComm.SerialPort;
-import com.fazecast.jSerialComm.SerialPortDataListener;
-import com.fazecast.jSerialComm.SerialPortEvent;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import org.example.App;
 import org.example.Utils.ConectionCardReader;
-import org.example.Entity.WorkerRepository;
+import org.example.Entity.workerRepository;
 import org.example.Entity.Workers;
 import org.example.Utils.ValidadiotData;
 
@@ -21,17 +15,15 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
-    @FXML
-    public TextField username;
-
-    @FXML
-    public PasswordField password;
+    @FXML public TextField username;
+    @FXML public PasswordField password;
 
 
 
 
 
-    WorkerRepository workerRepository = new WorkerRepository();
+
+    org.example.Entity.workerRepository workerRepository = new workerRepository();
 
     public void logInApplication() throws IOException {
 
@@ -47,7 +39,7 @@ public class LoginController implements Initializable {
                         if (ConectionCardReader.dataTagUID.trim().equals(worker.getTag())) {
                             alert.setAlertType(Alert.AlertType.INFORMATION);
                             alert.setHeaderText("Welcome " + worker.getFirstName() + ":)");
-                            App.setNextRootScene("ReadData");
+                            //App.setNextRootScene("ReadData");
                             ConectionCardReader.dataTagUID = "";
                         } else {
                             alert.setAlertType(Alert.AlertType.INFORMATION);
@@ -79,7 +71,7 @@ public class LoginController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        /* Workers workers = new Workers();
+       /*  Workers workers = new Workers();
         workers.setIdWorker(0);
         workers.setFirstName("jan");
         workers.setLastName("ss");
@@ -91,11 +83,11 @@ public class LoginController implements Initializable {
         WorkerRepository workerRepository = new WorkerRepository();
 
         workerRepository.saveWorker(workers);
-        */
-        listinerFileds();
+
+*/
         try {
             connectionCardReader();
-
+            listinerFileds();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -106,15 +98,24 @@ public class LoginController implements Initializable {
         // Listen for TextField text changes
         password.textProperty().addListener((observable, oldValue, newValue) -> {
            if(ValidadiotData.validatePassword(newValue)){
-               password.setStyle("-fx-background-color: green;");
+               password.setStyle("-fx-background-color:  transparent;-fx-border-color:   green;-fx-border-width:   0px 0px 4px 0px;");
+
+           }else{
+               password.setStyle("-fx-background-color:  transparent;-fx-border-color:   #404040;-fx-border-width:   0px 0px 2px 0px;");
            }
+
         });
         // Listen for TextField text changes
         username.textProperty().addListener((observable, oldValue, newValue) -> {
             if(ValidadiotData.validdateEmail(newValue)){
-                username.setStyle("-fx-background-color: green;");
+                username.setStyle("-fx-background-color:  transparent;-fx-border-color:   green;-fx-border-width:   0px 0px 4px 0px;");
+
+            }else{
+                username.setStyle("-fx-background-color:  transparent;-fx-border-color:   #404040;-fx-border-width:   0px 0px 2px 0px;");
             }
+
         });
+
 
 
     }
