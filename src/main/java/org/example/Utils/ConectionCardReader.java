@@ -3,6 +3,7 @@ package org.example.Utils;
 import com.fazecast.jSerialComm.SerialPort;
 import com.fazecast.jSerialComm.SerialPortDataListener;
 import com.fazecast.jSerialComm.SerialPortEvent;
+import org.example.Login.LoginController;
 
 import java.net.URL;
 import java.util.Arrays;
@@ -51,6 +52,8 @@ public  class ConectionCardReader {
                 }
                if(!dataTagUID.equals(databBuffer)){
                    dataTagUID=databBuffer;
+
+
                }
                System.out.println(dataTagUID);
             }

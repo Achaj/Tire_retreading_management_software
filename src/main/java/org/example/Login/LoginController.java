@@ -1,5 +1,10 @@
 package org.example.Login;
 
+import com.fazecast.jSerialComm.SerialPort;
+import com.fazecast.jSerialComm.SerialPortDataListener;
+import com.fazecast.jSerialComm.SerialPortEvent;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -18,9 +23,11 @@ import java.util.ResourceBundle;
 public class LoginController implements Initializable {
     @FXML
     public TextField username;
+
     @FXML
     public PasswordField password;
-    @FXML
+
+
 
 
 
@@ -85,6 +92,7 @@ public class LoginController implements Initializable {
 
         workerRepository.saveWorker(workers);
         */
+        listinerFileds();
         try {
             connectionCardReader();
 
@@ -94,11 +102,25 @@ public class LoginController implements Initializable {
 
     }
 
+    public void  listinerFileds(){
+        // Listen for TextField text changes
+        password.textProperty().addListener((observable, oldValue, newValue) -> {
+           if(ValidadiotData.validatePassword(newValue)){
+               password.setStyle("-fx-background-color: green;");
+           }
+        });
+        // Listen for TextField text changes
+        username.textProperty().addListener((observable, oldValue, newValue) -> {
+            if(ValidadiotData.validdateEmail(newValue)){
+                username.setStyle("-fx-background-color: green;");
+            }
+        });
+
+
+    }
     public void connectionCardReader() throws Exception {
         ConectionCardReader.initSerialPort(ConectionCardReader.portName, 9600);
-        if (ConectionCardReader.serialPort.isOpen()) {
-
-        } else {
+        if (!ConectionCardReader.serialPort.isOpen()) {
             List<String> choices = ConectionCardReader.getPortNames();
             ChoiceDialog<String> dialog = new ChoiceDialog<>("COM7", choices);
             dialog.setTitle("Choice your Com Port");
