@@ -1,11 +1,9 @@
 package org.example.Entity;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import java.util.List;
 
-public class WorkerRepositoryImpl implements WorkerRepository{
+public class WorkersRepositoryImpl implements WorkersRepository {
     EntityManager entityManager = ConnectionToDB.entityManager;
     EntityTransaction entityTransaction = ConnectionToDB.entityTransaction;
     @Override
@@ -20,12 +18,16 @@ public class WorkerRepositoryImpl implements WorkerRepository{
                 worker = entityManager.merge(worker);
             }
             entityTransaction.commit();
+
             return true;
         } catch (Exception e) {
             e.printStackTrace();
             entityTransaction.rollback();
             return false;
+        }finally {
+            entityManager.getEntityManagerFactory().getCache().evictAll();
         }
+
     }
 
     @Override
@@ -57,6 +59,16 @@ public class WorkerRepositoryImpl implements WorkerRepository{
             entityTransaction.begin();
         }
         TypedQuery<Workers> workersTypedQuery = entityManager.createQuery("SELECT p FROM Workers p", Workers.class);
+        return workersTypedQuery.getResultList();
+    }
+
+    @Override
+    public List<Workers> getWorkersByPosition(String position) {
+        if (!entityTransaction.isActive()) {
+            entityTransaction.begin();
+        }
+        TypedQuery<Workers> workersTypedQuery = entityManager.createQuery("SELECT p FROM Workers p WHERE p.position=:position", Workers.class);
+        workersTypedQuery.setParameter("position", position);
         return workersTypedQuery.getResultList();
     }
 

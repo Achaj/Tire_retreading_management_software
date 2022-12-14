@@ -11,7 +11,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import org.example.App;
-import org.example.Entity.WorkerRepositoryImpl;
+import org.example.Entity.WorkersRepositoryImpl;
 import org.example.Entity.Workers;
 
 import java.io.IOException;
@@ -33,9 +33,7 @@ public class WorkersMenagerControler implements Initializable {
     @FXML
     public TableColumn<Workers, String> position;
 
-    WorkerRepositoryImpl workerRepository=new WorkerRepositoryImpl();
-
-
+    WorkersRepositoryImpl workerRepository=new WorkersRepositoryImpl();
     private void initializeColumn() {
         id.setCellValueFactory(new PropertyValueFactory<>("idWorker"));
         firstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
@@ -46,16 +44,18 @@ public class WorkersMenagerControler implements Initializable {
 
     ObservableList<Workers> workersObservableList;
 
-    private void loadDateUser() {
+    private void loadDateUser(List<Workers>  workersList) {
         if(tableWorkers !=null){
             tableWorkers.getItems().clear();
         }
-        List<Workers>  workersList=workerRepository.getWorkers();
-        if(workersList !=null){
+        //List<Workers>  workersList=workerRepository.getWorkers();
+        //List<Workers>  workersList=new ArrayList<>();
+        if(!workersList.isEmpty()){
             workersObservableList=FXCollections.observableArrayList();
-            workersObservableList.clear();
+            workersObservableList.removeAll(workersObservableList);
             workersObservableList.addAll(workersList);
             tableWorkers.getItems().addAll(workersObservableList);
+            System.out.println(workersObservableList);
         }else{
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setHeaderText("Brak pracowników do wyświetlenia");
@@ -72,32 +72,42 @@ public class WorkersMenagerControler implements Initializable {
 
 
     public void addNewUserView() throws IOException {
-
-
-    }
-
-
-    public void getAllSealer() {
+        App.setNextRootScene("Admin/WorkerDetails");
 
     }
 
-    public void getAllStorekeeper() {
+
+    public void getAllChecker() {
+        loadDateUser(workerRepository.getWorkersByPosition("CHECKER"));
+
+    }
+
+    public void getAllStoremen() {
+        loadDateUser(workerRepository.getWorkersByPosition("STOREMEN"));
+
+    }
+    public void getAllVulcaniser() {
+        loadDateUser(workerRepository.getWorkersByPosition("VULCANISER"));
 
     }
 
     public void getAllWorker(ActionEvent actionEvent) {
-        loadDateUser();
+        loadDateUser(workerRepository.getWorkers());
     }
 
 
     public void editOneUser() throws IOException {
-
+        Workers workers=tableWorkers.getSelectionModel().getSelectedItem();
+        if(workers!=null) {
+            WorkerDetailsControler.setEditWorker(workers);
+            App.setNextRootScene("Admin/WorkerDetails");
+        }
     }
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initializeColumn();
-        loadDateUser();
+        loadDateUser(workerRepository.getWorkers());
     }
 }

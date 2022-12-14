@@ -17,7 +17,7 @@ public class Workers implements Serializable {
     private String firstName;
     @Column(name = "last_name", nullable = false)
     private String lastName;
-    @Column(name = "email", nullable = false, unique = true)
+    @Column(name = "email",unique=true, nullable = false)
     private String email;
     @Column(name = "password", nullable = false)
     private String password;

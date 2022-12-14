@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.Admin.WorkerDetailsControler">
+    <left>
+        <AnchorPane prefHeight="318.0" prefWidth="0.0" style="-fx-background-color: #404040;" BorderPane.alignment="CENTER" />
+    </left>
+   <top>
+      <AnchorPane prefHeight="82.0" prefWidth="609.0" style="-fx-background-color: #404040;" BorderPane.alignment="CENTER">
+         <children>
+            <Text fill="WHITE" layoutX="149.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Szczegóły Pracownika" wrappingWidth="552.0">
+               <font>
+                  <Font name="System Bold" size="46.0" />
+               </font>
+            </Text>
+            <Button layoutX="35.0" layoutY="29.0" mnemonicParsing="false" onAction="#backToPreviousScene" prefHeight="31.0" prefWidth="84.0" style="-fx-background-color: white;" text="Cofinij">
+               <graphic>
+                  <ImageView fitHeight="23.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" style="-fx-background-color: white;">
+                     <image>
+                        <Image url="@../../../img/arrow-small-left.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
+   </top>
+   <center>
+        <AnchorPane prefHeight="525.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button layoutX="523.0" layoutY="421.0" mnemonicParsing="false" onAction="#addWorkerToDB" prefHeight="42.0" prefWidth="138.0" style="-fx-background-color: #404040;" text="Dodaj" textFill="WHITE" textOverrun="CLIP">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="38.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../img/user-add.png" />
+                     </image>
+                  </ImageView>
+               </graphic></Button>
+            <ImageView fitHeight="105.0" fitWidth="99.0" layoutX="38.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../img/user.png" />
+               </image>
+            </ImageView>
+            <HBox layoutX="136.0" layoutY="26.0" prefHeight="292.0" prefWidth="603.0">
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="10.0" layoutY="10.0" prefHeight="25.0" prefWidth="114.0" text="Id Tag:">
+                           <cursor>
+                              <Cursor fx:constant="DEFAULT" />
+                           </cursor>
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="25.0" prefWidth="114.0" text="Imię:">
+                           <cursor>
+                              <Cursor fx:constant="DEFAULT" />
+                           </cursor>
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="25.0" prefWidth="112.0" text="Nazwisko:">
+                           <cursor>
+                              <Cursor fx:constant="DEFAULT" />
+                           </cursor>
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="25.0" prefWidth="107.0" text="Email:">
+                           <cursor>
+                              <Cursor fx:constant="DEFAULT" />
+                           </cursor>
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="25.0" prefWidth="122.0" text="Hasło:">
+                           <cursor>
+                              <Cursor fx:constant="DEFAULT" />
+                           </cursor>
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="25.0" prefWidth="112.0" text="Potwierdź Hasło:">
+                           <cursor>
+                              <Cursor fx:constant="DEFAULT" />
+                           </cursor>
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="10.0" layoutY="110.0" prefHeight="25.0" prefWidth="114.0" text="Stanowiko:">
+                           <cursor>
+                              <Cursor fx:constant="DEFAULT" />
+                           </cursor>
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="10.0" layoutY="185.0" prefHeight="25.0" prefWidth="114.0" text="Dział:">
+                           <cursor>
+                              <Cursor fx:constant="DEFAULT" />
+                           </cursor>
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="10.0" layoutY="220.0" prefHeight="25.0" prefWidth="114.0" text="Data Zatrudnienia:">
+                           <cursor>
+                              <Cursor fx:constant="DEFAULT" />
+                           </cursor>
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="10.0" layoutY="245.0" prefHeight="25.0" prefWidth="114.0" text="*Data Zwolnienia">
+                           <cursor>
+                              <Cursor fx:constant="DEFAULT" />
+                           </cursor>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="224.0" prefWidth="401.0">
+                     <children>
+                        <TextField fx:id="idTag" layoutX="10.0" layoutY="10.0" prefHeight="25.0" prefWidth="193.0" promptText="21312312321" style="-fx-background-color: white;">
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <TextField fx:id="firstName" prefHeight="25.0" prefWidth="193.0" promptText="Imię" style="-fx-background-color: white;">
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <TextField fx:id="secondName" prefHeight="25.0" prefWidth="193.0" promptText="Nazwisko" style="-fx-background-color: white;">
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <TextField fx:id="email" prefHeight="25.0" prefWidth="418.0" promptText="E mail" style="-fx-background-color: white;">
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <PasswordField fx:id="pass" prefHeight="25.0" prefWidth="193.0" promptText="Hasło" style="-fx-background-color: white;">
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </PasswordField>
+                        <PasswordField fx:id="confirmPass" prefHeight="25.0" prefWidth="193.0" promptText="Potwierdź Hasło" style="-fx-background-color: white;">
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </PasswordField>
+                         <ChoiceBox fx:id="positionChoiceBox" prefHeight="25.0" prefWidth="406.0">
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </ChoiceBox>
+                        <ChoiceBox fx:id="departmentChoiceBox" layoutX="10.0" layoutY="185.0" prefHeight="25.0" prefWidth="406.0">
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </ChoiceBox>
+                        <DatePicker fx:id="enploymentDate" prefHeight="25.0" prefWidth="421.0">
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </DatePicker>
+                        <DatePicker fx:id="stackingDate" prefHeight="25.0" prefWidth="421.0" />
+                     </children>
+                  </VBox>
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </HBox>
+            <Button layoutX="355.0" layoutY="421.0" mnemonicParsing="false" onAction="#editWorkerInDB" prefHeight="42.0" prefWidth="138.0" style="-fx-background-color: #404040;" text="Edytuj" textFill="WHITE" textOverrun="CLIP">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="38.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../img/pencil.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button layoutX="190.0" layoutY="421.0" mnemonicParsing="false" onAction="#remoweWorkerInDB" prefHeight="42.0" prefWidth="138.0" style="-fx-background-color: #404040;" text="Usuń" textFill="WHITE" textOverrun="CLIP">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="38.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../img/trash.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </children>
+        </AnchorPane>
+   </center>
+</BorderPane>

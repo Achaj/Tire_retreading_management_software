@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 public  class ConectionCardReader {
     public static SerialPort serialPort;
     public static String dataTagUID="";
-    public static String portName="COM7";
+    public static String portName="COM10";
 
     public static void initSerialPort(String name, int baud) throws Exception {
         if (serialPort != null && serialPort.isOpen()) {
@@ -26,7 +26,7 @@ public  class ConectionCardReader {
         serialPort.setNumDataBits(8);
         serialPort.setBaudRate(baud);
         serialPort.openPort();
-        listeningPort();
+        //listeningPort();
     }
 
 

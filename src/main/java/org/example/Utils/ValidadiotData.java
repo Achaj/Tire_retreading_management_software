@@ -2,6 +2,7 @@ package org.example.Utils;
 
 
 
+import java.sql.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,6 +15,8 @@ public class ValidadiotData {
     private static final String REGEX_STREET_LONG = "^.*?\\s[N]{0,1}([A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ0-9]+)\\s*\\w*$";
     private static final String REGEX_PHONE_NUMBER = "[0-9]{6,9}$";
     private static final String REGEX_NUMBERS_DECIMAL = "[0-9]{1,12}$";
+    private static final String REGEX_NUMBERS_TAG = "[0-9]{8,10}$";
+    private static final String REGEX_DATE = "^[0-3]?[0-9].[0-3]?[0-9].(?:[0-9]{2})?[0-9]{2}$";
     private static final String REGEX_STREET_NUMBER = "[a-z0-9]{1,5}$";
     private static final String REGEX_ACCOUNT_NUMBER = "\\d{2}[ ]\\d{4}[ ]\\d{4}[ ]\\d{4}[ ]\\d{4}[ ]\\d{4}[ ]\\d{4}";
     private static final String REGEX_BANK_NAME = "[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ ]{3,40}$";
@@ -24,6 +27,7 @@ public class ValidadiotData {
     public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
             Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 
+
     /**
      *  Vaidate emial
      * @return true is valid
@@ -33,7 +37,13 @@ public class ValidadiotData {
         Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(emailStr);
         return matcher.find();
     }
-
+    public static boolean validateDate(String date) {
+        if (Pattern.matches(REGEX_DATE, date) ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     /**
      * Sprawdzenie poprawnośici hasłą
      * chasło i potwiedzenie muszą być identyczne
@@ -141,6 +151,13 @@ public class ValidadiotData {
 
     public static boolean validateDecimalNumber(String number) {
         if (number.matches(REGEX_NUMBERS_DECIMAL)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public static boolean validateTAG(String number) {
+        if (number.matches(REGEX_NUMBERS_TAG)) {
             return true;
         } else {
             return false;
