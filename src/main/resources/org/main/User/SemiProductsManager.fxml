@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.main.User.SemiProductsManagerController">
+    <left>
+        <AnchorPane prefHeight="518.0" prefWidth="141.0" style="-fx-background-color: #404040;" BorderPane.alignment="CENTER">
+         <children>
+            <VBox prefHeight="518.0" prefWidth="137.0">
+               <children>
+                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="126.0" style="-fx-background-color: white;" text="Wszyscy">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin></Button>
+                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="126.0" style="-fx-background-color: white;" text="Edytuj">
+                     <graphic>
+                        <ImageView fitHeight="17.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../img/edit.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button layoutX="15.0" layoutY="120.0" mnemonicParsing="false" onAction="#createSemiProduct" prefHeight="45.0" prefWidth="126.0" style="-fx-background-color: white;" text="Nowy Półprodukt" textAlignment="CENTER" wrapText="true">
+                     <graphic>
+                        <ImageView fitHeight="23.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../img/apps-add.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </Button>
+                  <TextField fx:id="serchField">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <Button layoutX="15.0" layoutY="120.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="126.0" style="-fx-background-color: white;" text="Wyszukaj">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Button>
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding></VBox>
+         </children>
+        </AnchorPane>
+    </left>
+    <right>
+        <AnchorPane prefHeight="518.0" prefWidth="679.0" BorderPane.alignment="CENTER">
+         <children>
+            <TableView fx:id="tableView" layoutX="-1.0" prefHeight="517.0" prefWidth="662.0">
+              <columns>
+                <TableColumn fx:id="idSemiProduct" prefWidth="75.0" text="ID" />
+                <TableColumn fx:id="name" prefWidth="150.4000015258789" text="Nazwa" />
+                  <TableColumn fx:id="category" minWidth="0.0" prefWidth="164.0" text="Kategoria" />
+                  <TableColumn fx:id="amount" minWidth="0.0" prefWidth="117.0" text="Ilość" />
+                  <TableColumn fx:id="tag" prefWidth="155.00003051757812" text="Tag" />
+              </columns>
+            </TableView>
+         </children>
+        </AnchorPane>
+    </right>
+   <top>
+      <AnchorPane prefHeight="82.0" prefWidth="609.0" style="-fx-background-color: #404040;" BorderPane.alignment="CENTER">
+         <children>
+            <Text fill="WHITE" layoutX="143.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Zarządzanie Półproduktami" wrappingWidth="643.0">
+               <font>
+                  <Font name="System Bold" size="46.0" />
+               </font>
+            </Text>
+            <Button layoutX="14.0" layoutY="26.0" mnemonicParsing="false" onAction="#backToPreviousScene" prefHeight="31.0" prefWidth="99.0" style="-fx-background-color: white;" text=" Cofnij ">
+               <graphic>
+                  <ImageView fitHeight="23.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" style="-fx-background-color: white;">
+                     <image>
+                        <Image url="@../../../img/arrow-small-left.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </children>
+      </AnchorPane>
+   </top>
+</BorderPane>

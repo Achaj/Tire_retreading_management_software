@@ -80,7 +80,6 @@
     <orderEntry type="library" name="Maven: org.codehaus.plexus:plexus-io:3.2.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.maven:maven-archiver:3.5.0" level="project" />
     <orderEntry type="library" name="Maven: org.codehaus.plexus:plexus-utils:3.3.0" level="project" />
-    <orderEntry type="library" name="Maven: commons-codec:commons-codec:1.6" level="project" />
     <orderEntry type="library" name="Maven: com.itextpdf:barcodes:7.2.0" level="project" />
     <orderEntry type="library" name="Maven: com.itextpdf:font-asian:7.2.0" level="project" />
     <orderEntry type="library" name="Maven: com.itextpdf:forms:7.2.0" level="project" />
@@ -95,5 +94,6 @@
     <orderEntry type="library" name="Maven: com.itextpdf:sign:7.2.0" level="project" />
     <orderEntry type="library" name="Maven: com.itextpdf:styled-xml-parser:7.2.0" level="project" />
     <orderEntry type="library" name="Maven: com.itextpdf:svg:7.2.0" level="project" />
+    <orderEntry type="library" name="Maven: commons-codec:commons-codec:1.9" level="project" />
   </component>
 </module>

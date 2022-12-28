@@ -12,16 +12,17 @@ module org.example {
     requires net.bytebuddy;
     requires kernel;
     requires layout;
+    requires commons.codec;
 
-    opens org.example to javafx.fxml;
-    opens org.example.Admin to javafx.fxml;
+    opens org.main to javafx.fxml;
+    opens org.main.Admin to javafx.fxml;
+    opens org.main.User to javafx.fxml;
 
+    opens org.main.Entity to org.hibernate.orm.core, javafx.base;
 
-    opens org.example.Entity to org.hibernate.orm.core, javafx.base;
-
-    exports org.example;
-    exports org.example.Login;
-    opens org.example.Login to javafx.fxml;
-    exports org.example.Utils;
-    opens org.example.Utils to javafx.fxml;
+    exports org.main;
+    exports org.main.Login;
+    opens org.main.Login to javafx.fxml;
+    exports org.main.Utils;
+    opens org.main.Utils to javafx.fxml;
 }

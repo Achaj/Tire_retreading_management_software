@@ -3,12 +3,12 @@
     <persistence-unit name="DBCONNECTION" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
-        <class>org.example.Entity.Workers</class>
-       <class>org.example.Entity.Works</class>
-        <class>org.example.Entity.Tires</class>
-        <class>org.example.Entity.Departments</class>
-        <class>org.example.Entity.WorkSemiProducts</class>
-        <class>org.example.Entity.SemiProducts</class>
+        <class>org.main.Entity.Workers</class>
+       <class>org.main.Entity.Works</class>
+        <class>org.main.Entity.Tires</class>
+        <class>org.main.Entity.Departments</class>
+        <class>org.main.Entity.WorkSemiProducts</class>
+        <class>org.main.Entity.SemiProducts</class>
 
         <!--<exclude-unlisted-classes>true</exclude-unlisted-classes>-->
 
@@ -17,13 +17,20 @@
             <!-- Configuring JDBC properties -->
             <property name="javax.persistence.jdbc.url"
                       value="jdbc:mysql://localhost:3306/tire_retarding_db"/>
-            <property name="javax.persistence.jdbc.user" value="root"/>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
-            <property name="javax.persistence.jdbc.password" value=""/>
+            <property name="hibernate.connection.verifyServerCertificate" value="false"/>
+            <property name="hibernate.connection.useSSL" value="true" />
+
+           <property name="javax.persistence.jdbc.user" value="root"/>
+           <property name="javax.persistence.jdbc.password" value=""/>
+           <!--
+            <property name="javax.persistence.jdbc.user" value="worker"/>
+            <property name="javax.persistence.jdbc.password" value="Q!W@E#R$T%"/>
+            -->
             <property name="char.encoding" value="UTF-8"/>
 
             <!-- Hibernate properties -->
-            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect"/>
             <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="hibernate.show_sql" value="true"/>
 
@@ -38,6 +45,9 @@
 
             <property name="hibernate.connection.useUnicode" value="true"/>
 
+
+            <!-- PaSS BFsCK!ybb09T.xZ8-->
+            <!-- USER worker-->
 
         </properties>
     </persistence-unit>

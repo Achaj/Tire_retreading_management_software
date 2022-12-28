@@ -85,6 +85,11 @@
             <version>7.2.0</version>
             <type>pom</type>
         </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.9</version>
+        </dependency>
 
 
     </dependencies>
@@ -108,7 +113,7 @@
                         <!-- Usage: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>org.example.App</mainClass>
+                            <mainClass>org.main.App</mainClass>
                         </configuration>
                     </execution>
                 </executions>

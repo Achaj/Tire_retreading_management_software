@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.main.Admin.DepartmentsDetailsController">
+    <left>
+        <AnchorPane prefHeight="318.0" prefWidth="0.0" style="-fx-background-color: #404040;" BorderPane.alignment="CENTER" />
+    </left>
+   <top>
+      <AnchorPane prefHeight="82.0" prefWidth="609.0" style="-fx-background-color: #404040;" BorderPane.alignment="CENTER">
+         <children>
+            <Text fill="WHITE" layoutX="149.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Szczegóły Oddziału" wrappingWidth="552.0">
+               <font>
+                  <Font name="System Bold" size="46.0" />
+               </font>
+            </Text>
+            <Button layoutX="35.0" layoutY="29.0" mnemonicParsing="false" onAction="#backToPreviousScene" prefHeight="31.0" prefWidth="84.0" style="-fx-background-color: white;" text="Cofinij">
+               <graphic>
+                  <ImageView fitHeight="23.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" style="-fx-background-color: white;">
+                     <image>
+                        <Image url="@../../../img/arrow-small-left.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
+   </top>
+   <center>
+        <AnchorPane prefHeight="525.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button layoutX="400.0" layoutY="364.0" mnemonicParsing="false" onAction="#save" prefHeight="42.0" prefWidth="138.0" style="-fx-background-color: #404040;" text="Dodaj" textFill="WHITE" textOverrun="CLIP">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="38.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../img/add.png" />
+                     </image>
+                  </ImageView>
+               </graphic></Button>
+            <HBox layoutX="42.0" layoutY="40.0" prefHeight="263.0" prefWidth="504.0">
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="10.0" layoutY="10.0" prefHeight="25.0" prefWidth="114.0" text="Nazwa:">
+                           <cursor>
+                              <Cursor fx:constant="DEFAULT" />
+                           </cursor>
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="25.0" prefWidth="114.0" text="Numer Hali:">
+                           <cursor>
+                              <Cursor fx:constant="DEFAULT" />
+                           </cursor>
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="25.0" prefWidth="112.0" text="Miasto:">
+                           <cursor>
+                              <Cursor fx:constant="DEFAULT" />
+                           </cursor>
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="25.0" prefWidth="107.0" text="Ulica:">
+                           <cursor>
+                              <Cursor fx:constant="DEFAULT" />
+                           </cursor>
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="25.0" prefWidth="122.0" text="Numer:">
+                           <cursor>
+                              <Cursor fx:constant="DEFAULT" />
+                           </cursor>
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="25.0" prefWidth="112.0" text="Kod Pocztowy:">
+                           <cursor>
+                              <Cursor fx:constant="DEFAULT" />
+                           </cursor>
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="10.0" layoutY="110.0" prefHeight="25.0" prefWidth="114.0" text="Numer Telefonu:">
+                           <cursor>
+                              <Cursor fx:constant="DEFAULT" />
+                           </cursor>
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="224.0" prefWidth="401.0">
+                     <children>
+                        <TextField fx:id="name" layoutX="10.0" layoutY="10.0" prefHeight="25.0" prefWidth="193.0" promptText="Magazyn" style="-fx-background-color: white;">
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <TextField fx:id="hallName" prefHeight="25.0" prefWidth="193.0" promptText="2B" style="-fx-background-color: white;">
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <TextField fx:id="city" prefHeight="25.0" prefWidth="193.0" promptText="Rzeszów" style="-fx-background-color: white;">
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <TextField fx:id="street" prefHeight="25.0" prefWidth="418.0" promptText="Kopisto" style="-fx-background-color: white;">
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <TextField fx:id="flatNumber" layoutX="10.0" layoutY="115.0" prefHeight="25.0" prefWidth="418.0" promptText="1a" style="-fx-background-color: white;">
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <TextField fx:id="postCode" layoutX="10.0" layoutY="115.0" prefHeight="25.0" prefWidth="418.0" promptText="32-123" style="-fx-background-color: white;">
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <TextField fx:id="phoneNumber" layoutX="10.0" layoutY="150.0" prefHeight="25.0" prefWidth="418.0" promptText="324234234" style="-fx-background-color: white;">
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </TextField>
+                     </children>
+                  </VBox>
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </HBox>
+            <Button layoutX="238.0" layoutY="364.0" mnemonicParsing="false" onAction="#chenge" prefHeight="42.0" prefWidth="138.0" style="-fx-background-color: #404040;" text="Edytuj" textFill="WHITE" textOverrun="CLIP">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="38.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../img/pencil.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button layoutX="74.0" layoutY="364.0" mnemonicParsing="false" onAction="#delate" prefHeight="42.0" prefWidth="138.0" style="-fx-background-color: #404040;" text="Usuń" textFill="WHITE" textOverrun="CLIP">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="38.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../img/trash.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <TreeView fx:id="workersTreeView" layoutX="546.0" layoutY="14.0" prefHeight="394.0" prefWidth="245.0" />
+         </children>
+        </AnchorPane>
+   </center>
+</BorderPane>
