@@ -152,5 +152,10 @@ public class Workers implements Serializable {
         return worksList;
     }
 
+    @Override
+    public String toString() {
+        return
+                firstName + "-" +lastName + "-" + position ;
+    }
 }
 

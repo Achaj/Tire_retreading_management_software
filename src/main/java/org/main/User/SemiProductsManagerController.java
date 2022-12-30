@@ -15,11 +15,13 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import org.main.App;
 import org.main.Entity.SemiProducts;
 import org.main.Entity.SemiProductsRepositoryImpl;
-import org.main.Entity.WorksRepositoryImpl;
+import org.main.Entity.Tires;
 import org.main.Utils.ConectionCardReader;
+import org.main.Utils.ValidadiotData;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -48,7 +50,8 @@ public class SemiProductsManagerController implements Initializable {
     public TableColumn<SemiProducts, String> tag;
     @FXML
     public TableColumn<SemiProducts, Integer> amount;
-    @FXML public TextField serchField;
+    @FXML
+    public TextField searchField;
 
     public void backToPreviousScene() throws IOException {
         App.setPrevRootScene();
@@ -56,13 +59,13 @@ public class SemiProductsManagerController implements Initializable {
     }
 
     ObservableList<SemiProducts> semiProductsObservableList;
-     SemiProductsRepositoryImpl semiProductsRepository= new SemiProductsRepositoryImpl();
+    SemiProductsRepositoryImpl semiProductsRepository = new SemiProductsRepositoryImpl();
 
     private void loadTableData(List<SemiProducts> list) {
         if (tableView != null) {
             tableView.getItems().clear();
         }
-        if (list!=null) {
+        if (list != null) {
 
             semiProductsObservableList = FXCollections.observableArrayList();
             semiProductsObservableList.clear();
@@ -84,17 +87,41 @@ public class SemiProductsManagerController implements Initializable {
         amount.setCellValueFactory(new PropertyValueFactory<>("amount"));
 
     }
+
     public void createSemiProduct() throws IOException {
         App.setNextRootScene("User/SemiProductsDetails");
     }
+
     public void editSemiProduct() throws IOException {
-    if(tableView.getSelectionModel().getSelectedItem()!=null) {
-        SemiProductsDetailsController.setSemiProductsEdit(tableView.getSelectionModel().getSelectedItem());
-        App.setNextRootScene("User/SemiProductsDetails");
+        if (tableView.getSelectionModel().getSelectedItem() != null) {
+            SemiProductsDetailsController.setSemiProductsEdit(tableView.getSelectionModel().getSelectedItem());
+            App.setNextRootScene("User/SemiProductsDetails");
+        }
     }
+    public void search(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        if (!searchField.getText().equals("")) {
+            List<SemiProducts> semiProductsList = new ArrayList<>();
+            SemiProducts semiProducts= null;
+            if (ValidadiotData.validateTAG(searchField.getText().trim())) {
+                semiProducts =semiProductsRepository.getSemiProductsTag(searchField.getText().trim());
+                if (semiProducts != null) {
+                    semiProductsList.add(semiProducts);
+                    loadTableData(semiProductsList);
+                } else {
+                    alert.setHeaderText("Nie znaleziono produktu\n o takim numerze tag");
+                    alert.show();
+                }
+            } else {
+                alert.setHeaderText("Można wyszukiwać po numerze tagu");
+                alert.show();
+            }
+
+        }
     }
 
     String idTagReaded = "";
+
     public void listeningPort() throws Exception {
         ConectionCardReader.initSerialPort(ConectionCardReader.portName, 9600);
         ConectionCardReader.serialPort.
@@ -114,7 +141,7 @@ public class SemiProductsManagerController implements Initializable {
                                 }
                                 if (!idTagReaded.equals(databBuffer)) {
                                     idTagReaded = databBuffer;
-                                    serchField.setText(idTagReaded);
+                                    searchField.setText(idTagReaded);
                                 }
                                 // System.out.println(idTagReaded);
                             }

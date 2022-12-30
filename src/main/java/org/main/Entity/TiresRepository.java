@@ -7,6 +7,7 @@ public interface TiresRepository {
     public Tires getTireByTag(String tag);
     public List<Tires> getTires();
     public boolean saveTire(Tires tire);
+    public Tires save(Tires tire);
     public  boolean changeTire(Tires tire);
     public  boolean delateTire(int id);
 }

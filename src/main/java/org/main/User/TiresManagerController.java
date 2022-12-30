@@ -100,13 +100,15 @@ public class TiresManagerController implements Initializable {
                     loadTableData(tiresList);
                 } else {
                     alert.setHeaderText("Nie znaleziono opony\n o takim numerze tag");
+                    alert.show();
                 }
             } else {
                 alert.setHeaderText("Można wyszukiwać po numerze tagu");
+                alert.show();
             }
 
         }
-        alert.show();
+
     }
 
     public void getTires() {

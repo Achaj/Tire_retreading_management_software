@@ -9,5 +9,5 @@ public interface WorksRepository {
     public List<Works> getListWorks();
     public boolean save(Works  works);
     public boolean change(Works works);
-    public boolean delate(int id);
+    public boolean remove(int id);
 }

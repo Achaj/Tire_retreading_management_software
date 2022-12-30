@@ -14,6 +14,8 @@ import org.main.Utils.ValidadiotData;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -153,11 +155,12 @@ public class TiresDetailsController implements Initializable {
         }
         alert.show();
     }
-
+    WorksRepositoryImpl worksRepository=new WorksRepositoryImpl();
     public void addTireToDB() {
         if(corectIdTag&& corectHeight&& corectWidth&&
         corectDiameter&& corectSpeedIndex&& corectLoadIndex){
             Tires tires=new Tires();
+            tires.setIdTire(0);
             tires.setDiameter(Integer.parseInt(diameter.getText()));
             tires.setWidth(Integer.parseInt(width.getText()));
             tires.setHeight(Integer.parseInt(height.getText()));
@@ -165,9 +168,21 @@ public class TiresDetailsController implements Initializable {
             tires.setLoadIndex(loadIndex.getValue());
             tires.setSpeedIndex(speedIndex.getValue());
             Alert alert = new Alert(Alert.AlertType.NONE);
-            if (tiresRepository.saveTire(tires)) {
-                alert.setAlertType(Alert.AlertType.INFORMATION);
-                alert.setHeaderText("Dane zostały zapisane");
+            Tires savedTire=tiresRepository.save(tires);
+            if (savedTire!=null && savedTire.getIdTire()!=0 ) {
+                Works works=new Works();
+                works.setTires(savedTire);
+                works.setWorkers(Temporary.getWorkers());
+                works.setDateStart(LocalDateTime.now());
+                works.setDateStop(LocalDateTime.now().plusMinutes(5));
+                works.setDepartments(Temporary.getWorkers().getDepartments());
+                works.setStatus("Zakończono");
+                works.setName("Przyjęcie na stan");
+                if(worksRepository.save(works)) {
+                    alert.setAlertType(Alert.AlertType.INFORMATION);
+                    alert.setHeaderText("Dane zostały zapisane");
+
+                }
                 clearFields();
             } else {
                 alert.setAlertType(Alert.AlertType.WARNING);

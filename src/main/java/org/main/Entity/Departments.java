@@ -129,4 +129,9 @@ public class Departments implements Serializable {
     public void setWorksList(List<Works> worksList) {
         this.worksList = worksList;
     }
+
+    @Override
+    public String toString() {
+        return name +" "+hallName;
+    }
 }

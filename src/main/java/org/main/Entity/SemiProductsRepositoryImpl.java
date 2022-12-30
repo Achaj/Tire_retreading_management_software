@@ -19,6 +19,16 @@ public class SemiProductsRepositoryImpl implements SemiProductsRepository{
     }
 
     @Override
+    public SemiProducts getSemiProductsTag(String tag) {
+        if (!entityTransaction.isActive()) {
+            entityTransaction.begin();
+        }
+        TypedQuery<SemiProducts> typedQuery = entityManager.createQuery("SELECT sp FROM SemiProducts sp WHERE sp.tag=:tag", SemiProducts.class);
+        typedQuery.setParameter("tag", tag);
+        return typedQuery.getResultList().isEmpty() ? null : typedQuery.getResultList().get(0);
+    }
+
+    @Override
     public List<SemiProducts> getSemiProducts() {
         if (!entityTransaction.isActive()) {
             entityTransaction.begin();

@@ -58,6 +58,10 @@ public class WorksManagerController implements Initializable {
             alert.show();
         }
     }
+
+    public void crateNewWork() throws IOException {
+        App.setNextRootScene("User/WorksDetails");
+    }
     private void initializeTableColumn() {
         idWork.setCellValueFactory(new PropertyValueFactory<>("idWork"));
         name.setCellValueFactory(new PropertyValueFactory<>("name"));

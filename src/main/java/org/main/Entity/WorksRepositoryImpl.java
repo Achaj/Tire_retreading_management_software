@@ -91,7 +91,7 @@ public class WorksRepositoryImpl implements WorksRepository {
     }
 
     @Override
-    public boolean delate(int id) {
+    public boolean remove(int id) {
 
         if (!entityTransaction.isActive()) {
             entityTransaction.begin();

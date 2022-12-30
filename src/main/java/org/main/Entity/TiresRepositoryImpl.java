@@ -65,6 +65,28 @@ public class TiresRepositoryImpl implements  TiresRepository{
     }
 
     @Override
+    public Tires save(Tires tire) {
+        if (!entityTransaction.isActive()) {
+            entityTransaction.begin();
+        }
+        try {
+            if (tire.getIdTire() == 0) {
+                entityManager.persist(tire);
+            } else {
+                entityManager.merge(tire);
+            }
+            entityTransaction.commit();
+            return tire;
+        } catch (Exception e) {
+            e.printStackTrace();
+            entityTransaction.rollback();
+            return null;
+        } finally {
+            entityManager.getEntityManagerFactory().getCache().evictAll();
+        }
+    }
+
+    @Override
     public boolean changeTire(Tires tire) {
         if (!entityTransaction.isActive()) {
             entityTransaction.begin();

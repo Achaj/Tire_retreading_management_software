@@ -49,12 +49,12 @@
                         <Insets bottom="10.0" />
                      </VBox.margin>
                   </Button>
-                  <TextField fx:id="serchField">
+                  <TextField fx:id="searchField">
                      <VBox.margin>
                         <Insets bottom="10.0" />
                      </VBox.margin>
                   </TextField>
-                  <Button layoutX="15.0" layoutY="120.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="126.0" style="-fx-background-color: white;" text="Wyszukaj">
+                  <Button layoutX="15.0" layoutY="120.0" mnemonicParsing="false" onAction="#search" prefHeight="25.0" prefWidth="126.0" style="-fx-background-color: white;" text="Wyszukaj">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>

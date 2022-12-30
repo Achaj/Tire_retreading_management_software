@@ -193,8 +193,20 @@ public class Temporary {
         categorySemi.add("Łaty");
         categorySemi.add("Rozpuszczalnik");
         categorySemi.add("Wypełniacz Chemiczny");
-
-
         return categorySemi;
+    }
+    static List<String> workName=new ArrayList<>();
+
+    public static List<String> getWorkName() {
+        workName.add("Przyjęcie na stan");
+        workName.add("Wstępna kontrola");
+        workName.add("Kontrola maszynowa");
+        workName.add("Szorstkowanie krasu");
+        workName.add("Szlifowanie opony");
+        workName.add("Wypełnienie ubytków");
+        workName.add("Nakładanie bieżnika");
+        workName.add("Wulkanizacja opony");
+        workName.add("Kontrola jakości wyrobu");
+        return workName;
     }
 }

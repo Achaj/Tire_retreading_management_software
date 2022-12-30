@@ -110,4 +110,15 @@ public class Tires implements Serializable {
         this.worksList = worksList;
     }
 
+    @Override
+    public String toString() {
+        return
+                "idTire=" + idTire +
+                ", height=" + height +
+                ", width=" + width +
+                ", diameter=" + diameter +
+                ", tag='" + tag +
+                ", speedIndex=" + speedIndex  +
+                ", loadIndex=" + loadIndex ;
+    }
 }
