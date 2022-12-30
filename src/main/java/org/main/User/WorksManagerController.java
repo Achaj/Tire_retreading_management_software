@@ -36,7 +36,6 @@ public class WorksManagerController implements Initializable {
 
     public void backToPreviousScene() throws IOException {
         App.setPrevRootScene();
-        ConectionCardReader.closePort();
     }
 
     ObservableList<Works> worksObservableList;
@@ -55,16 +54,16 @@ public class WorksManagerController implements Initializable {
 
         } else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setHeaderText("Danych do wyświetlenia");
+            alert.setHeaderText("Brak zadań do wyświetlenia");
             alert.show();
         }
     }
     private void initializeTableColumn() {
-        idWork.setCellValueFactory(new PropertyValueFactory<>("idSemiProduct"));
+        idWork.setCellValueFactory(new PropertyValueFactory<>("idWork"));
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
         status.setCellValueFactory(new PropertyValueFactory<>("status"));
-        dateStart.setCellValueFactory(new PropertyValueFactory<>("category"));
-        dateStop.setCellValueFactory(new PropertyValueFactory<>("tag"));
+        dateStart.setCellValueFactory(new PropertyValueFactory<>("dateStart"));
+        dateStop.setCellValueFactory(new PropertyValueFactory<>("dateStop"));
 
     }
 

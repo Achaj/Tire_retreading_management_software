@@ -54,7 +54,6 @@ public class TiresManagerController implements Initializable {
 
     public void backToPreviousScene() throws IOException {
         App.setPrevRootScene();
-        ConectionCardReader.closePort();
     }
 
 
@@ -116,14 +115,12 @@ public class TiresManagerController implements Initializable {
 
 
     public void crateTire() throws IOException {
-        ConectionCardReader.closePort();
         App.setNextRootScene("User/TiresDetails");
     }
 
     public void editTire() throws IOException {
 
         if (tableTires.getSelectionModel().getSelectedItem() != null) {
-            ConectionCardReader.closePort();
             TiresDetailsController.setTiresEdit(tableTires.getSelectionModel().getSelectedItem());
             App.setNextRootScene("User/TiresDetails");
         }

@@ -18,8 +18,6 @@
             <property name="javax.persistence.jdbc.url"
                       value="jdbc:mysql://localhost:3306/tire_retarding_db"/>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
-            <property name="hibernate.connection.verifyServerCertificate" value="false"/>
-            <property name="hibernate.connection.useSSL" value="true" />
 
            <property name="javax.persistence.jdbc.user" value="root"/>
            <property name="javax.persistence.jdbc.password" value=""/>

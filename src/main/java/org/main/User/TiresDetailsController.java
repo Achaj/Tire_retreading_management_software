@@ -253,7 +253,6 @@ public class TiresDetailsController implements Initializable {
 
     public void backToPreviousScene() throws IOException {
         App.setPrevRootScene();
-        ConectionCardReader.closePort();
         if(tiresEdit !=null){
             tiresEdit =null;
         }

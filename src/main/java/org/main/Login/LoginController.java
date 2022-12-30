@@ -64,8 +64,7 @@ public class LoginController implements Initializable {
                             }else{
                                 App.setNextRootScene("User/UserMainView");
                             }
-                            ConectionCardReader.closePort();
-                            ConectionCardReader.dataTagUID = "";
+
                         } else {
                             passTag.setStyle("-fx-background-color:  transparent;-fx-border-color:   red;-fx-border-width:   0px 0px 4px 0px;");
                             alert.setAlertType(Alert.AlertType.INFORMATION);

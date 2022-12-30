@@ -88,7 +88,6 @@ public class WorkerDetailsControler implements Initializable {
 
     public void backToPreviousScene() throws IOException {
         App.setPrevRootScene();
-        ConectionCardReader.closePort();
         if (editWorker != null) {
             editWorker = null;
         }

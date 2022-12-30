@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.main.Entity.WorkingTime;
 import org.main.Entity.WorkingTimeRepositoryImpl;
+import org.main.Utils.ConectionCardReader;
 import org.main.Utils.Temporary;
 
 import java.io.IOException;
@@ -53,10 +54,12 @@ public class App extends Application {
         scene.setRoot(loadFXML(fxml));
     }
     public static  void setNextRootScene(String fxml) throws IOException {
+        ConectionCardReader.closePort();
         linkedListSceneName.add(fxml);
         scene.setRoot(loadFXML(fxml));
     }
     public static  void setPrevRootScene() throws IOException {
+        ConectionCardReader.closePort();
         linkedListSceneName.removeLast();
         scene.setRoot(loadFXML(linkedListSceneName.getLast()));
     }
@@ -64,6 +67,7 @@ public class App extends Application {
 
     public  static void setLoginRootScene() throws IOException {
         App app=new App();
+        ConectionCardReader.closePort();
        Temporary.workingTime.setDateLogOut(LocalDateTime.now());
         app.workingTimeRepository.change(Temporary.workingTime);
         Temporary.setWorkers(null);
