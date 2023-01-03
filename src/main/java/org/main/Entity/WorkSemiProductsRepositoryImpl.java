@@ -71,7 +71,7 @@ public class WorkSemiProductsRepositoryImpl implements WorkSemiProductsRepositor
         if (!entityTransaction.isActive()) {
             entityTransaction.begin();
         }
-        TypedQuery<WorkSemiProducts> typedQuery = entityManager.createQuery("SELECT w FROM WorkSemiProducts w WHERE w.idSemiProduct=:idWorkSemiProduct", WorkSemiProducts.class);
+        TypedQuery<WorkSemiProducts> typedQuery = entityManager.createQuery("SELECT w FROM WorkSemiProducts w WHERE w.idSemiProduct=:id", WorkSemiProducts.class);
         typedQuery.setParameter("id", id);
         return typedQuery.getResultList().isEmpty() ? null : typedQuery.getResultList().get(0);
     }
@@ -82,6 +82,18 @@ public class WorkSemiProductsRepositoryImpl implements WorkSemiProductsRepositor
             entityTransaction.begin();
         }
         TypedQuery<WorkSemiProducts> typedQuery = entityManager.createQuery("SELECT w FROM WorkSemiProducts w", WorkSemiProducts.class);
+        return typedQuery.getResultList().isEmpty() ? null : typedQuery.getResultList();
+    }
+
+    @Override
+    public List<WorkSemiProducts> getSemiProductsByWork(int id) {
+        if (!entityTransaction.isActive()) {
+            entityTransaction.begin();
+        }
+        TypedQuery<WorkSemiProducts> typedQuery = entityManager.createQuery("SELECT wsp FROM WorkSemiProducts wsp" +
+                " INNER JOIN wsp.works w" +
+                " WHERE w.idWork=:id", WorkSemiProducts.class);
+        typedQuery.setParameter("id", id);
         return typedQuery.getResultList().isEmpty() ? null : typedQuery.getResultList();
     }
 }

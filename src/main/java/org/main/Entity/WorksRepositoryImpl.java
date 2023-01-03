@@ -9,12 +9,13 @@ public class WorksRepositoryImpl implements WorksRepository {
     EntityManager entityManager = ConnectionToDB.entityManager;
     EntityTransaction entityTransaction = ConnectionToDB.entityTransaction;
 
+
     @Override
     public Works getWorkByID(int id) {
         if (!entityTransaction.isActive()) {
             entityTransaction.begin();
         }
-        TypedQuery<Works> typedQuery = entityManager.createQuery("SELECT w FROM Works w WHERE w.idSemiProduct=:id", Works.class);
+        TypedQuery<Works> typedQuery = entityManager.createQuery("SELECT w FROM Works w WHERE w.idWork=:id", Works.class);
         typedQuery.setParameter("id", id);
         return typedQuery.getResultList().isEmpty() ? null : typedQuery.getResultList().get(0);
     }
@@ -66,6 +67,28 @@ public class WorksRepositoryImpl implements WorksRepository {
             e.printStackTrace();
             entityTransaction.rollback();
             return false;
+        }finally {
+            entityManager.getEntityManagerFactory().getCache().evictAll();
+        }
+    }
+
+    public Works saveWork(Works works) {
+        if (!entityTransaction.isActive()) {
+            entityTransaction.begin();
+        }
+        try {
+            if (works.getIdWork() == 0) {
+                entityManager.persist(works);
+            } else {
+                entityManager.merge(works);
+            }
+            entityTransaction.commit();
+
+            return works;
+        } catch (Exception e) {
+            e.printStackTrace();
+            entityTransaction.rollback();
+            return null;
         }finally {
             entityManager.getEntityManagerFactory().getCache().evictAll();
         }

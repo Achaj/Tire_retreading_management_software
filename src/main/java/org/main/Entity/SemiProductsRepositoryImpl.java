@@ -39,6 +39,18 @@ public class SemiProductsRepositoryImpl implements SemiProductsRepository{
     }
 
     @Override
+    public List<SemiProducts> getSemiProductsByWorkID(int id) {
+        if (!entityTransaction.isActive()) {
+            entityTransaction.begin();
+        }
+        TypedQuery<SemiProducts> typedQuery = entityManager.createQuery("SELECT sp FROM SemiProducts sp " +
+                " INNER JOIN sp.workSemiProducts  wsp" +
+                "  INNER JOIN wsp.works w WHERE w.idWork=:id", SemiProducts.class);
+        typedQuery.setParameter("id", id);
+        return typedQuery.getResultList().isEmpty() ? null : typedQuery.getResultList();
+    }
+
+    @Override
     public boolean saveSemiProduct(SemiProducts semiProducts) {
         if (!entityTransaction.isActive()) {
             entityTransaction.begin();

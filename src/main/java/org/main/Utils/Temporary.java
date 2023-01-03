@@ -191,6 +191,7 @@ public class Temporary {
 
         categorySemi.add("Klej");
         categorySemi.add("Łaty");
+        categorySemi.add("Tarszcze");
         categorySemi.add("Rozpuszczalnik");
         categorySemi.add("Wypełniacz Chemiczny");
         return categorySemi;
@@ -207,6 +208,7 @@ public class Temporary {
         workName.add("Nakładanie bieżnika");
         workName.add("Wulkanizacja opony");
         workName.add("Kontrola jakości wyrobu");
+        workName.add("Magazynowanie");
         return workName;
     }
 }

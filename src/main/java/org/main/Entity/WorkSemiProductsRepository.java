@@ -8,4 +8,5 @@ public interface WorkSemiProductsRepository {
     public boolean remove(int id);
     public WorkSemiProducts getWorkSemiProductsByID(int id);
     public List<WorkSemiProducts> getSemiProductsList();
+    public List<WorkSemiProducts> getSemiProductsByWork(int id);
 }

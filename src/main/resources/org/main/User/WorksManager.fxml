@@ -19,7 +19,7 @@
                      <VBox.margin>
                         <Insets bottom="10.0" />
                      </VBox.margin></Button>
-                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="126.0" style="-fx-background-color: white;" text="Edytuj">
+                  <Button mnemonicParsing="false" onAction="#editSelectWork" prefHeight="25.0" prefWidth="126.0" style="-fx-background-color: white;" text="Edytuj">
                      <graphic>
                         <ImageView fitHeight="17.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                            <image>

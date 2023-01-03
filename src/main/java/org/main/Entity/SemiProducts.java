@@ -1,5 +1,7 @@
 package org.main.Entity;
 
+import org.jetbrains.annotations.NotNull;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -7,7 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "Semi_Products", schema = "public")
-public class SemiProducts implements Serializable {
+public class SemiProducts implements Serializable,Comparable<SemiProducts> {
     @Id
     @Column(name = "id_semi_product")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -80,7 +82,23 @@ public class SemiProducts implements Serializable {
         return workSemiProducts;
     }
 
+    public void copy(SemiProducts semiProducts){
+        this.idSemiProduct = semiProducts.idSemiProduct;
+        this.name = semiProducts.name;
+        this.category = semiProducts.category;
+        this.tag = semiProducts.tag;
+        this.amount = semiProducts.amount;
+    }
+
     public void setWorkSemiProducts(List<WorkSemiProducts> workSemiProducts) {
         this.workSemiProducts = workSemiProducts;
+    }
+
+    @Override
+    //
+    // 0 is the same
+    //
+    public int compareTo(@NotNull SemiProducts o) {
+        return Integer.compare(this.idSemiProduct,o.idSemiProduct);
     }
 }

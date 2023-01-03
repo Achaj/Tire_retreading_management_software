@@ -62,6 +62,12 @@ public class WorksManagerController implements Initializable {
     public void crateNewWork() throws IOException {
         App.setNextRootScene("User/WorksDetails");
     }
+    public void editSelectWork() throws IOException {
+        if(tableView.getSelectionModel().getSelectedItem()!=null) {
+            WorksDetailsController.setWorksEdit(tableView.getSelectionModel().getSelectedItem());
+            App.setNextRootScene("User/WorksDetails");
+        }
+    }
     private void initializeTableColumn() {
         idWork.setCellValueFactory(new PropertyValueFactory<>("idWork"));
         name.setCellValueFactory(new PropertyValueFactory<>("name"));

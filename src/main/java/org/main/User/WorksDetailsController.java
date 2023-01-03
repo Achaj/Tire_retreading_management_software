@@ -6,8 +6,12 @@ import com.fazecast.jSerialComm.SerialPortEvent;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.main.App;
 import org.main.Entity.*;
@@ -20,7 +24,10 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class WorksDetailsController implements Initializable {
 
@@ -30,8 +37,15 @@ public class WorksDetailsController implements Initializable {
     public ComboBox<Departments> departmentsComboBox;
     @FXML
     public TextField tag;
+
+    @FXML
+    public TextField timeStart;
+    @FXML
+    public TextField timeStop;
     @FXML
     public TreeView<Tires> tiresTreeView;
+    @FXML
+    public TreeView<String> semiProductTreeView;
     @FXML
     public ChoiceBox<String> nameChoiceBox;
     @FXML
@@ -40,19 +54,57 @@ public class WorksDetailsController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         loadWorkersToComboBox();
         loadDepartmentsToComboBox();
         loadChoiceBox();
-        loadTiresToTreeView(tiresRepository.getTires());
-        listeningField();
+        loadEditWork();
         try {
             listeningPort();
         } catch (Exception e) {
             e.printStackTrace();
         }
+        listeningField();
+    }
+
+    static private Works worksEdit = null;
+
+    public static void setWorksEdit(Works worksEdit) {
+        WorksDetailsController.worksEdit = worksEdit;
+    }
+    private void clearData(){
+        workersComboBox.getSelectionModel().clearSelection();
+        departmentsComboBox.getSelectionModel().clearSelection();
+        statusChoiceBox.getSelectionModel().clearSelection();
+        nameChoiceBox.getSelectionModel().clearSelection();
+
+        timeStart.setText("");
+        timeStop.setText("");
+        //workersComboBox.getItems().clear();
+        //departmentsComboBox.getItems().clear();
+        //statusChoiceBox.getItems().clear();
+        //nameChoiceBox.getItems().clear();
+        workersComboBox.setStyle("-fx-background-color:  white;-fx-border-color:   #404040;-fx-border-width:   0px 0px 0px 0px;");
+        departmentsComboBox.setStyle("-fx-background-color:  white;-fx-border-color:   #404040;-fx-border-width:   0px 0px 0px 0px;");
+        statusChoiceBox.setStyle("-fx-background-color:  white;-fx-border-color:   #404040;-fx-border-width:   0px 0px 0px 0px;");
+        nameChoiceBox.setStyle("-fx-background-color:  white;-fx-border-color:   #404040;-fx-border-width:   0px 0px 0px 0px;");
+        tiresTreeView.getSelectionModel().clearSelection();
+        tiresTreeView.setStyle("-fx-background-color:  white;-fx-border-color:   #404040;-fx-border-width:   0px 0px 0px 0px;");
+
+        semiProductTreeView.setRoot(null);
+
+        correctNam = false;
+        correctStatus = false;
+        correctWorker = false;
+        correctDeparetment = false;
+        correctTire = false;
+
     }
 
     public void backToPreviousScene() throws IOException {
+        if (worksEdit != null) {
+            worksEdit = null;
+        }
         App.setPrevRootScene();
 
     }
@@ -67,9 +119,33 @@ public class WorksDetailsController implements Initializable {
 
     }
 
+    public void loadEditWork() {
+        if (worksEdit != null) {
+            workersComboBox.getSelectionModel().select(worksEdit.getWorkers());
+            departmentsComboBox.getSelectionModel().select(worksEdit.getDepartments());
+            nameChoiceBox.getSelectionModel().select(worksEdit.getName());
+            statusChoiceBox.getSelectionModel().select(worksEdit.getStatus());
+            if (worksEdit.getTires() != null) {
+                List<Tires> tiresList = new ArrayList<>();
+                tiresList.add(worksEdit.getTires());
+                loadTiresToTreeView(tiresList);
+            }
+            if (worksEdit.getDateStart() != null) {
+                timeStart.setText(String.valueOf(worksEdit.getDateStart()));
+            }
+            if (worksEdit.getDateStop() != null) {
+                timeStop.setText(String.valueOf(worksEdit.getDateStop()));
+            }
+            loadSemiProductsToTreeView();
+        } else {
+            loadTiresToTreeView(tiresRepository.getTires());
+        }
+
+    }
+
     WorksRepositoryImpl worksRepository = new WorksRepositoryImpl();
 
-    public void save() {
+    public void save() throws IOException {
         Alert alert = new Alert(Alert.AlertType.NONE);
         if (correctNam && correctStatus && correctWorker && correctDeparetment && correctTire) {
             Works works = new Works();
@@ -80,22 +156,50 @@ public class WorksDetailsController implements Initializable {
             works.setWorkers(workersComboBox.getSelectionModel().getSelectedItem());
             works.setName(nameChoiceBox.getSelectionModel().getSelectedItem());
             works.setStatus(statusChoiceBox.getSelectionModel().getSelectedItem());
-
-            if (worksRepository.save(works)) {
-                alert.setAlertType(Alert.AlertType.INFORMATION);
+            if (!works.getStatus().equals("Zaczęto")) {
+                works.setDateStop(LocalDateTime.now().plusMinutes(2));
+            }
+            Works workSave = worksRepository.saveWork(works);
+            if (workSave != null) {
+                alert.setAlertType(Alert.AlertType.CONFIRMATION);
                 alert.setHeaderText("Dane zostały zapisane");
+                alert.setContentText("Czy chcesz dodać  pół produkty do zadania?");
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.isPresent() && result.get() == ButtonType.OK) {
+                    try {
+                        AddSemiProductToWorkController.setWorks(workSave);
+                        clearData();
+                        FXMLLoader fxmlLoader = new FXMLLoader();
+                        fxmlLoader.setLocation(getClass().getResource("AddSemiProductToWork.fxml"));
+                        Scene scene = new Scene(fxmlLoader.load(), 1000, 600);
+                        Stage stage = new Stage();
+                        stage.setTitle("Dodawanie pozycji");
+                        stage.initModality(Modality.APPLICATION_MODAL);
+                        stage.setScene(scene);
+                        stage.show();
+                    } catch (IOException e) {
+                        Logger logger = Logger.getLogger(getClass().getName());
+                        logger.log(Level.SEVERE, "Failed to create new Window.", e);
+                    }
+                } else {
+                    clearData();
+
+
+                }
                 //clearFields();
             } else {
                 alert.setAlertType(Alert.AlertType.WARNING);
                 alert.setHeaderText("Taki numer tagu jest używany");
+                alert.show();
 
             }
 
         } else {
             alert.setAlertType(Alert.AlertType.INFORMATION);
             alert.setHeaderText("Wypełnij komurki nie zaznaczone na zielono");
+            alert.show();
         }
-        alert.show();
+
 
     }
 
@@ -133,7 +237,6 @@ public class WorksDetailsController implements Initializable {
                 return cell;
             }
         });
-        workersComboBox.getSelectionModel().selectFirst();
 
     }
 
@@ -169,17 +272,14 @@ public class WorksDetailsController implements Initializable {
                 return cell;
             }
         });
-        departmentsComboBox.getSelectionModel().selectFirst();
     }
 
-    private void loadChoiceBox() {
+    public void loadChoiceBox() {
         statusChoiceBox.getItems().addAll(Temporary.getStatus());
-        statusChoiceBox.getSelectionModel().selectFirst();
         nameChoiceBox.getItems().addAll(Temporary.getWorkName());
-        nameChoiceBox.getSelectionModel().select(1);
     }
 
-    private void loadTiresToTreeView(List<Tires> tiresList) {
+    public void loadTiresToTreeView(List<Tires> tiresList) {
         TreeItem rootItem = new TreeItem("Opony");
         rootItem.setExpanded(true);
 
@@ -190,6 +290,25 @@ public class WorksDetailsController implements Initializable {
             });
         }
         tiresTreeView.setRoot(rootItem);
+    }
+
+    WorkSemiProductsRepositoryImpl workSemiProductsRepository=new WorkSemiProductsRepositoryImpl();
+    public void loadSemiProductsToTreeView() {
+
+        TreeItem rootItem = new TreeItem("Użyte komponenty");
+        rootItem.setExpanded(true);
+        List<WorkSemiProducts> workSemiProductsList = workSemiProductsRepository.getSemiProductsByWork(worksEdit.getIdWork());
+        if (workSemiProductsList != null) {
+            for (WorkSemiProducts workSemiProducts : workSemiProductsList) {
+                rootItem.getChildren().add(new TreeItem<String>("Nazwa: " + workSemiProducts.getSemiProducts().getName() +
+                        "| Kategoria: " + workSemiProducts.getSemiProducts().getCategory() +
+                        "| Ilość :" + workSemiProducts.getAmount()));
+            }
+        } else {
+            rootItem.getChildren().add(new TreeItem<>("brak"));
+        }
+
+        semiProductTreeView.setRoot(rootItem);
     }
 
     TiresRepositoryImpl tiresRepository = new TiresRepositoryImpl();
@@ -220,7 +339,7 @@ public class WorksDetailsController implements Initializable {
 
     String idTagReaded = "";
 
-    private void listeningPort() throws Exception {
+    public void listeningPort() throws Exception {
         ConectionCardReader.initSerialPort(ConectionCardReader.portName, 9600);
         ConectionCardReader.serialPort.
                 addDataListener(
@@ -254,7 +373,7 @@ public class WorksDetailsController implements Initializable {
     private boolean correctDeparetment = false;
     private boolean correctTire = false;
 
-    private void listeningField() {
+    public void listeningField() {
         nameChoiceBox.getSelectionModel().selectedItemProperty()
                 .addListener((observable, oldValue, newValue) -> {
                     nameChoiceBox.setStyle("-fx-background-color:  white;-fx-border-color:   green;-fx-border-width:   0px 0px 2px 2px;");

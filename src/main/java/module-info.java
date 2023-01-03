@@ -13,6 +13,7 @@ module org.example {
     requires kernel;
     requires layout;
     requires commons.codec;
+    requires org.jetbrains.annotations;
 
     opens org.main to javafx.fxml;
     opens org.main.Admin to javafx.fxml;
