@@ -21,6 +21,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AddSemiProductToWorkController implements Initializable {
     @FXML
@@ -52,7 +54,7 @@ public class AddSemiProductToWorkController implements Initializable {
     @FXML
     private TextField tagTextField;
     @FXML
-    private Button saveButton;
+    private Button buttonSaveWorkSemiProducts;
 
     private static Works works = null;
 
@@ -60,15 +62,35 @@ public class AddSemiProductToWorkController implements Initializable {
         AddSemiProductToWorkController.works = works;
     }
 
+    private static Works worksEdit = null;
+
+    public static void setWorksEdit(Works worksEdit) {
+        AddSemiProductToWorkController.worksEdit = worksEdit;
+    }
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         initializeTableColumn();
         loadTableData(semiProductsRepository.getSemiProducts());
+        if (worksEdit != null && worksEdit.getWorkSemiProducts() != null) {
+
+            for (WorkSemiProducts workSemiProducts : worksEdit.getWorkSemiProducts()) {
+                SemiProducts copySemiProducts = new SemiProducts();
+                copySemiProducts.copy(workSemiProducts.getSemiProducts());
+                copySemiProducts.setAmount(workSemiProducts.getAmount());
+                semiProductsAddWorkList.add(copySemiProducts);
+            }
+            loadTableAddProductWorkData(semiProductsAddWorkList);
+        }
         try {
             listeningPort();
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+
     }
 
     private void initializeTableColumn() {
@@ -132,6 +154,7 @@ public class AddSemiProductToWorkController implements Initializable {
 
     public void addSemiProToWork() {
         SemiProducts semiProducts = tableView.getSelectionModel().getSelectedItem();
+
         if (semiProducts != null) {
             if (ValidadiotData.validateDecimalNumber(amountTextField.getText()) &&
                     Integer.valueOf(amountTextField.getText()) <= tableView.getSelectionModel().getSelectedItem().getAmount()) {
@@ -139,31 +162,27 @@ public class AddSemiProductToWorkController implements Initializable {
                 int tmpAmount = semiProducts.getAmount() - Integer.valueOf(amountTextField.getText());
                 SemiProducts tempProducts = new SemiProducts();
                 tempProducts.copy(semiProducts);
-                tempProducts.toString();
-                //if amount value semi product is 0
-                if (tmpAmount == 0) {
-                    semiProductsList.get(semiProductsList.indexOf(semiProducts)).setAmount(0);
-                    semiProductsAddWorkList.add(tempProducts);
-                } else {
-                    //if object on exist on list add
+                //if amount value semi product is more then 0
+                if (tmpAmount >= 0) {
+                    semiProductsList.get(semiProductsList.indexOf(semiProducts)).setAmount(tmpAmount);
                     int index = findDuplicateinList(semiProductsAddWorkList, tempProducts);
                     if (findDuplicateinList(semiProductsAddWorkList, tempProducts) >= 0) {
                         semiProductsAddWorkList.get(index).setAmount(semiProductsAddWorkList.get(index).getAmount() + Integer.valueOf(amountTextField.getText()));
-                        semiProductsList.get(semiProductsList.indexOf(semiProducts)).setAmount(tmpAmount);
-                        //semiProductsAddWorkList.add(tempProducts);
                     } else {
                         semiProductsList.get(semiProductsList.indexOf(semiProducts)).setAmount(tmpAmount);
-                        tempProducts.setAmount(Integer.valueOf(amountTextField.getText()));
                         semiProductsAddWorkList.add(tempProducts);
                     }
                 }
 
-                loadTableAddProductWorkData(semiProductsAddWorkList);
-                loadTableData(semiProductsList);
             } else {
                 amountTextField.setStyle("-fx-border-color: red");
             }
         }
+
+        loadTableAddProductWorkData(semiProductsAddWorkList);
+
+        loadTableData(semiProductsList);
+
     }
 
     //return  >0 when id is the seme
@@ -179,70 +198,166 @@ public class AddSemiProductToWorkController implements Initializable {
         return result;
     }
 
+    private WorkSemiProducts findDuplicate(SemiProducts semiProducts) {
+        WorkSemiProducts result = null;
+        if (worksEdit != null) {
+            for (WorkSemiProducts products : worksEdit.getWorkSemiProducts()) {
+                if (semiProducts.getIdSemiProduct() == products.getSemiProducts().getIdSemiProduct()) {
+                    result = products;
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+
 
     public void removeSemiProToWork() {
+        Logger logger = Logger.getLogger(getClass().getName());
         SemiProducts selectedItemWork = tableViewAddWork.getSelectionModel().getSelectedItem();
         if (selectedItemWork != null) {
-            semiProductsAddWorkList.remove(selectedItemWork);
-            int index = findDuplicateinList(semiProductsList, selectedItemWork);
-            if (index >= 0) {
-                semiProductsList.get(index).setAmount(semiProductsList.get(index).getAmount() + selectedItemWork.getAmount());
-            }
+            if (works != null) {
+                semiProductsAddWorkList.remove(selectedItemWork);
+                int index = findDuplicateinList(semiProductsList, selectedItemWork);
+                if (index >= 0) {
+                    semiProductsList.get(index).setAmount(semiProductsList.get(index).getAmount() + selectedItemWork.getAmount());
 
-            loadTableData(semiProductsList);
-            loadTableAddProductWorkData(semiProductsAddWorkList);
+                }
+            }
+            if (worksEdit != null) {
+
+                int index = findDuplicateinList(semiProductsList, selectedItemWork);
+                if (index >= 0) {
+                    semiProductsList.get(index).setAmount(semiProductsList.get(index).getAmount() + selectedItemWork.getAmount());
+                    semiProductsAddWorkList.get(semiProductsAddWorkList.indexOf(selectedItemWork)).setAmount(0);
+                }
+
+            }
         }
+
+
+        loadTableData(semiProductsList);
+        loadTableAddProductWorkData(semiProductsAddWorkList);
     }
 
 
     WorkSemiProductsRepositoryImpl workSemiProductsRepository = new WorkSemiProductsRepositoryImpl();
-    WorksRepositoryImpl worksRepository=new WorksRepositoryImpl();
+    WorksRepositoryImpl worksRepository = new WorksRepositoryImpl();
+
     public void save() throws IOException {
         if (!semiProductsAddWorkList.isEmpty()) {
             Boolean saveSuccessful = false;
-            for (SemiProducts products : semiProductsAddWorkList) {
-                WorkSemiProducts workSemiProducts = new WorkSemiProducts();
-                workSemiProducts.setIdWorkSemiProduct(0);
-                workSemiProducts.setSemiProducts(products);
-                workSemiProducts.setWorks(works);
-                workSemiProducts.setAmount(products.getAmount());
-                System.out.print(workSemiProducts);
-                if (workSemiProductsRepository.save(workSemiProducts)) {
-                    System.out.println("zapisano");
-                    saveSuccessful = true;
-                } else {
-                    System.out.println("nie udało się ");
-                    saveSuccessful = false;
-                    break;
+            Logger logger = Logger.getLogger(getClass().getName());
+            if (works != null) {
+                for (SemiProducts products : semiProductsAddWorkList) {
+                    WorkSemiProducts workSemiProducts = new WorkSemiProducts();
+                    workSemiProducts.setIdWorkSemiProduct(0);
+                    workSemiProducts.setSemiProducts(products);
+                    workSemiProducts.setWorks(works);
+                    workSemiProducts.setAmount(products.getAmount());
+                    System.out.print(workSemiProducts);
+                    if (workSemiProductsRepository.save(workSemiProducts)) {
+                        logger.log(Level.SEVERE, "Suceesful save Semiprodut on work." + products.toString());
+                        saveSuccessful = true;
+                    } else {
+                        logger.log(Level.SEVERE, "Faild save Semiprodut on work." + products.toString());
+                        saveSuccessful = false;
+                        break;
+                    }
+
                 }
-
             }
-            if (saveSuccessful) {
-               FXMLLoader loader = new FXMLLoader(getClass().getResource("WorksDetails.fxml"));
-               Parent root = (Parent)loader.load();
-               WorksDetailsController controller = (WorksDetailsController)loader.getController();
-               controller.backToPreviousScene();
-               works=null;
+            if (worksEdit != null) {
+                List<WorkSemiProducts> workSemiProductsList = workSemiProductsToChange(semiProductsAddWorkList);
+                if (workSemiProductsList != null) {
+                    for (WorkSemiProducts products : workSemiProductsList) {
+                        if (products.getIdWorkSemiProduct() > 0) {
+                            if (products.getAmount() > 0) {
+                                if (workSemiProductsRepository.change(products)) {
+                                    logger.log(Level.SEVERE, "Suceesful change Semiprodut on work." + products.toString());
+                                    saveSuccessful = true;
+                                } else {
+                                    logger.log(Level.SEVERE, "Faild change Semiprodut on work." + products.toString());
+                                    saveSuccessful = false;
+                                    break;
+                                }
+                            }else {
+                                if (workSemiProductsRepository.remove(products.getIdWorkSemiProduct())) {
+                                    logger.log(Level.SEVERE, "Suceesful removed Semiprodut on work." + products.toString());
+                                    saveSuccessful = true;
+                                } else {
+                                    logger.log(Level.SEVERE, "Faild removed Semiprodut on work." + products.toString());
+                                    saveSuccessful = false;
+                                    break;
+                                }
+                            }
+                        } else {
+                            if (workSemiProductsRepository.save(products)) {
+                                logger.log(Level.SEVERE, "Suceesful save Semiprodut on work." + products.toString());
+                                saveSuccessful = true;
+                            } else {
+                                logger.log(Level.SEVERE, "Faild save Semiprodut on work." + products.toString());
+                                saveSuccessful = false;
+                                break;
+                            }
+                        }
 
-                Stage stage = (Stage) saveButton.getScene().getWindow();
-                stage.close();
+                    }
+                }
+            }
+
+            if (saveSuccessful) {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("WorksDetails.fxml"));
+                Parent root = (Parent) loader.load();
+                WorksDetailsController controller = (WorksDetailsController) loader.getController();
+                Stage stage = (Stage) buttonSaveWorkSemiProducts.getScene().getWindow(); // get the current stage
+                stage.close(); // close the stage
+                controller.backToPreviousScene();
+                works = null;
+                worksEdit = null;
             }
         }
+
+    }
+
+    private List<WorkSemiProducts> workSemiProductsToChange(List<SemiProducts> productsList) {
+        List<WorkSemiProducts> workSemiProductsList = new ArrayList<>();
+        WorkSemiProducts workSemiProducts = new WorkSemiProducts();
+
+        if (productsList != null) {
+            for (SemiProducts products : productsList) {
+                WorkSemiProducts duplicate = findDuplicate(products);
+                if (duplicate == null) {
+                    workSemiProducts.setIdWorkSemiProduct(0);
+                    workSemiProducts.setSemiProducts(products);
+                    workSemiProducts.setWorks(worksEdit);
+                    workSemiProducts.setAmount(products.getAmount());
+                    workSemiProductsList.add(workSemiProducts);
+                } else {
+                    int value = worksEdit.getWorkSemiProducts().get(worksEdit.getWorkSemiProducts().indexOf(duplicate)).getAmount();
+                    if (value != products.getAmount()) {
+                        duplicate.setAmount(products.getAmount());
+                        workSemiProductsList.add(duplicate);
+                    }
+                }
+            }
+        }
+        return workSemiProductsList.isEmpty() ? null : workSemiProductsList;
     }
 
     public void searchSemiPro() {
-        if(ValidadiotData.validateTAG(tagTextField.getText())){
-            SemiProducts searchProduct=null;
-            for (SemiProducts products:semiProductsList){
-                if(products.getTag().equals(tagTextField.getText())){
-                    searchProduct=products;
+        if (ValidadiotData.validateTAG(tagTextField.getText())) {
+            SemiProducts searchProduct = null;
+            for (SemiProducts products : semiProductsList) {
+                if (products.getTag().equals(tagTextField.getText())) {
+                    searchProduct = products;
                     break;
                 }
             }
-            if(searchProduct!=null){
+            if (searchProduct != null) {
                 tableView.getSelectionModel().select(searchProduct);
-            }else{
-                Alert  alert=new Alert(Alert.AlertType.INFORMATION);
+            } else {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setHeaderText("Nie udało się znaleźć");
                 alert.show();
             }
@@ -279,4 +394,6 @@ public class AddSemiProductToWorkController implements Initializable {
 
     }
 
+
 }
+

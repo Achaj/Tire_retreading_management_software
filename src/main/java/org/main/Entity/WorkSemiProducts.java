@@ -14,7 +14,7 @@ public class WorkSemiProducts implements Serializable {
     private int amount;
 
     @ManyToOne
-    @JoinColumn(name = "id_work", nullable = false)
+    @JoinColumn(name = "id_work", nullable = true)
     private Works works;
 
     @ManyToOne
@@ -61,5 +61,15 @@ public class WorkSemiProducts implements Serializable {
 
     public void setSemiProducts(SemiProducts semiProducts) {
         this.semiProducts = semiProducts;
+    }
+
+    @Override
+    public String toString() {
+        return "WorkSemiProducts{" +
+                "idWorkSemiProduct=" + idWorkSemiProduct +
+                ", amount=" + amount +
+                ", works=" + works +
+                ", semiProducts=" + semiProducts +
+                '}';
     }
 }

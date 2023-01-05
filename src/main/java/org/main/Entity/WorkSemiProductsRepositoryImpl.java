@@ -59,6 +59,7 @@ public class WorkSemiProductsRepositoryImpl implements WorkSemiProductsRepositor
             entityTransaction.commit();
             return true;
         } catch (Exception e) {
+            e.printStackTrace();
             entityTransaction.rollback();
             return false;
         }finally {
@@ -71,7 +72,7 @@ public class WorkSemiProductsRepositoryImpl implements WorkSemiProductsRepositor
         if (!entityTransaction.isActive()) {
             entityTransaction.begin();
         }
-        TypedQuery<WorkSemiProducts> typedQuery = entityManager.createQuery("SELECT w FROM WorkSemiProducts w WHERE w.idSemiProduct=:id", WorkSemiProducts.class);
+        TypedQuery<WorkSemiProducts> typedQuery = entityManager.createQuery("SELECT w FROM WorkSemiProducts w WHERE w.idWorkSemiProduct=:id", WorkSemiProducts.class);
         typedQuery.setParameter("id", id);
         return typedQuery.getResultList().isEmpty() ? null : typedQuery.getResultList().get(0);
     }

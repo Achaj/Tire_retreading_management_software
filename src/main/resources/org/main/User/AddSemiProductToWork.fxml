@@ -103,7 +103,7 @@
                         <Insets />
                      </VBox.margin>
                   </TextField>
-                  <Button fx:id="saveButton" mnemonicParsing="false" onAction="#save" prefHeight="25.0" prefWidth="234.0" text="Zapisz">
+                  <Button fx:id="buttonSaveWorkSemiProducts" mnemonicParsing="false" onAction="#save" prefHeight="25.0" prefWidth="234.0" text="Zapisz">
                      <font>
                         <Font size="14.0" />
                      </font>

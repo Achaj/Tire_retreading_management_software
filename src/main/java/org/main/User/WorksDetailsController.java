@@ -5,6 +5,7 @@ import com.fazecast.jSerialComm.SerialPortDataListener;
 import com.fazecast.jSerialComm.SerialPortEvent;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -12,7 +13,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.util.Callback;
+import org.jetbrains.annotations.NotNull;
 import org.main.App;
 import org.main.Entity.*;
 import org.main.Utils.ConectionCardReader;
@@ -72,7 +75,8 @@ public class WorksDetailsController implements Initializable {
     public static void setWorksEdit(Works worksEdit) {
         WorksDetailsController.worksEdit = worksEdit;
     }
-    private void clearData(){
+
+    private void clearData() {
         workersComboBox.getSelectionModel().clearSelection();
         departmentsComboBox.getSelectionModel().clearSelection();
         statusChoiceBox.getSelectionModel().clearSelection();
@@ -110,13 +114,99 @@ public class WorksDetailsController implements Initializable {
     }
 
 
-    public void edit() {
+    public void edit() throws IOException {
+        if (worksEdit != null) {
+            Alert alert = new Alert(Alert.AlertType.NONE);
+            if (correctNam || correctStatus || correctWorker || correctDeparetment) {
+                if (!worksEdit.getName().equals(nameChoiceBox.getSelectionModel().getSelectedItem())) {
+                    worksEdit.setName(nameChoiceBox.getSelectionModel().getSelectedItem());
+                }
+                if (!worksEdit.getDepartments().equals(departmentsComboBox.getSelectionModel().getSelectedItem())) {
+                    worksEdit.setDepartments(departmentsComboBox.getSelectionModel().getSelectedItem());
+                }
+                if (!worksEdit.getWorkers().equals(workersComboBox.getSelectionModel().getSelectedItem())) {
+                    worksEdit.setWorkers(workersComboBox.getSelectionModel().getSelectedItem());
+                }
+                if (!worksEdit.getName().equals(nameChoiceBox.getSelectionModel().getSelectedItem())) {
+                    worksEdit.setName(nameChoiceBox.getSelectionModel().getSelectedItem());
+                }
+                if (!worksEdit.getName().equals(nameChoiceBox.getSelectionModel().getSelectedItem())) {
+                    worksEdit.setName(nameChoiceBox.getSelectionModel().getSelectedItem());
+                }
+                if (!worksEdit.getStatus().equals(statusChoiceBox.getSelectionModel().getSelectedItem())) {
+                    worksEdit.setStatus(statusChoiceBox.getSelectionModel().getSelectedItem());
 
+                    if (worksEdit.getStatus().equals("Zaczęto")) {
+                        worksEdit.setDateStop(null);
+                    } else {
+                        worksEdit.setDateStop(LocalDateTime.now());
+                    }
+                }
+                if(worksRepository.change(worksEdit)){
+                    alert.setAlertType(Alert.AlertType.CONFIRMATION);
+                    alert.setHeaderText("Czy chcesz edytować pozycje pracy?");
+                    Optional<ButtonType> result = alert.showAndWait();
+                    if (result.isPresent() && result.get() == ButtonType.OK) {
+                        loadStageEditWorSemiPoroducts(worksEdit,"edit","Edycja pozycji pracy");
+                    }else {
+                        clearData();
+                        backToPreviousScene();
+                    }
+                }else{
+                    alert.setAlertType(Alert.AlertType.WARNING);
+                    alert.setHeaderText("Nie udało się zapisać");
+                    alert.show();
+                }
+
+
+
+            } else {
+                alert.setAlertType(Alert.AlertType.CONFIRMATION);
+                alert.setHeaderText("Czy chcesz edytować tylko pozycje pracy?");
+                //alert.setContentText("Czy chcesz dodać  pół produkty do zadania?");
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.isPresent() && result.get() == ButtonType.OK) {
+                    loadStageEditWorSemiPoroducts(worksEdit,"edit","Edycja pozycji pracy");
+                }
+            }
+
+        }
     }
 
 
     public void remove() {
 
+    }
+
+    private void loadStageEditWorSemiPoroducts(Works works, @NotNull String parameter, String title){
+        try {
+            if(parameter.equals("save")) {
+                AddSemiProductToWorkController.setWorks(works);
+            }else {
+                AddSemiProductToWorkController.setWorksEdit(works);
+            }
+
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("AddSemiProductToWork.fxml"));
+            Scene scene = new Scene(fxmlLoader.load(), 1000, 600);
+            Stage stage = new Stage();
+            stage.setTitle(title);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(scene);
+            stage.show();
+
+           /*stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                @Override
+                public void handle(WindowEvent e) {
+                    AddSemiProductToWorkController.setWorks(null);
+                    AddSemiProductToWorkController.setWorksEdit(null);
+                }
+            });
+           */
+        } catch (IOException e) {
+            Logger logger = Logger.getLogger(getClass().getName());
+            logger.log(Level.SEVERE, "Failed to create new Window.", e);
+        }
     }
 
     public void loadEditWork() {
@@ -157,7 +247,7 @@ public class WorksDetailsController implements Initializable {
             works.setName(nameChoiceBox.getSelectionModel().getSelectedItem());
             works.setStatus(statusChoiceBox.getSelectionModel().getSelectedItem());
             if (!works.getStatus().equals("Zaczęto")) {
-                works.setDateStop(LocalDateTime.now().plusMinutes(2));
+                works.setDateStop(LocalDateTime.now().plusMinutes(5));
             }
             Works workSave = worksRepository.saveWork(works);
             if (workSave != null) {
@@ -166,21 +256,8 @@ public class WorksDetailsController implements Initializable {
                 alert.setContentText("Czy chcesz dodać  pół produkty do zadania?");
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.isPresent() && result.get() == ButtonType.OK) {
-                    try {
-                        AddSemiProductToWorkController.setWorks(workSave);
-                        clearData();
-                        FXMLLoader fxmlLoader = new FXMLLoader();
-                        fxmlLoader.setLocation(getClass().getResource("AddSemiProductToWork.fxml"));
-                        Scene scene = new Scene(fxmlLoader.load(), 1000, 600);
-                        Stage stage = new Stage();
-                        stage.setTitle("Dodawanie pozycji");
-                        stage.initModality(Modality.APPLICATION_MODAL);
-                        stage.setScene(scene);
-                        stage.show();
-                    } catch (IOException e) {
-                        Logger logger = Logger.getLogger(getClass().getName());
-                        logger.log(Level.SEVERE, "Failed to create new Window.", e);
-                    }
+                    clearData();
+                    loadStageEditWorSemiPoroducts(workSave,"save","Dodawanie pozycji pracy");
                 } else {
                     clearData();
 
@@ -189,7 +266,7 @@ public class WorksDetailsController implements Initializable {
                 //clearFields();
             } else {
                 alert.setAlertType(Alert.AlertType.WARNING);
-                alert.setHeaderText("Taki numer tagu jest używany");
+                alert.setHeaderText("Nie udało się zapisać");
                 alert.show();
 
             }
@@ -292,7 +369,8 @@ public class WorksDetailsController implements Initializable {
         tiresTreeView.setRoot(rootItem);
     }
 
-    WorkSemiProductsRepositoryImpl workSemiProductsRepository=new WorkSemiProductsRepositoryImpl();
+    WorkSemiProductsRepositoryImpl workSemiProductsRepository = new WorkSemiProductsRepositoryImpl();
+
     public void loadSemiProductsToTreeView() {
 
         TreeItem rootItem = new TreeItem("Użyte komponenty");

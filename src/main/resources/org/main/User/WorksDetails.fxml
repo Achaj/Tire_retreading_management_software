@@ -134,22 +134,7 @@
                            </VBox.margin></TreeView>
                         <HBox prefHeight="48.0" prefWidth="529.0">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#remove" prefHeight="42.0" prefWidth="138.0" style="-fx-background-color: #404040;" text="Edytuj" textFill="WHITE" textOverrun="CLIP">
-                                 <font>
-                                    <Font name="System Bold" size="17.0" />
-                                 </font>
-                                 <graphic>
-                                    <ImageView fitHeight="38.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../../../img/pencil.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                                 <HBox.margin>
-                                    <Insets left="20.0" right="20.0" />
-                                 </HBox.margin>
-                              </Button>
-                              <Button mnemonicParsing="false" onAction="#edit" prefHeight="42.0" prefWidth="138.0" style="-fx-background-color: #404040;" text="Usuń" textFill="WHITE" textOverrun="CLIP">
+                              <Button mnemonicParsing="false" onAction="#remove" prefHeight="42.0" prefWidth="138.0" style="-fx-background-color: #404040;" text="Usuń" textFill="WHITE" textOverrun="CLIP">
                                  <font>
                                     <Font name="System Bold" size="17.0" />
                                  </font>
@@ -157,6 +142,21 @@
                                     <ImageView fitHeight="38.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../../../img/trash.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                                 <HBox.margin>
+                                    <Insets left="20.0" right="20.0" />
+                                 </HBox.margin>
+                              </Button>
+                              <Button mnemonicParsing="false" onAction="#edit" prefHeight="42.0" prefWidth="138.0" style="-fx-background-color: #404040;" text="Edytuj" textFill="WHITE" textOverrun="CLIP">
+                                 <font>
+                                    <Font name="System Bold" size="17.0" />
+                                 </font>
+                                 <graphic>
+                                    <ImageView fitHeight="38.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../img/pencil.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>

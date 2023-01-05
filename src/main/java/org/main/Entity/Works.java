@@ -35,8 +35,12 @@ public class Works implements Serializable {
     @JoinColumn(name = "id_department", nullable = false)
     private Departments departments;
 
-    @OneToMany(mappedBy = "works")
+    @OneToMany(mappedBy = "works", cascade = {CascadeType.REFRESH, CascadeType.PERSIST, CascadeType.MERGE})
     private List<WorkSemiProducts> workSemiProducts = new ArrayList<>();
+
+    public void setWorkSemiProducts(List<WorkSemiProducts> workSemiProducts) {
+        this.workSemiProducts = workSemiProducts;
+    }
 
     public int getIdWork() {
         return idWork;
@@ -104,10 +108,6 @@ public class Works implements Serializable {
 
     public List<WorkSemiProducts> getWorkSemiProducts() {
         return workSemiProducts;
-    }
-
-    public void setWorkSemiProducts(List<WorkSemiProducts> workSemiProducts) {
-        this.workSemiProducts = workSemiProducts;
     }
 
     public Works() {
