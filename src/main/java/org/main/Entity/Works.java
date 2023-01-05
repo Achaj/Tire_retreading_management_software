@@ -35,7 +35,7 @@ public class Works implements Serializable {
     @JoinColumn(name = "id_department", nullable = false)
     private Departments departments;
 
-    @OneToMany(mappedBy = "works", cascade = {CascadeType.REFRESH, CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "works")
     private List<WorkSemiProducts> workSemiProducts = new ArrayList<>();
 
     public void setWorkSemiProducts(List<WorkSemiProducts> workSemiProducts) {

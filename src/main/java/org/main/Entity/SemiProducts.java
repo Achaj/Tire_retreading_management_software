@@ -23,7 +23,7 @@ public class SemiProducts implements Serializable,Comparable<SemiProducts> {
     @Column(name = "amount", nullable = false)
     private int amount;
 
-    @OneToMany(mappedBy = "semiProducts")
+    @OneToMany(mappedBy = "semiProducts", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH})
     private List<WorkSemiProducts> workSemiProducts = new ArrayList<>();
 
     public SemiProducts() {

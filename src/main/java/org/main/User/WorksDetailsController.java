@@ -174,7 +174,52 @@ public class WorksDetailsController implements Initializable {
     }
 
 
-    public void remove() {
+    public void remove() throws IOException {
+        if (worksEdit != null) {
+            boolean setNullWork=false;
+            Logger logger = Logger.getLogger(getClass().getName());
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setHeaderText("Czy na pewno chcesz usunąć  zadanie ?");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+               if(worksEdit.getWorkSemiProducts()!=null){
+               for(WorkSemiProducts products:worksEdit.getWorkSemiProducts()){
+                   products.setWorks(null);
+                   if (workSemiProductsRepository.removed(products)) {
+                       logger.log(Level.SEVERE, "Suceesful set null work Semiprodut on work." + products.toString());
+                       setNullWork = true;
+                   } else {
+                       logger.log(Level.SEVERE, "Faild set null work Semiprodut on work." + products.toString());
+                       setNullWork = false;
+                       break;
+                   }
+               }
+               }else {
+                   setNullWork=true;
+               }
+
+                if(setNullWork){
+                    if (worksRepository.removed(worksEdit)) {
+                        alert.setAlertType(Alert.AlertType.INFORMATION);
+                        logger.log(Level.SEVERE, "Suceesful remove work.");
+                        alert.setHeaderText("Opracja została wykonana poprawnie");
+                        worksEdit = null;
+                        backToPreviousScene();
+                    } else {
+                        alert.setAlertType(Alert.AlertType.WARNING);
+                        alert.setHeaderText("Opracja nie została wykonana poprwnie");
+                        logger.log(Level.SEVERE, "Fail remove work.");
+                        alert.show();
+                    }
+                }
+            } else {
+                alert.setAlertType(Alert.AlertType.INFORMATION);
+                alert.setHeaderText("Opracja została anulowana");
+                alert.show();
+
+            }
+
+        }
 
     }
 

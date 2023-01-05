@@ -67,6 +67,26 @@ public class WorkSemiProductsRepositoryImpl implements WorkSemiProductsRepositor
         }
     }
 
+    public boolean removed(WorkSemiProducts workSemiProducts) {
+
+        if (!entityTransaction.isActive()) {
+            entityTransaction.begin();
+        }
+
+        try {
+
+            entityManager.remove(workSemiProducts);
+            entityTransaction.commit();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            entityTransaction.rollback();
+            return false;
+        }finally {
+            entityManager.getEntityManagerFactory().getCache().evictAll();
+        }
+    }
+
     @Override
     public WorkSemiProducts getWorkSemiProductsByID(int id) {
         if (!entityTransaction.isActive()) {

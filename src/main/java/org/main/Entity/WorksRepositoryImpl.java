@@ -132,4 +132,21 @@ public class WorksRepositoryImpl implements WorksRepository {
             entityManager.getEntityManagerFactory().getCache().evictAll();
         }
     }
+    public boolean removed(Works works) {
+
+        if (!entityTransaction.isActive()) {
+            entityTransaction.begin();
+        }
+        try {
+            entityManager.remove(works);
+            entityTransaction.commit();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            entityTransaction.rollback();
+            return false;
+        }finally {
+            entityManager.getEntityManagerFactory().getCache().evictAll();
+        }
+    }
 }
