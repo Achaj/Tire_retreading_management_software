@@ -166,6 +166,7 @@ public class AddSemiProductToWorkController implements Initializable {
                 if (tmpAmount >= 0) {
                     semiProductsList.get(semiProductsList.indexOf(semiProducts)).setAmount(tmpAmount);
                     int index = findDuplicateinList(semiProductsAddWorkList, tempProducts);
+                    tempProducts.setAmount(Integer.valueOf(amountTextField.getText()));
                     if (findDuplicateinList(semiProductsAddWorkList, tempProducts) >= 0) {
                         semiProductsAddWorkList.get(index).setAmount(semiProductsAddWorkList.get(index).getAmount() + Integer.valueOf(amountTextField.getText()));
                     } else {
@@ -273,7 +274,7 @@ public class AddSemiProductToWorkController implements Initializable {
                     for (WorkSemiProducts products : workSemiProductsList) {
                         if (products.getIdWorkSemiProduct() > 0) {
                             if (products.getAmount() > 0) {
-                                if (workSemiProductsRepository.change(products)) {
+                                if (workSemiProductsRepository.save(products)) {
                                     logger.log(Level.SEVERE, "Suceesful change Semiprodut on work." + products.toString());
                                     saveSuccessful = true;
                                 } else {

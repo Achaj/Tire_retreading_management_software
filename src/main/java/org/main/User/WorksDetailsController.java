@@ -5,7 +5,6 @@ import com.fazecast.jSerialComm.SerialPortDataListener;
 import com.fazecast.jSerialComm.SerialPortEvent;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -13,7 +12,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import javafx.util.Callback;
 import org.jetbrains.annotations.NotNull;
 import org.main.App;
@@ -109,6 +107,7 @@ public class WorksDetailsController implements Initializable {
         if (worksEdit != null) {
             worksEdit = null;
         }
+        clearData();
         App.setPrevRootScene();
 
     }
@@ -138,26 +137,29 @@ public class WorksDetailsController implements Initializable {
 
                     if (worksEdit.getStatus().equals("Zaczęto")) {
                         worksEdit.setDateStop(null);
-                    } else {
+                    }else if(worksEdit.getStatus().equals("Do Zrobienia")){
+                        worksEdit.setDateStop(null);
+                        worksEdit.setDateStart(null);
+                    }
+                    else {
                         worksEdit.setDateStop(LocalDateTime.now());
                     }
                 }
-                if(worksRepository.change(worksEdit)){
+                if (worksRepository.change(worksEdit)) {
                     alert.setAlertType(Alert.AlertType.CONFIRMATION);
                     alert.setHeaderText("Czy chcesz edytować pozycje pracy?");
                     Optional<ButtonType> result = alert.showAndWait();
                     if (result.isPresent() && result.get() == ButtonType.OK) {
-                        loadStageEditWorSemiPoroducts(worksEdit,"edit","Edycja pozycji pracy");
-                    }else {
+                        loadStageEditWorSemiPoroducts(worksEdit, "edit", "Edycja pozycji pracy");
+                    } else {
                         clearData();
                         backToPreviousScene();
                     }
-                }else{
+                } else {
                     alert.setAlertType(Alert.AlertType.WARNING);
                     alert.setHeaderText("Nie udało się zapisać");
                     alert.show();
                 }
-
 
 
             } else {
@@ -166,7 +168,7 @@ public class WorksDetailsController implements Initializable {
                 //alert.setContentText("Czy chcesz dodać  pół produkty do zadania?");
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.isPresent() && result.get() == ButtonType.OK) {
-                    loadStageEditWorSemiPoroducts(worksEdit,"edit","Edycja pozycji pracy");
+                    loadStageEditWorSemiPoroducts(worksEdit, "edit", "Edycja pozycji pracy");
                 }
             }
 
@@ -176,42 +178,26 @@ public class WorksDetailsController implements Initializable {
 
     public void remove() throws IOException {
         if (worksEdit != null) {
-            boolean setNullWork=false;
+
             Logger logger = Logger.getLogger(getClass().getName());
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setHeaderText("Czy na pewno chcesz usunąć  zadanie ?");
             Optional<ButtonType> result = alert.showAndWait();
             if (result.isPresent() && result.get() == ButtonType.OK) {
-               if(worksEdit.getWorkSemiProducts()!=null){
-               for(WorkSemiProducts products:worksEdit.getWorkSemiProducts()){
-                   products.setWorks(null);
-                   if (workSemiProductsRepository.removed(products)) {
-                       logger.log(Level.SEVERE, "Suceesful set null work Semiprodut on work." + products.toString());
-                       setNullWork = true;
-                   } else {
-                       logger.log(Level.SEVERE, "Faild set null work Semiprodut on work." + products.toString());
-                       setNullWork = false;
-                       break;
-                   }
-               }
-               }else {
-                   setNullWork=true;
-               }
 
-                if(setNullWork){
-                    if (worksRepository.removed(worksEdit)) {
-                        alert.setAlertType(Alert.AlertType.INFORMATION);
-                        logger.log(Level.SEVERE, "Suceesful remove work.");
-                        alert.setHeaderText("Opracja została wykonana poprawnie");
-                        worksEdit = null;
-                        backToPreviousScene();
-                    } else {
-                        alert.setAlertType(Alert.AlertType.WARNING);
-                        alert.setHeaderText("Opracja nie została wykonana poprwnie");
-                        logger.log(Level.SEVERE, "Fail remove work.");
-                        alert.show();
-                    }
+                if (worksRepository.removed(worksEdit)) {
+                    alert.setAlertType(Alert.AlertType.INFORMATION);
+                    logger.log(Level.SEVERE, "Suceesful remove work.");
+                    alert.setHeaderText("Opracja została wykonana poprawnie");
+                    worksEdit = null;
+                    backToPreviousScene();
+                } else {
+                    alert.setAlertType(Alert.AlertType.WARNING);
+                    alert.setHeaderText("Opracja nie została wykonana poprwnie");
+                    logger.log(Level.SEVERE, "Fail remove work.");
+                    alert.show();
                 }
+
             } else {
                 alert.setAlertType(Alert.AlertType.INFORMATION);
                 alert.setHeaderText("Opracja została anulowana");
@@ -223,11 +209,11 @@ public class WorksDetailsController implements Initializable {
 
     }
 
-    private void loadStageEditWorSemiPoroducts(Works works, @NotNull String parameter, String title){
+    private void loadStageEditWorSemiPoroducts(Works works, @NotNull String parameter, String title) {
         try {
-            if(parameter.equals("save")) {
+            if (parameter.equals("save")) {
                 AddSemiProductToWorkController.setWorks(works);
-            }else {
+            } else {
                 AddSemiProductToWorkController.setWorksEdit(works);
             }
 
@@ -294,6 +280,10 @@ public class WorksDetailsController implements Initializable {
             if (!works.getStatus().equals("Zaczęto")) {
                 works.setDateStop(LocalDateTime.now().plusMinutes(5));
             }
+             if(works.getStatus().equals("Do Zrobienia")){
+                 works.setDateStop(null);
+                 works.setDateStart(null);
+            }
             Works workSave = worksRepository.saveWork(works);
             if (workSave != null) {
                 alert.setAlertType(Alert.AlertType.CONFIRMATION);
@@ -302,7 +292,7 @@ public class WorksDetailsController implements Initializable {
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.isPresent() && result.get() == ButtonType.OK) {
                     clearData();
-                    loadStageEditWorSemiPoroducts(workSave,"save","Dodawanie pozycji pracy");
+                    loadStageEditWorSemiPoroducts(workSave, "save", "Dodawanie pozycji pracy");
                 } else {
                     clearData();
 

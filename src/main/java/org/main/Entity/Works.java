@@ -16,15 +16,15 @@ public class Works implements Serializable {
     private int idWork;
     @Column(name = "name", nullable = false)
     private String name;
-    @Column(name = "date_start", nullable = false)
+    @Column(name = "date_start", nullable = true)
     private LocalDateTime dateStart;
     @Column(name = "date_stop", nullable = true)
     private LocalDateTime dateStop;
     @Column(name = "status", nullable = false)
     private String status;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id_worker", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_worker")
     private Workers workers;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -35,7 +35,7 @@ public class Works implements Serializable {
     @JoinColumn(name = "id_department", nullable = false)
     private Departments departments;
 
-    @OneToMany(mappedBy = "works")
+    @OneToMany(mappedBy = "works", cascade = CascadeType.ALL)
     private List<WorkSemiProducts> workSemiProducts = new ArrayList<>();
 
     public void setWorkSemiProducts(List<WorkSemiProducts> workSemiProducts) {

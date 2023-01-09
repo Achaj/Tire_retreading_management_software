@@ -88,21 +88,6 @@
          </children>
         </AnchorPane>
     </left>
-    <right>
-        <AnchorPane prefHeight="518.0" prefWidth="679.0" BorderPane.alignment="CENTER">
-         <children>
-            <TableView fx:id="tableWorkers" layoutX="-1.0" prefHeight="517.0" prefWidth="662.0">
-              <columns>
-                <TableColumn fx:id="id" prefWidth="75.0" text="ID" />
-                <TableColumn fx:id="firstName" prefWidth="150.4000015258789" text="Imię" />
-                  <TableColumn fx:id="surName" minWidth="0.0" prefWidth="75.20001220703125" text="Nazwisko" />
-                  <TableColumn fx:id="email" minWidth="0.0" prefWidth="205.0" text="Email" />
-                  <TableColumn fx:id="position" prefWidth="155.00003051757812" text="Stanowisko" />
-              </columns>
-            </TableView>
-         </children>
-        </AnchorPane>
-    </right>
    <top>
       <AnchorPane prefHeight="82.0" prefWidth="609.0" style="-fx-background-color: #404040;" BorderPane.alignment="CENTER">
          <children>
@@ -123,4 +108,15 @@
          </children>
       </AnchorPane>
    </top>
+   <center>
+      <TableView fx:id="tableWorkers" prefHeight="517.0" prefWidth="662.0" BorderPane.alignment="CENTER">
+        <columns>
+          <TableColumn fx:id="id" prefWidth="75.0" text="ID" />
+          <TableColumn fx:id="firstName" prefWidth="150.4000015258789" text="Imię" />
+            <TableColumn fx:id="surName" minWidth="0.0" prefWidth="75.20001220703125" text="Nazwisko" />
+            <TableColumn fx:id="email" minWidth="0.0" prefWidth="205.0" text="Email" />
+            <TableColumn fx:id="position" prefWidth="155.00003051757812" text="Stanowisko" />
+        </columns>
+      </TableView>
+   </center>
 </BorderPane>

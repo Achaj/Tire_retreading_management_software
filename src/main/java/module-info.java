@@ -7,7 +7,7 @@ module org.example {
     requires com.fasterxml.classmate;
     requires java.xml.bind;
     requires org.hibernate.orm.core;
-    requires mysql.connector.java;
+    //requires mysql.connector.java;
     requires java.naming;
     requires net.bytebuddy;
     requires kernel;

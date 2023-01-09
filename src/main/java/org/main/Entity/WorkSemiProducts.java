@@ -13,12 +13,12 @@ public class WorkSemiProducts implements Serializable {
     @Column(name = "amount", nullable = false)
     private int amount;
 
-    @ManyToOne(optional = true)
-    @JoinColumn(name = "id_work", nullable = true)
+    @ManyToOne()
+    @JoinColumn(name = "id_work")
     private Works works;
 
-    @ManyToOne
-    @JoinColumn(name = "id_semi_product", nullable = false)
+    @ManyToOne()
+    @JoinColumn(name = "id_semi_product")
     private SemiProducts semiProducts;
 
     public WorkSemiProducts() {

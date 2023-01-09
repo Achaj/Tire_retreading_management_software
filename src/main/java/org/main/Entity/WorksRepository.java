@@ -6,6 +6,7 @@ public interface WorksRepository {
     public Works getWorkByID(int id);
     public Works getLastWorkByTire(int idTire);
     public List<Works> getListWorksByTire(int id);
+    public List<Works> getListWorksByWorker(int id);
     public List<Works> getListWorks();
     public Works saveWork(Works works);
     public boolean save(Works  works);

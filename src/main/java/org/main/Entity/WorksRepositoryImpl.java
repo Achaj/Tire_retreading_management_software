@@ -41,6 +41,16 @@ public class WorksRepositoryImpl implements WorksRepository {
     }
 
     @Override
+    public List<Works> getListWorksByWorker(int id) {
+        if (!entityTransaction.isActive()) {
+            entityTransaction.begin();
+        }
+        TypedQuery<Works> typedQuery = entityManager.createQuery("SELECT w FROM Works w INNER JOIN w.workers  t WHERE t.idWorker=:id " ,Works.class);
+        typedQuery.setParameter("id", id);
+        return typedQuery.getResultList().isEmpty() ? null : typedQuery.getResultList();
+    }
+
+    @Override
     public List<Works> getListWorks() {
         if (!entityTransaction.isActive()) {
             entityTransaction.begin();

@@ -8,13 +8,13 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.main.Admin.AdminMainController">
    <left>
-      <VBox alignment="CENTER" fillWidth="false" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="226.0" style="-fx-background-color: #404040;">
-            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Hurtownia" textAlignment="CENTER">
+      <VBox alignment="CENTER" fillWidth="false" minHeight="-Infinity" minWidth="-Infinity" prefHeight="544.0" prefWidth="226.0" style="-fx-background-color: #404040;">
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Bieżnikowanie" textAlignment="CENTER">
                <font>
-                  <Font name="System Bold" size="39.0" />
+                  <Font name="System Bold" size="29.0" />
                </font>
             </Text>
-            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Części Samochodowych" textAlignment="CENTER">
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Opon Samochodowych" textAlignment="CENTER">
                <font>
                   <Font size="15.0" />
                </font>
@@ -24,101 +24,120 @@
          </padding>
       </VBox>
    </left>
+   <top>
+      <GridPane prefHeight="68.0" prefWidth="800.0" style="-fx-background-color: #404040;" BorderPane.alignment="CENTER">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="558.0" minWidth="10.0" prefWidth="558.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="359.0" minWidth="10.0" prefWidth="242.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+               <Button mnemonicParsing="false" onAction="#logOutUser" prefHeight="42.0" prefWidth="117.0" text="Wyloguj" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
+               <graphic>
+                  <ImageView fitHeight="27.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../img/exit.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <GridPane.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </GridPane.margin>
+            </Button>
+                  <Label alignment="CENTER" contentDisplay="CENTER" text="Panel administratora" textAlignment="CENTER" textFill="#f5f5f5" GridPane.halignment="RIGHT">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+         </children>
+      </GridPane>
+   </top>
    <center>
-      <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="574.0">
-            <Button mnemonicParsing="false" onAction="#logOutUser" prefHeight="42.0" prefWidth="117.0" text="Wyloguj" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="8.0">
-            <graphic>
-               <ImageView fitHeight="27.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
-                  <image>
-                     <Image url="@../../../img/exit.png" />
-                  </image></ImageView>
-            </graphic></Button>
-               <Label alignment="CENTER" contentDisplay="CENTER" layoutX="189.0" layoutY="33.0" text="Panel administratora" textAlignment="CENTER">
-                  <font>
-                     <Font name="System Bold" size="20.0" />
-                  </font>
-               </Label>
-         <VBox layoutX="41.0" layoutY="86.0" prefHeight="512.0" prefWidth="505.0">
-            <children>
-               <HBox prefHeight="110.0" prefWidth="492.0" style="-fx-background-color: #dedad9;">
-                  <children>
-                              <Button mnemonicParsing="false" onAction="#showWorkers" prefHeight="77.0" prefWidth="143.0" text="Pracownicy">
-                                 <font>
-                                    <Font size="16.0" />
+      <VBox prefHeight="512.0" prefWidth="505.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox prefHeight="110.0" prefWidth="492.0" style="-fx-background-color: #dedad9;">
+               <children>
+                           <Button mnemonicParsing="false" onAction="#showWorkers" prefHeight="77.0" prefWidth="143.0" text="Pracownicy">
+                              <font>
+                                 <Font size="16.0" />
+                              </font>
+                           </Button>
+                  <Label prefHeight="63.0" prefWidth="322.0" text="Panel kontrolny menedżera użytkowników wyświetla elementy panelu kontrolnego, które są skonfigurowane dla roli menedżera użytkowników. " textAlignment="JUSTIFY" wrapText="true">
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets bottom="10.0" top="10.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox layoutX="10.0" layoutY="120.0" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #dedad9;">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#showDepartmentsView" prefHeight="61.0" prefWidth="146.0" text="Działy">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Button>
+                  <Label prefHeight="63.0" prefWidth="322.0" text="Panel kontrolny menedżera działów wyświetla elementy panelu kontrolnego, które są skonfigurowane dla roli menedżera dziłów " textAlignment="JUSTIFY" wrapText="true">
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #dedad9;">
+               <children>
+                           <Button mnemonicParsing="false" onAction="#showBasicUser" prefHeight="61.0" prefWidth="146.0" text="Zwykły Użytkownik" textAlignment="CENTER" wrapText="true">
+                              <font>
+                                 <Font size="16.0" />
                                  </font>
-                              </Button>
-                     <Label prefHeight="63.0" prefWidth="322.0" text="Panel kontrolny menedżera użytkowników wyświetla elementy panelu kontrolnego, które są skonfigurowane dla roli menedżera użytkowników. " textAlignment="JUSTIFY" wrapText="true">
-                        <HBox.margin>
-                           <Insets left="5.0" />
-                        </HBox.margin>
-                     </Label>
-                  </children>
-                  <padding>
-                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                  </padding>
-                  <VBox.margin>
-                     <Insets bottom="10.0" top="10.0" />
-                  </VBox.margin>
-               </HBox>
-               <HBox layoutX="10.0" layoutY="120.0" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #dedad9;">
-                  <children>
-                     <Button mnemonicParsing="false" onAction="#showDepartmentsView" prefHeight="61.0" prefWidth="146.0" text="Działy">
-                        <font>
-                           <Font size="16.0" />
-                        </font>
-                     </Button>
-                     <Label prefHeight="63.0" prefWidth="322.0" text="Panel kontrolny menedżera działów wyświetla elementy panelu kontrolnego, które są skonfigurowane dla roli menedżera dziłów " textAlignment="JUSTIFY" wrapText="true">
-                        <HBox.margin>
-                           <Insets left="5.0" />
-                        </HBox.margin>
-                     </Label>
-                  </children>
-                  <padding>
-                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                  </padding>
-               </HBox>
-               <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #dedad9;">
-                  <children>
-                              <Button mnemonicParsing="false" onAction="#showBasicUser" prefHeight="61.0" prefWidth="146.0" text="Zwykły Użytkownik" textAlignment="CENTER" wrapText="true">
-                                 <font>
-                                    <Font size="16.0" />
-                                 </font>
-                              </Button>
-                     <Label prefHeight="63.0" prefWidth="322.0" text="Zajmuje się naprawą, w tym regeneracją i konserwacją, opon i dętek oraz innychelementów gumowych." textAlignment="JUSTIFY" wrapText="true">
-                        <HBox.margin>
-                           <Insets left="5.0" />
-                        </HBox.margin>
-                     </Label>
-                  </children>
-                  <padding>
-                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                  </padding>
-                  <VBox.margin>
-                     <Insets bottom="10.0" top="10.0" />
-                  </VBox.margin>
-               </HBox>
-               <HBox prefHeight="108.0" prefWidth="505.0" style="-fx-background-color: #dedad9;">
-                  <children>
-                     <Button mnemonicParsing="false" onAction="#showPDFGenerator" prefHeight="89.0" prefWidth="148.0" text="Generowanie PDF">
-                        <font>
-                           <Font size="16.0" />
-                        </font>
-                     </Button>
-                     <Label prefHeight="90.0" prefWidth="341.0" text="W systemie istnieje możliwość generowania utworzonych dokumentów w formacie PDF." textAlignment="JUSTIFY" wrapText="true">
-                        <HBox.margin>
-                           <Insets left="5.0" />
-                        </HBox.margin>
-                     </Label>
-                  </children>
-                  <padding>
-                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                  </padding>
-                  <VBox.margin>
-                     <Insets bottom="10.0" top="10.0" />
-                  </VBox.margin>
-               </HBox>
-            </children>
-         </VBox>
-      </AnchorPane>
+                           </Button>
+                  <Label prefHeight="63.0" prefWidth="322.0" text="Zajmuje się naprawą, w tym regeneracją i konserwacją, opon i dętek oraz innychelementów gumowych." textAlignment="JUSTIFY" wrapText="true">
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets bottom="10.0" top="10.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox prefHeight="108.0" prefWidth="505.0" style="-fx-background-color: #dedad9;">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#showPDFGenerator" prefHeight="89.0" prefWidth="148.0" text="Generowanie PDF">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Button>
+                  <Label prefHeight="90.0" prefWidth="341.0" text="W systemie istnieje możliwość generowania utworzonych dokumentów w formacie PDF." textAlignment="JUSTIFY" wrapText="true">
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets bottom="10.0" top="10.0" />
+               </VBox.margin>
+            </HBox>
+         </children>
+         <padding>
+            <Insets left="10.0" right="10.0" />
+         </padding>
+      </VBox>
    </center>
 </BorderPane>

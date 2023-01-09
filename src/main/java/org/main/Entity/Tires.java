@@ -26,7 +26,7 @@ public class Tires implements Serializable {
     private String loadIndex;
 
 
-    @OneToMany( mappedBy = "tires")
+    @OneToMany(mappedBy = "tires", cascade = CascadeType.ALL)
     private List<Works> worksList = new ArrayList<>();
 
 

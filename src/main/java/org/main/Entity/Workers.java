@@ -37,7 +37,7 @@ public class Workers implements Serializable {
     @OneToMany(mappedBy = "workers")
     private List<Works> worksList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "workers")
+    @OneToMany(mappedBy = "workers", cascade = CascadeType.ALL)
     private List<WorkingTime> workingTimes = new ArrayList<>();
 
 

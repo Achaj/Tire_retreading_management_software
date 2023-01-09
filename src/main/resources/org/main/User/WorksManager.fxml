@@ -12,7 +12,7 @@
          <children>
             <VBox prefHeight="518.0" prefWidth="137.0">
                <children>
-                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="126.0" style="-fx-background-color: white;" text="Wszystkie">
+                  <Button mnemonicParsing="false" onAction="#showAllWorks" prefHeight="25.0" prefWidth="126.0" style="-fx-background-color: white;" text="Wszystkie">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
@@ -49,16 +49,16 @@
                         <Insets bottom="10.0" />
                      </VBox.margin>
                   </Button>
-                  <TextField>
-                     <VBox.margin>
-                        <Insets bottom="10.0" />
-                     </VBox.margin>
-                  </TextField>
-                  <Button layoutX="15.0" layoutY="120.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="126.0" style="-fx-background-color: white;" text="Wyszukaj">
+                  <Button layoutX="15.0" layoutY="120.0" mnemonicParsing="false" onAction="#showMyWorks" prefHeight="25.0" prefWidth="126.0" style="-fx-background-color: white;" text="Moje Zadania">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Button>
+                  <ComboBox fx:id="statusWorkComboBox" prefWidth="150.0">
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </ComboBox>
                </children>
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -66,21 +66,6 @@
          </children>
         </AnchorPane>
     </left>
-    <right>
-        <AnchorPane prefHeight="518.0" prefWidth="679.0" BorderPane.alignment="CENTER">
-         <children>
-            <TableView fx:id="tableView" editable="true" layoutX="-1.0" prefHeight="517.0" prefWidth="662.0">
-              <columns>
-                <TableColumn fx:id="idWork" prefWidth="75.0" text="ID" />
-                <TableColumn fx:id="name" prefWidth="150.4000015258789" text="Nazwa Czyności " />
-                  <TableColumn fx:id="status" minWidth="0.0" prefWidth="87.0" text="Status" />
-                  <TableColumn fx:id="dateStart" minWidth="0.0" prefWidth="177.0" text="Czas zaczęcia " />
-                  <TableColumn fx:id="dateStop" prefWidth="171.0" text="Czas zakończenia" />
-              </columns>
-            </TableView>
-         </children>
-        </AnchorPane>
-    </right>
    <top>
       <AnchorPane prefHeight="82.0" prefWidth="609.0" style="-fx-background-color: #404040;" BorderPane.alignment="CENTER">
          <children>
@@ -101,4 +86,18 @@
          </children>
       </AnchorPane>
    </top>
+   <center>
+      <TableView fx:id="tableView" editable="true" prefHeight="517.0" prefWidth="662.0" BorderPane.alignment="CENTER">
+        <columns>
+          <TableColumn fx:id="idWork" prefWidth="75.0" text="ID" />
+          <TableColumn fx:id="name" prefWidth="150.4000015258789" text="Nazwa Czyności " />
+            <TableColumn fx:id="status" minWidth="0.0" prefWidth="87.0" text="Status" />
+            <TableColumn fx:id="dateStart" minWidth="0.0" prefWidth="177.0" text="Czas zaczęcia " />
+            <TableColumn fx:id="dateStop" prefWidth="171.0" text="Czas zakończenia" />
+        </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TableView>
+   </center>
 </BorderPane>

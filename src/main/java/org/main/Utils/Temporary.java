@@ -159,6 +159,7 @@ public class Temporary {
     private static List<String> status = new ArrayList<>();
 
     public static List<String> getStatus() {
+        status.add("Do Zrobienia");
         status.add("Zaczęto");
         status.add("Odrzucono");
         status.add("Zakończono");

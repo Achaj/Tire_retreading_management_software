@@ -200,6 +200,7 @@ public class WorkerDetailsControler implements Initializable {
             } else {
                 alert.setAlertType(Alert.AlertType.WARNING);
                 alert.setHeaderText("Opracja nie została wykonana poprwnie");
+                alert.setContentText("Pracownik jest przyspisny do zadania usuń zadania");
                 alert.show();
             }
         } else {
