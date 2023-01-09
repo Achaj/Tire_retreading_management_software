@@ -25,16 +25,16 @@
       </VBox>
    </left>
    <top>
-      <GridPane prefHeight="68.0" prefWidth="800.0" style="-fx-background-color: #404040;" BorderPane.alignment="CENTER">
+      <GridPane prefHeight="68.0" prefWidth="880.0" style="-fx-background-color: #404040;">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="558.0" minWidth="10.0" prefWidth="558.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="359.0" minWidth="10.0" prefWidth="242.0" />
          </columnConstraints>
          <rowConstraints>
-            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" vgrow="NEVER" />
          </rowConstraints>
          <children>
-               <Button mnemonicParsing="false" onAction="#logOutUser" prefHeight="42.0" prefWidth="117.0" text="Wyloguj" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
+               <Button mnemonicParsing="false" onAction="#logOutUser" prefHeight="42.0" prefWidth="117.0" text="Wyloguj" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                <graphic>
                   <ImageView fitHeight="27.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -46,7 +46,7 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </GridPane.margin>
             </Button>
-                  <Label alignment="CENTER" contentDisplay="CENTER" text="Panel administratora" textAlignment="CENTER" textFill="#f5f5f5" GridPane.halignment="RIGHT">
+                  <Label alignment="CENTER" contentDisplay="CENTER" text="Panel administratora" textAlignment="CENTER" textFill="#f5f5f5" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>
@@ -116,7 +116,7 @@
             </HBox>
             <HBox prefHeight="108.0" prefWidth="505.0" style="-fx-background-color: #dedad9;">
                <children>
-                  <Button mnemonicParsing="false" onAction="#showPDFGenerator" prefHeight="89.0" prefWidth="148.0" text="Generowanie PDF">
+                  <Button mnemonicParsing="false" onAction="#showStatistic" prefHeight="89.0" prefWidth="148.0" text="Statystyki">
                      <font>
                         <Font size="16.0" />
                      </font>

@@ -22,7 +22,11 @@ public class AdminMainController implements Initializable {
     public void showBasicUser() throws IOException {
         App.setNextRootScene("User/UserMainView");
     }
-    public void showPDFGenerator(){}
+    public void showStatistic() throws IOException {
+        App.setNextRootScene("Admin/StatisticWorks");
+    }
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         if(Temporary.getWorkers()!=null && Temporary.getWorkers().getPosition().equals("ADMIN")){

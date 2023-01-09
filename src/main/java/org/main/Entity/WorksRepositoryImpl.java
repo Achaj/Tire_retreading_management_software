@@ -1,9 +1,14 @@
 package org.main.Entity;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-import javax.persistence.TypedQuery;
-import java.util.List;
+import org.main.Entity.Temporaty.DailyStatusWork;
+import org.main.Entity.Temporaty.WorkNameDate;
+
+import javax.persistence.*;
+import java.math.BigInteger;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.*;
 
 public class WorksRepositoryImpl implements WorksRepository {
     EntityManager entityManager = ConnectionToDB.entityManager;
@@ -142,6 +147,9 @@ public class WorksRepositoryImpl implements WorksRepository {
             entityManager.getEntityManagerFactory().getCache().evictAll();
         }
     }
+
+
+
     public boolean removed(Works works) {
 
         if (!entityTransaction.isActive()) {
@@ -158,5 +166,91 @@ public class WorksRepositoryImpl implements WorksRepository {
         }finally {
             entityManager.getEntityManagerFactory().getCache().evictAll();
         }
+    }
+    @Override
+    public Map<String, Integer> countWorkStatus(Departments departments) {
+        if (!entityTransaction.isActive()) {
+            entityTransaction.begin();
+        }
+        String sumHql;
+        List<Object[]> results;
+        if(departments==null){
+            sumHql = "SELECT status,COUNT(name) FROM works GROUP BY status";
+            results= entityManager.createNativeQuery(sumHql).getResultList();
+        }
+        else{
+            sumHql = "SELECT status,COUNT(w.name) FROM works w INNER JOIN departments d ON w.id_department=d.id_department WHERE d.name=:name GROUP BY status";
+            results = entityManager.createNativeQuery(sumHql).setParameter("name",departments.getName()).getResultList();
+        }
+
+
+        Map<String, Integer> statusCounts = new HashMap<>();
+        for (Object[] result : results) {
+            String status = (String) result[0];
+            Integer count = ((BigInteger) result[1]).intValue();
+            statusCounts.put(status, count);
+        }
+
+        return statusCounts.isEmpty() ? null:statusCounts;
+    }
+
+    @Override
+    public List<WorkNameDate> countWorkname(Departments departments) {
+        if (!entityTransaction.isActive()) {
+            entityTransaction.begin();
+        }
+        String sumHql;
+        List<Object[]> results;
+        if(departments==null){
+            sumHql = "SELECT DATE(w.date_stop) ,w.name, COUNT(w.name) FROM works w " +
+                    " WHERE DATE(date_stop) BETWEEN DATE_SUB(CURDATE(), INTERVAL 31 DAY) " +
+                    " AND CURRENT_DATE GROUP By w.name, DATE(date_stop) ORDER By DATE(date_stop)";
+            results= entityManager.createNativeQuery(sumHql).getResultList();
+        }
+        else{
+            sumHql = "SELECT Date(w.date_stop ) , w.name,COUNT(w.name) FROM works w " +
+                    " INNER JOIN departments d ON w.id_department=d.id_department " +
+                    " WHERE d.name=:name AND DATE(w.date_stop) BETWEEN DATE_SUB(CURDATE(), INTERVAL 31 DAY) AND CURRENT_DATE " +
+                    " GROUP By w.name, DATE(w.date_stop)";
+            results = entityManager.createNativeQuery(sumHql).setParameter("name",departments.getName()).getResultList();
+        }
+
+
+       List<WorkNameDate> workNameDates=new ArrayList<>();
+        for (Object[] result : results) {
+            Date date= (Date) result[0];
+           workNameDates.add(new WorkNameDate((Date) result[0],(String) result[1],((BigInteger) result[2]).intValue()));
+        }
+
+        return workNameDates.isEmpty() ? null:workNameDates;
+    }
+
+    @Override
+    public List<DailyStatusWork> countDailyWorkStatus(Departments departments) {
+        if (!entityTransaction.isActive()) {
+            entityTransaction.begin();
+        }
+        String sumHql;
+        List<Object[]> results;
+        if(departments==null){
+            sumHql = "SELECT w.name,w.status, COUNT(w.name) FROM works w WHERE " +
+                    "(CURRENT_DATE = DATE(w.date_stop) OR CURRENT_DATE=DATE(w.date_stop)) GROUP By w.name";
+            results= entityManager.createNativeQuery(sumHql).getResultList();
+        }
+        else{
+            sumHql = "SELECT w.name,w.status, COUNT(w.name) FROM works w  " +
+                    " INNER JOIN departments d ON w.id_department=d.id_department" +
+                    "WHERE d.name=:name AND (CURRENT_DATE = DATE(w.date_stop) OR CURRENT_DATE=DATE(w.date_stop)) GROUP By w.name";
+            results = entityManager.createNativeQuery(sumHql).setParameter("name",departments.getName()).getResultList();
+        }
+
+
+        List<DailyStatusWork> dailyStatusWorks=new ArrayList<>();
+        for (Object[] result : results) {
+            Date date= (Date) result[0];
+           dailyStatusWorks.add(new DailyStatusWork((String) result[0],(String) result[1],(Integer) result[2]));
+        }
+
+        return dailyStatusWorks.isEmpty() ? null:dailyStatusWorks;
     }
 }

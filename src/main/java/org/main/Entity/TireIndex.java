@@ -6,6 +6,7 @@ public class TireIndex {
 
     public TireIndex(String name, String vlaue) {
         this.name = name;
+
         this.vlaue = vlaue;
     }
 
