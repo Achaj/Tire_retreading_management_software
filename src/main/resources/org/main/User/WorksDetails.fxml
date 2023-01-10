@@ -91,16 +91,16 @@
                               </VBox>
                               <VBox prefHeight="243.0" prefWidth="326.0">
                                  <children>
-                                    <ChoiceBox fx:id="nameChoiceBox" prefHeight="25.0" prefWidth="348.0">
+                                    <ComboBox fx:id="nameChoiceBox" layoutX="10.0" layoutY="150.0" prefHeight="25.0" prefWidth="337.0">
                                        <VBox.margin>
                                           <Insets bottom="10.0" />
                                        </VBox.margin>
-                                    </ChoiceBox>
-                                    <ChoiceBox fx:id="statusChoiceBox" layoutX="10.0" layoutY="10.0" prefHeight="25.0" prefWidth="428.0">
+                                    </ComboBox>
+                                    <ComboBox fx:id="statusChoiceBox" layoutX="10.0" layoutY="175.0" prefHeight="25.0" prefWidth="370.0">
                                        <VBox.margin>
                                           <Insets bottom="10.0" />
                                        </VBox.margin>
-                                    </ChoiceBox>
+                                    </ComboBox>
                                     <TextField fx:id="timeStart" editable="false" prefHeight="25.0" prefWidth="418.0" style="-fx-background-color: white;">
                                        <VBox.margin>
                                           <Insets bottom="10.0" />

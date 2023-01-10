@@ -34,7 +34,7 @@ public class App extends Application {
         linkedListSceneName.add("LoginView");
         stage.setScene(scene);
         stage.show();
-
+        stage.setTitle("VulcanizePro");
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
                 @Override
                 public void handle(WindowEvent e) {

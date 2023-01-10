@@ -41,6 +41,7 @@ public class DepartmentsDetailsController implements Initializable {
     }
     public void backToPreviousScene() throws IOException {
         App.setPrevRootScene();
+        departmentsEdit=null;
     }
 
     private static Departments departmentsEdit;

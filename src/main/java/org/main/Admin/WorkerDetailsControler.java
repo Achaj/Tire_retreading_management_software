@@ -91,6 +91,7 @@ public class WorkerDetailsControler implements Initializable {
         if (editWorker != null) {
             editWorker = null;
         }
+        clearFields();
     }
 
     private boolean correctFirstname = false;
@@ -219,6 +220,8 @@ public class WorkerDetailsControler implements Initializable {
         email.setText("");
         pass.setText("");
         confirmPass.setText("");
+        positionChoiceBox.setStyle("-fx-background-color:  white;-fx-border-color:   green;-fx-border-width:   0px 0px 2px 2px;");
+        departmentChoiceBox.setStyle("-fx-background-color:  white;-fx-border-color:   green;-fx-border-width:   0px 0px 2px 2px;");
         loadDataChoiceBox();
         getDepartmens();
         stackingDate.setValue(null);

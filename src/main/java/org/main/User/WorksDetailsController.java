@@ -48,9 +48,9 @@ public class WorksDetailsController implements Initializable {
     @FXML
     public TreeView<String> semiProductTreeView;
     @FXML
-    public ChoiceBox<String> nameChoiceBox;
+    public ComboBox<String> nameChoiceBox;
     @FXML
-    public ChoiceBox<String> statusChoiceBox;
+    public ComboBox<String> statusChoiceBox;
 
 
     @Override
@@ -109,6 +109,7 @@ public class WorksDetailsController implements Initializable {
         }
         clearData();
         App.setPrevRootScene();
+
 
     }
 
@@ -319,6 +320,7 @@ public class WorksDetailsController implements Initializable {
     ObservableList<Workers> workersObservableList = FXCollections.observableArrayList();
 
     public void loadWorkersToComboBox() {
+
         List<Workers> workersList = new ArrayList<>();
 
         if (Temporary.getWorkers().getPosition().equals("ADMIN")) {
@@ -326,6 +328,7 @@ public class WorksDetailsController implements Initializable {
         } else {
             workersList.add(Temporary.getWorkers());
         }
+        workersObservableList.clear();
         workersObservableList.addAll(workersList);
         workersComboBox.getItems().addAll(workersObservableList);
         workersComboBox.setCellFactory(new Callback<ListView<Workers>, ListCell<Workers>>() {
@@ -385,10 +388,34 @@ public class WorksDetailsController implements Initializable {
             }
         });
     }
-
+    ObservableList<String> status ;
+    ObservableList<String> nameWork ;
     public void loadChoiceBox() {
-        statusChoiceBox.getItems().addAll(Temporary.getStatus());
-        nameChoiceBox.getItems().addAll(Temporary.getWorkName());
+        //status = FXCollections.observableArrayList();
+         //nameWork = FXCollections.observableArrayList();
+
+         List<String> statusList=Temporary.getStatus();
+
+
+        status = statusChoiceBox.getItems();
+        if (!status.isEmpty()) {
+            status.clear();
+        }else {
+            status = FXCollections.observableArrayList();
+            status.addAll(statusList);
+            statusChoiceBox.setItems(status);
+        }
+
+        List<String> nameList=Temporary.getWorkName();
+
+        nameWork = nameChoiceBox.getItems();
+        if (!nameWork.isEmpty()) {
+            nameWork.clear();
+        }else {
+            status = FXCollections.observableArrayList();
+            nameWork.addAll(nameList);
+            nameChoiceBox.setItems(nameWork);
+        }
     }
 
     public void loadTiresToTreeView(List<Tires> tiresList) {

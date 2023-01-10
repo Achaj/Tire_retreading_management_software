@@ -4,15 +4,19 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.chart.*;
+import javafx.scene.chart.AreaChart;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.PieChart;
+import javafx.scene.chart.XYChart;
 import org.main.App;
+import org.main.Entity.Departments;
 import org.main.Entity.Temporaty.DailyStatusWork;
 import org.main.Entity.Temporaty.WorkNameDate;
 import org.main.Entity.WorksRepositoryImpl;
-import org.main.Utils.Temporary;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -24,6 +28,7 @@ public class StatisticWorkController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         loadPieChart(worksRepository.countWorkStatus(null));
         loadAreaChart(worksRepository.countWorkname(null));
+        loadBarChart(worksRepository.countDailyWorkStatus(null));
     }
 
     @FXML
@@ -41,19 +46,94 @@ public class StatisticWorkController implements Initializable {
     }
 
     private void loadBarChart(List<DailyStatusWork> dailyStatusWorks) {
-        //Defining the x axis
-        CategoryAxis xAxis = new CategoryAxis();
-
-        xAxis.setCategories(FXCollections.<String>observableArrayList(Temporary.getStatus()));
-        xAxis.setLabel("Status");
-
-        //Defining the y axis
-        NumberAxis yAxis = new NumberAxis();
-        yAxis.setLabel("value");
-
-        //Creating the Bar chart
+        nameWorkBarChart.getData().clear();
         nameWorkBarChart.setTitle("Dzienny Wykres Pracy");
 
+
+        XYChart.Series<String, Integer> series1 = new XYChart.Series();
+        series1.setName("Przyjęcie na stan");
+        XYChart.Series<String, Integer> series2 = new XYChart.Series();
+        series2.setName("Wstępna kontrola");
+        XYChart.Series<String, Integer> series3 = new XYChart.Series();
+        series3.setName("Kontrola maszynowa");
+        XYChart.Series<String, Integer> series4 = new XYChart.Series();
+        series4.setName("Szorstkowanie krasu");
+        XYChart.Series<String, Integer> series5 = new XYChart.Series();
+        series5.setName("Szlifowanie opony");
+        XYChart.Series<String, Integer> series6 = new XYChart.Series();
+        series6.setName("Wypełnienie ubytków");
+        XYChart.Series<String, Integer> series7 = new XYChart.Series();
+        series7.setName("Nakładanie bieżnika");
+        XYChart.Series<String, Integer> series8 = new XYChart.Series();
+        series8.setName("Wulkanizacja opony");
+        XYChart.Series<String, Integer> series9 = new XYChart.Series();
+        series9.setName("Kontrola jakości wyrobu");
+        XYChart.Series<String, Integer> series10 = new XYChart.Series();
+        series10.setName("Magazynowanie");
+
+        if (dailyStatusWorks != null) {
+            for (DailyStatusWork dailyStatusWork : dailyStatusWorks) {
+                if (dailyStatusWork.getName().equals("Przyjęcie na stan")) {
+
+                    series1.getData().add(new XYChart.Data(dailyStatusWork.getStatus(), dailyStatusWork.getCount()));
+
+                } else if (dailyStatusWork.getName().equals("Wstępna kontrola")) {
+
+                    series2.getData().add(new XYChart.Data(dailyStatusWork.getStatus(), dailyStatusWork.getCount()));
+
+                } else if (dailyStatusWork.getName().equals("Kontrola maszynowa")) {
+
+                    series3.getData().add(new XYChart.Data(dailyStatusWork.getStatus(), dailyStatusWork.getCount()));
+
+                } else if (dailyStatusWork.getName().equals("Szorstkowanie krasu")) {
+
+                    series4.getData().add(new XYChart.Data(dailyStatusWork.getStatus(), dailyStatusWork.getCount()));
+
+                } else if (dailyStatusWork.getName().equals("Szlifowanie opony")) {
+
+                    series5.getData().add(new XYChart.Data(dailyStatusWork.getStatus(), dailyStatusWork.getCount()));
+
+                } else if (dailyStatusWork.getName().equals("Wypełnienie ubytków")) {
+
+                    series6.getData().add(new XYChart.Data(dailyStatusWork.getStatus(), dailyStatusWork.getCount()));
+
+                } else if (dailyStatusWork.getName().equals("Nakładanie bieżnika")) {
+
+                    series7.getData().add(new XYChart.Data(dailyStatusWork.getStatus(), dailyStatusWork.getCount()));
+
+                } else if (dailyStatusWork.getName().equals("Wulkanizacja opony")) {
+
+                    series8.getData().add(new XYChart.Data(dailyStatusWork.getStatus(), dailyStatusWork.getCount()));
+
+                } else if (dailyStatusWork.getName().equals("Kontrola jakości wyrobu")) {
+
+                    series9.getData().add(new XYChart.Data(dailyStatusWork.getStatus(), dailyStatusWork.getCount()));
+
+                } else if (dailyStatusWork.getName().equals("Magazynowanie")) {
+
+                    series10.getData().add(new XYChart.Data(dailyStatusWork.getStatus(), dailyStatusWork.getCount()));
+
+                }
+
+            }
+        }
+        List<XYChart.Series<String, Integer>> seriesList = new ArrayList<>();
+        seriesList.add(series1);
+        seriesList.add(series2);
+        seriesList.add(series3);
+        seriesList.add(series4);
+        seriesList.add(series5);
+        seriesList.add(series6);
+        seriesList.add(series7);
+        seriesList.add(series8);
+        seriesList.add(series9);
+        seriesList.add(series10);
+        for (XYChart.Series<String, Integer> series : seriesList) {
+            if (!series.getData().isEmpty()) {
+                nameWorkBarChart.getData().add(series);
+            }
+        }
+        //nameWorkBarChart.getData().addAll(series1, series2, series3, series4, series5, series6, series7, series8, series9, series10);
     }
 
     ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
@@ -102,7 +182,9 @@ public class StatisticWorkController implements Initializable {
 
         worksAreaChart.getData().add(series);
         */
-        worksAreaChart.setTitle("Wykres pracy z ostatnich 30 dni");
+
+        worksAreaChart.getData().clear();
+        worksAreaChart.setTitle("Wykres pracy z ostatnich 31 dni");
 
         XYChart.Series series1 = new XYChart.Series();
         series1.setName("Przyjęcie na stan");
@@ -150,8 +232,72 @@ public class StatisticWorkController implements Initializable {
 
             }
         }
-        worksAreaChart.getData().addAll(series1, series2, series3, series4, series5, series6, series7, series8, series9, series10);
+        List<XYChart.Series<String, Integer>> seriesList = new ArrayList<>();
+        seriesList.add(series1);
+        seriesList.add(series2);
+        seriesList.add(series3);
+        seriesList.add(series4);
+        seriesList.add(series5);
+        seriesList.add(series6);
+        seriesList.add(series7);
+        seriesList.add(series8);
+        seriesList.add(series9);
+        seriesList.add(series10);
+        for (XYChart.Series<String, Integer> series : seriesList) {
+            if (!series.getData().isEmpty()) {
+                worksAreaChart.getData().add(series);
+            }
+        }
+       // worksAreaChart.getData().addAll(series1, series2, series3, series4, series5, series6, series7, series8, series9, series10);
 
 
     }
+    @FXML
+    private void showAllDepartmentStatistic(){
+        loadPieChart(worksRepository.countWorkStatus(null));
+        loadAreaChart(worksRepository.countWorkname(null));
+        loadBarChart(worksRepository.countDailyWorkStatus(null));
+    }
+    @FXML
+    private void showAllDepartmentMagazineStatistic(){
+        Departments departments=new Departments();
+        departments.setName("Magazyn");
+        loadPieChart(worksRepository.countWorkStatus(departments));
+        loadAreaChart(worksRepository.countWorkname(departments));
+        loadBarChart(worksRepository.countDailyWorkStatus(departments));
+    }
+    @FXML
+    private void showAllDepartmentQualityControlStatistic(){
+        Departments departments=new Departments();
+        departments.setName("Kontrola Jakości");
+        loadPieChart(worksRepository.countWorkStatus(departments));
+        loadAreaChart(worksRepository.countWorkname(departments));
+        loadBarChart(worksRepository.countDailyWorkStatus(departments));
+    }
+    @FXML
+    private void showAllDepartmentPretreatmentStatistic(){
+        Departments departments=new Departments();
+        departments.setName("Obróbka Wstępna");
+        loadPieChart(worksRepository.countWorkStatus(departments));
+        loadAreaChart(worksRepository.countWorkname(departments));
+        loadBarChart(worksRepository.countDailyWorkStatus(departments));
+    }
+    @FXML
+    private void showAllDepartmentTreatmentProperStatistic(){
+        Departments departments=new Departments();
+        departments.setName("Obróbka Właściwa");
+        loadPieChart(worksRepository.countWorkStatus(departments));
+        loadAreaChart(worksRepository.countWorkname(departments));
+        loadBarChart(worksRepository.countDailyWorkStatus(departments));
+    }
+    @FXML
+    private void showAllDepartmentVulcanizeeStatistic(){
+        Departments departments=new Departments();
+        departments.setName("Wólkanizaca");
+        loadPieChart(worksRepository.countWorkStatus(departments));
+        loadAreaChart(worksRepository.countWorkname(departments));
+        loadBarChart(worksRepository.countDailyWorkStatus(departments));
+    }
+
+
 }

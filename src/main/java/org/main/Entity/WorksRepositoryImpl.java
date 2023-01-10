@@ -234,21 +234,20 @@ public class WorksRepositoryImpl implements WorksRepository {
         List<Object[]> results;
         if(departments==null){
             sumHql = "SELECT w.name,w.status, COUNT(w.name) FROM works w WHERE " +
-                    "(CURRENT_DATE = DATE(w.date_stop) OR CURRENT_DATE=DATE(w.date_stop)) GROUP By w.name";
+                    " (CURRENT_DATE = DATE(w.date_stop) OR CURRENT_DATE=DATE(w.date_start)) GROUP By w.name";
             results= entityManager.createNativeQuery(sumHql).getResultList();
         }
         else{
             sumHql = "SELECT w.name,w.status, COUNT(w.name) FROM works w  " +
-                    " INNER JOIN departments d ON w.id_department=d.id_department" +
-                    "WHERE d.name=:name AND (CURRENT_DATE = DATE(w.date_stop) OR CURRENT_DATE=DATE(w.date_stop)) GROUP By w.name";
+                    " INNER JOIN departments d ON w.id_department=d.id_department " +
+                    " WHERE d.name=:name AND (CURRENT_DATE = DATE(w.date_stop) OR CURRENT_DATE=DATE(w.date_start)) GROUP By w.name ";
             results = entityManager.createNativeQuery(sumHql).setParameter("name",departments.getName()).getResultList();
         }
 
 
         List<DailyStatusWork> dailyStatusWorks=new ArrayList<>();
         for (Object[] result : results) {
-            Date date= (Date) result[0];
-           dailyStatusWorks.add(new DailyStatusWork((String) result[0],(String) result[1],(Integer) result[2]));
+           dailyStatusWorks.add(new DailyStatusWork((String) result[0],(String) result[1],((BigInteger) result[2]).intValue()));
         }
 
         return dailyStatusWorks.isEmpty() ? null:dailyStatusWorks;

@@ -19,11 +19,12 @@ public class Temporary {
         Temporary.workers = workers;
     }
 
-    private static List<TireIndex> speedIndexTire = new ArrayList<>();
+
 
     public static WorkingTime workingTime;
-
+    //private static List<TireIndex> speedIndexTire = new ArrayList<>();
     public static List<TireIndex> getSpeedIndexTire() {
+        List<TireIndex> speedIndexTire = new ArrayList<>();
         speedIndexTire.add(new TireIndex("Y", "300"));
         speedIndexTire.add(new TireIndex("W", "270"));
         speedIndexTire.add(new TireIndex("W", "240"));
@@ -54,9 +55,10 @@ public class Temporary {
         return speedIndexTire;
     }
 
-    static private List<TireIndex> loadIndexTiere = new ArrayList<>();
+    //static private List<TireIndex> loadIndexTiere = new ArrayList<>();
 
     public static List<TireIndex> getLoadIndexTiere() {
+        List<TireIndex> loadIndexTiere = new ArrayList<>();
         loadIndexTiere.add(new TireIndex("45", "165"));
         loadIndexTiere.add(new TireIndex("46", "170"));
         loadIndexTiere.add(new TireIndex("47", "175"));
@@ -156,9 +158,10 @@ public class Temporary {
         return loadIndexTiere;
     }
 
-    private static List<String> status = new ArrayList<>();
+    //private static List<String> status;
 
     public static List<String> getStatus() {
+        List<String>  status=new ArrayList<>();
         status.add("Do Zrobienia");
         status.add("Zaczęto");
         status.add("Odrzucono");
@@ -166,9 +169,10 @@ public class Temporary {
         status.add("Anulowano");
         return status;
     }
-    private static List<String> categorySemi=new ArrayList<>();
+    //private static List<String> categorySemi=new ArrayList<>();
 
     public static List<String> getCategorySemi() {
+        List<String> categorySemi=new ArrayList<>();
         //TRUCK TIRES
         categorySemi.add("Bieżnik płaskie CT");
         categorySemi.add("Bieżnik Mini-Wing CT");
@@ -197,9 +201,10 @@ public class Temporary {
         categorySemi.add("Wypełniacz Chemiczny");
         return categorySemi;
     }
-    static List<String> workName=new ArrayList<>();
+    //static List<String> workName=new ArrayList<>();
 
     public static List<String> getWorkName() {
+        List<String> workName=new ArrayList<>();
         workName.add("Przyjęcie na stan");
         workName.add("Wstępna kontrola");
         workName.add("Kontrola maszynowa");
