@@ -1,8 +1,14 @@
 package org.main.Entity;
 
+import org.main.Entity.Temporaty.DailyStatusWork;
+import org.main.Entity.Temporaty.DaytimeWork;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
+import java.math.BigInteger;
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 public class WorkingTimeRepositoryImpl implements WorkingTimeRepository {
@@ -71,7 +77,7 @@ public class WorkingTimeRepositoryImpl implements WorkingTimeRepository {
     }
 
     @Override
-    public boolean delate(WorkingTime workingTime) {
+    public boolean remove(WorkingTime workingTime) {
         if (!entityTransaction.isActive()) {
             entityTransaction.begin();
         }
@@ -86,5 +92,26 @@ public class WorkingTimeRepositoryImpl implements WorkingTimeRepository {
             entityManager.getEntityManagerFactory().getCache().evictAll();
         }
 
+    }
+
+    @Override
+    public List<DaytimeWork> getListOfEmployeeMinutesWorked(int id) {
+        if (!entityTransaction.isActive()) {
+            entityTransaction.begin();
+        }
+        String sumHql;
+        List<Object[]> results;
+
+        sumHql = " SELECT DATE(wt.date_logout), COUNT( TIMESTAMPDIFF(MINUTE,wt.date_login,wt.date_logout)) " +
+                " FROM working_time wt Where wt.date_logout IS NOT NULL  AND wt.id_worker=:id " +
+                " GROUP BY DATE(wt.date_logout) ORDER BY DATE(wt.date_logout)";
+        results = entityManager.createNativeQuery(sumHql).setParameter("id",id).getResultList();
+
+        List<DaytimeWork> dailyStatusWorks=new ArrayList<>();
+        for (Object[] result : results) {
+            dailyStatusWorks.add(new DaytimeWork((Date) result[0],((BigInteger) result[1]).intValue()));
+        }
+
+        return dailyStatusWorks.isEmpty() ? null:dailyStatusWorks;
     }
 }

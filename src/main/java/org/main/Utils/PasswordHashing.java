@@ -23,7 +23,7 @@ public class PasswordHashing {
         byte[] hashedBytes = hashPassword(passwordChars, saltBytes, iterations, keyLength);
 
         String hashedString = Hex.encodeHexString(hashedBytes);
-        System.out.println(hashedString);
+        //System.out.println(hashedString);
         return hashedString;
     }
     public static byte[] hashPassword( final char[] password, final byte[] salt, final int iterations, final int keyLength ) {

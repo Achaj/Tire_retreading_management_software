@@ -133,9 +133,13 @@ public class WorksDetailsController implements Initializable {
                 if (!worksEdit.getName().equals(nameChoiceBox.getSelectionModel().getSelectedItem())) {
                     worksEdit.setName(nameChoiceBox.getSelectionModel().getSelectedItem());
                 }
+                String firstStatus=worksEdit.getStatus();
                 if (!worksEdit.getStatus().equals(statusChoiceBox.getSelectionModel().getSelectedItem())) {
                     worksEdit.setStatus(statusChoiceBox.getSelectionModel().getSelectedItem());
 
+                    if(firstStatus.equals("Do Zrobienia")) {
+                        worksEdit.setDateStart(LocalDateTime.now());
+                    }
                     if (worksEdit.getStatus().equals("Zaczęto")) {
                         worksEdit.setDateStop(null);
                     }else if(worksEdit.getStatus().equals("Do Zrobienia")){
@@ -151,6 +155,7 @@ public class WorksDetailsController implements Initializable {
                     alert.setHeaderText("Czy chcesz edytować pozycje pracy?");
                     Optional<ButtonType> result = alert.showAndWait();
                     if (result.isPresent() && result.get() == ButtonType.OK) {
+                        //AddSemiProductToWorkController.setWorksEdit(worksEdit);
                         loadStageEditWorSemiPoroducts(worksEdit, "edit", "Edycja pozycji pracy");
                     } else {
                         clearData();
@@ -214,7 +219,7 @@ public class WorksDetailsController implements Initializable {
         try {
             if (parameter.equals("save")) {
                 AddSemiProductToWorkController.setWorks(works);
-            } else {
+            } if(parameter.equals("edit")) {
                 AddSemiProductToWorkController.setWorksEdit(works);
             }
 

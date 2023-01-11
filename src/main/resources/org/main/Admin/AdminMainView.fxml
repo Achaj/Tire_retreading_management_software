@@ -8,7 +8,7 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.main.Admin.AdminMainController">
    <left>
-      <VBox alignment="CENTER" fillWidth="false" minHeight="-Infinity" minWidth="-Infinity" prefHeight="544.0" prefWidth="226.0" style="-fx-background-color: #404040;">
+      <VBox alignment="CENTER" fillWidth="false" minHeight="-Infinity" minWidth="-Infinity" prefHeight="525.0" prefWidth="226.0" style="-fx-background-color: #404040;">
             <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Bieżnikowanie" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="29.0" />
@@ -57,7 +57,7 @@
    <center>
       <VBox prefHeight="512.0" prefWidth="505.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox prefHeight="110.0" prefWidth="492.0" style="-fx-background-color: #dedad9;">
+            <HBox prefHeight="69.0" prefWidth="554.0" style="-fx-background-color: #dedad9;">
                <children>
                            <Button mnemonicParsing="false" onAction="#showWorkers" prefHeight="77.0" prefWidth="143.0" text="Pracownicy">
                               <font>
@@ -77,7 +77,7 @@
                   <Insets bottom="10.0" top="10.0" />
                </VBox.margin>
             </HBox>
-            <HBox layoutX="10.0" layoutY="120.0" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #dedad9;">
+            <HBox layoutX="10.0" layoutY="120.0" prefHeight="70.0" prefWidth="554.0" style="-fx-background-color: #dedad9;">
                <children>
                   <Button mnemonicParsing="false" onAction="#showDepartmentsView" prefHeight="61.0" prefWidth="146.0" text="Działy">
                      <font>
@@ -94,7 +94,7 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
             </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #dedad9;">
+            <HBox prefHeight="72.0" prefWidth="554.0" style="-fx-background-color: #dedad9;">
                <children>
                            <Button mnemonicParsing="false" onAction="#showBasicUser" prefHeight="61.0" prefWidth="146.0" text="Zwykły Użytkownik" textAlignment="CENTER" wrapText="true">
                               <font>
@@ -114,14 +114,14 @@
                   <Insets bottom="10.0" top="10.0" />
                </VBox.margin>
             </HBox>
-            <HBox prefHeight="108.0" prefWidth="505.0" style="-fx-background-color: #dedad9;">
+            <HBox prefHeight="74.0" prefWidth="554.0" style="-fx-background-color: #dedad9;">
                <children>
-                  <Button mnemonicParsing="false" onAction="#showStatistic" prefHeight="89.0" prefWidth="148.0" text="Statystyki">
+                  <Button mnemonicParsing="false" onAction="#showStatistic" prefHeight="59.0" prefWidth="148.0" text="Statystyki Pracy">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Button>
-                  <Label prefHeight="90.0" prefWidth="341.0" text="W systemie istnieje możliwość generowania utworzonych dokumentów w formacie PDF." textAlignment="JUSTIFY" wrapText="true">
+                  <Label prefHeight="90.0" prefWidth="341.0" text="Pokazuje obecny przepływ pracy " textAlignment="JUSTIFY" wrapText="true">
                      <HBox.margin>
                         <Insets left="5.0" />
                      </HBox.margin>
@@ -133,6 +133,23 @@
                <VBox.margin>
                   <Insets bottom="10.0" top="10.0" />
                </VBox.margin>
+            </HBox>
+            <HBox layoutX="20.0" layoutY="342.0" prefHeight="74.0" prefWidth="554.0" style="-fx-background-color: #dedad9;">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#showStatisticWortkTime" prefHeight="59.0" prefWidth="148.0" text="Czas Pracy">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Button>
+                  <Label prefHeight="90.0" prefWidth="341.0" text="Pokazuje przepracowane grzepracowane godziny" textAlignment="JUSTIFY" wrapText="true">
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
             </HBox>
          </children>
          <padding>

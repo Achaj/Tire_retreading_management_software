@@ -1,5 +1,8 @@
 package org.main.Admin;
 
+import com.fazecast.jSerialComm.SerialPort;
+import com.fazecast.jSerialComm.SerialPortDataListener;
+import com.fazecast.jSerialComm.SerialPortEvent;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -8,11 +11,14 @@ import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.*;
+import javafx.util.Callback;
 import org.main.App;
-import org.main.Entity.Departments;
+import org.main.Entity.*;
 import org.main.Entity.Temporaty.DailyStatusWork;
 import org.main.Entity.Temporaty.WorkNameDate;
-import org.main.Entity.WorksRepositoryImpl;
+import org.main.Utils.ConectionCardReader;
+import org.main.Utils.ValidadiotData;
 
 import java.io.IOException;
 import java.net.URL;
@@ -29,6 +35,14 @@ public class StatisticWorkController implements Initializable {
         loadPieChart(worksRepository.countWorkStatus(null));
         loadAreaChart(worksRepository.countWorkname(null));
         loadBarChart(worksRepository.countDailyWorkStatus(null));
+        loadComboBoxPosition();
+        loadComboBoxDepartment();
+        loadListenersComboBoxes();
+        try {
+            listeningPort();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -39,17 +53,91 @@ public class StatisticWorkController implements Initializable {
 
     @FXML
     private AreaChart<String, Integer> worksAreaChart;
+    @FXML
+    private TextField searchTextField;
+
+    @FXML
+    private ComboBox<String> positionComboBox;
+    @FXML
+    private ComboBox<Workers> workerComboBox;
+    @FXML
+    private ComboBox<Departments> departmentComboBox;
+
 
     @FXML
     void backToPreviousScene() throws IOException {
         App.setPrevRootScene();
     }
 
+    ObservableList<Departments> departmentsObservableList = FXCollections.observableArrayList();
+    DepartmentsRepositoryImpl departmentsRepository = new DepartmentsRepositoryImpl();
+
+    private void loadComboBoxDepartment() {
+        List<Departments> departmentsList = new ArrayList<>();
+        departmentsList = departmentsRepository.getDepartments();
+        departmentsObservableList.addAll(departmentsList);
+        departmentComboBox.getItems().addAll(departmentsObservableList);
+        departmentComboBox.setCellFactory(new Callback<ListView<Departments>, ListCell<Departments>>() {
+            @Override
+            public ListCell<Departments> call(ListView<Departments> p) {
+                final ListCell<Departments> cell = new ListCell<Departments>() {
+                    @Override
+                    protected void updateItem(Departments t, boolean bln) {
+                        super.updateItem(t, bln);
+                        if (t != null) {
+                            setText(t.getName() + " " + t.getHallName());
+                        } else {
+                            setText(null);
+                        }
+                    }
+
+                };
+
+                return cell;
+            }
+        });
+
+    }
+
+    ObservableList<Workers> workersObservableList = FXCollections.observableArrayList();
+
+    private void loadComboBoxWorkers(List<Workers> workersList) {
+        if(workerComboBox.getItems()!=null) {
+            workerComboBox.getItems().clear();
+        }
+        workersObservableList.addAll(workersList);
+        workerComboBox.setItems(workersObservableList);
+        workerComboBox.setCellFactory(new Callback<ListView<Workers>, ListCell<Workers>>() {
+            @Override
+            public ListCell<Workers> call(ListView<Workers> p) {
+                final ListCell<Workers> cell = new ListCell<Workers>() {
+                    @Override
+                    protected void updateItem(Workers t, boolean bln) {
+                        super.updateItem(t, bln);
+                        if (t != null) {
+                            setText(t.getFirstName() + " " + t.getLastName() + " " + t.getTag());
+                        } else {
+                            setText(null);
+                        }
+                    }
+
+                };
+                return cell;
+            }
+        });
+
+    }
+
+    private void loadComboBoxPosition() {
+        positionComboBox.getItems().add("ADMIN");
+        positionComboBox.getItems().add("CHECKER");
+        positionComboBox.getItems().add("STOREMAN");
+        positionComboBox.getItems().add("VULCANISER");
+    }
+
     private void loadBarChart(List<DailyStatusWork> dailyStatusWorks) {
         nameWorkBarChart.getData().clear();
         nameWorkBarChart.setTitle("Dzienny Wykres Pracy");
-
-
         XYChart.Series<String, Integer> series1 = new XYChart.Series();
         series1.setName("Przyjęcie na stan");
         XYChart.Series<String, Integer> series2 = new XYChart.Series();
@@ -248,56 +336,117 @@ public class StatisticWorkController implements Initializable {
                 worksAreaChart.getData().add(series);
             }
         }
-       // worksAreaChart.getData().addAll(series1, series2, series3, series4, series5, series6, series7, series8, series9, series10);
+        // worksAreaChart.getData().addAll(series1, series2, series3, series4, series5, series6, series7, series8, series9, series10);
 
 
     }
+
     @FXML
-    private void showAllDepartmentStatistic(){
+    private void showAllDepartmentStatistic() {
         loadPieChart(worksRepository.countWorkStatus(null));
         loadAreaChart(worksRepository.countWorkname(null));
         loadBarChart(worksRepository.countDailyWorkStatus(null));
     }
+
     @FXML
-    private void showAllDepartmentMagazineStatistic(){
-        Departments departments=new Departments();
-        departments.setName("Magazyn");
-        loadPieChart(worksRepository.countWorkStatus(departments));
-        loadAreaChart(worksRepository.countWorkname(departments));
-        loadBarChart(worksRepository.countDailyWorkStatus(departments));
-    }
-    @FXML
-    private void showAllDepartmentQualityControlStatistic(){
-        Departments departments=new Departments();
-        departments.setName("Kontrola Jakości");
-        loadPieChart(worksRepository.countWorkStatus(departments));
-        loadAreaChart(worksRepository.countWorkname(departments));
-        loadBarChart(worksRepository.countDailyWorkStatus(departments));
-    }
-    @FXML
-    private void showAllDepartmentPretreatmentStatistic(){
-        Departments departments=new Departments();
-        departments.setName("Obróbka Wstępna");
-        loadPieChart(worksRepository.countWorkStatus(departments));
-        loadAreaChart(worksRepository.countWorkname(departments));
-        loadBarChart(worksRepository.countDailyWorkStatus(departments));
-    }
-    @FXML
-    private void showAllDepartmentTreatmentProperStatistic(){
-        Departments departments=new Departments();
-        departments.setName("Obróbka Właściwa");
-        loadPieChart(worksRepository.countWorkStatus(departments));
-        loadAreaChart(worksRepository.countWorkname(departments));
-        loadBarChart(worksRepository.countDailyWorkStatus(departments));
-    }
-    @FXML
-    private void showAllDepartmentVulcanizeeStatistic(){
-        Departments departments=new Departments();
-        departments.setName("Wólkanizaca");
+    private void showStatisticChoseDepartment(Departments departments) {
         loadPieChart(worksRepository.countWorkStatus(departments));
         loadAreaChart(worksRepository.countWorkname(departments));
         loadBarChart(worksRepository.countDailyWorkStatus(departments));
     }
 
+    WorkersRepositoryImpl workersRepository = new WorkersRepositoryImpl();
 
+    private void loadListenersComboBoxes() {
+        departmentComboBox.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
+            showStatisticChoseDepartment(newValue);
+            List<Workers> workersList = workersRepository.getWorkersByPosition(positionComboBox.getValue());
+            if (workersList != null) {
+                workersList.removeIf(workers -> workers.getDepartments().getIdDepartment() != newValue.getIdDepartment());
+                loadComboBoxWorkers(workersList);
+            }
+        });
+        positionComboBox.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
+            List<Workers> workersList = workersRepository.getWorkersByPosition(newValue);
+            if (workersList != null && departmentComboBox.getValue() != null) {
+                workersList.removeIf(workers -> workers.getDepartments().getIdDepartment() != departmentComboBox.getValue().getIdDepartment());
+                loadComboBoxWorkers(workersList);
+            }
+            loadComboBoxWorkers(workersList);
+        });
+        workerComboBox.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
+            if(newValue!=null) {
+                loadPieChart(worksRepository.countWorkStatusWorker(newValue));
+                loadAreaChart(worksRepository.countWorkNameWorker(newValue));
+                loadBarChart(worksRepository.countDailyWorkStatusWorker(newValue));
+            }
+
+        });
+        searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (ValidadiotData.validateTAG(newValue)) {
+                searchTextField.setStyle("-fx-background-color:  white;-fx-border-color:   green;-fx-border-width:   0px 0px 2px 2px;");
+
+
+            } else {
+                searchTextField.setStyle("-fx-background-color:  white;-fx-border-color:   #404040;-fx-border-width:   0px 0px 0px 0px;");
+
+            }
+
+        });
+    }
+
+
+    @FXML
+    private void searchWorkerTag() {
+        Alert alert=new Alert(Alert.AlertType.NONE);
+        if (ValidadiotData.validateTAG(searchTextField.getText())) {
+            Workers workers = workersRepository.getWorkerByTag(searchTextField.getText().trim());
+            if(workers!=null) {
+                alert.setAlertType(Alert.AlertType.INFORMATION);
+                alert.setHeaderText("Zostają wyświetlone statystki dla:");
+                alert.setContentText(workers.getFirstName() +" "+workers.getLastName());
+                loadPieChart(worksRepository.countWorkStatusWorker(workers));
+                loadAreaChart(worksRepository.countWorkNameWorker(workers));
+                loadBarChart(worksRepository.countDailyWorkStatusWorker(workers));
+            }else{
+                alert.setAlertType(Alert.AlertType.INFORMATION);
+                alert.setHeaderText("Nie udał znaleźć się takiego pracownika");
+            }
+        }else {
+            alert.setAlertType(Alert.AlertType.WARNING);
+            alert.setHeaderText("Wpisano zabronione znaki ");
+            alert.setContentText("Dozwolony znaki składa się z cyfr 0-9 \n od długości od 8-10");
+            searchTextField.setStyle("-fx-background-color:  red;-fx-border-color:   #404040;-fx-border-width:   0px 0px 0px 0px;");
+        }
+        alert.show();
+    }
+
+    String idTagReaded = "";
+
+    public void listeningPort() throws Exception {
+        ConectionCardReader.initSerialPort(ConectionCardReader.portName, 9600);
+        ConectionCardReader.serialPort.
+                addDataListener(new SerialPortDataListener() {
+                                    @Override
+                                    public int getListeningEvents() {
+                                        return SerialPort.LISTENING_EVENT_DATA_RECEIVED;
+                                    }
+
+                                    @Override
+                                    public void serialEvent(SerialPortEvent serialPortEvent) {
+                                        String databBuffer = "";
+                                        byte[] newData = serialPortEvent.getReceivedData();
+                                        for (int i = 0; i < newData.length; i++) {
+                                            databBuffer += (char) newData[i];
+                                        }
+                                        if (!idTagReaded.equals(databBuffer)) {
+                                            idTagReaded = databBuffer;
+                                            searchTextField.setText(idTagReaded);
+                                        }
+                                        // System.out.println(idTagReaded);
+                                    }
+                                }
+                );
+
+    }
 }

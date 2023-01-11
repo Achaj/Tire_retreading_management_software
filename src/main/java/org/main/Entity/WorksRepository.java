@@ -19,4 +19,9 @@ public interface WorksRepository {
     public Map<String,Integer> countWorkStatus(Departments departments);
     public List<WorkNameDate> countWorkname(Departments departments);
     public List<DailyStatusWork> countDailyWorkStatus(Departments departments);
+
+    public Map<String,Integer> countWorkStatusWorker(Workers workers);
+    public List<WorkNameDate> countWorkNameWorker(Workers workers);
+    public List<WorkNameDate> countTimeWorkNameWorker(Workers workers);
+    public List<DailyStatusWork> countDailyWorkStatusWorker(Workers workers);
 }

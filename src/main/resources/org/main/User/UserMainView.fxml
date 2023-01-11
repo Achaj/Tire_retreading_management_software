@@ -140,26 +140,6 @@
                   <Insets bottom="10.0" top="10.0" />
                </VBox.margin>
             </HBox>
-            <HBox prefHeight="108.0" prefWidth="505.0" style="-fx-background-color: #dedad9;">
-               <children>
-                  <Button mnemonicParsing="false" prefHeight="89.0" prefWidth="148.0" text="Generowanie PDF">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                  </Button>
-                  <Label prefHeight="90.0" prefWidth="341.0" text="W systemie istnieje możliwość generowania utworzonych dokumentów w formacie PDF." textAlignment="JUSTIFY" wrapText="true">
-                     <HBox.margin>
-                        <Insets left="5.0" />
-                     </HBox.margin>
-                  </Label>
-               </children>
-               <padding>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </padding>
-               <VBox.margin>
-                  <Insets bottom="10.0" top="10.0" />
-               </VBox.margin>
-            </HBox>
          </children>
          <padding>
             <Insets left="10.0" right="10.0" />

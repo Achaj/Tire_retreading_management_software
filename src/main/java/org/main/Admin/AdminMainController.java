@@ -25,6 +25,10 @@ public class AdminMainController implements Initializable {
     public void showStatistic() throws IOException {
         App.setNextRootScene("Admin/StatisticWorks");
     }
+    public void showStatisticWortkTime() throws IOException {
+        App.setNextRootScene("Admin/StatisticWorkTime");
+    }
+
 
 
     @Override
