@@ -14,6 +14,7 @@ module org.example {
     requires layout;
     requires commons.codec;
     requires org.jetbrains.annotations;
+    requires io;
 
     opens org.main to javafx.fxml;
     opens org.main.Admin to javafx.fxml;

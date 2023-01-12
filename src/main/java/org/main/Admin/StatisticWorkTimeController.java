@@ -5,6 +5,7 @@ import com.fazecast.jSerialComm.SerialPortDataListener;
 import com.fazecast.jSerialComm.SerialPortEvent;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.AreaChart;
@@ -12,6 +13,7 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
 import org.main.App;
 import org.main.Entity.*;
@@ -21,10 +23,11 @@ import org.main.Entity.Temporaty.WorkNameDate;
 import org.main.Utils.ConectionCardReader;
 import org.main.Utils.Temporary;
 import org.main.Utils.ValidadiotData;
-
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
+import java.text.DecimalFormat;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -42,7 +45,7 @@ public class StatisticWorkTimeController  implements Initializable {
     @FXML private ComboBox<String >worksNameComboBox;
     @FXML
     private ComboBox<Departments> departmentComboBox;
-    @FXML private LineChart<String,Integer> workTimeLineChart;
+    @FXML private LineChart<String,Float> workTimeLineChart;
     @FXML private BarChart<String,Integer> averageOverallTimeWithItsTimeBarChart;
 
     WorksRepositoryImpl worksRepository=new WorksRepositoryImpl();
@@ -173,6 +176,7 @@ public class StatisticWorkTimeController  implements Initializable {
 
             }
         });
+
     }
 
 
@@ -203,17 +207,28 @@ public class StatisticWorkTimeController  implements Initializable {
         alert.show();
     }
 
+    public static float minutesToHoursAndMinutesFloat(int minutes) {
+        float hours = (float) Math.floor((float)minutes / 60);
+        float remainderMinutes = ((float)minutes % 60)/100;
+        DecimalFormat df = new DecimalFormat("#.##");
+       // df.setDecimalSeparatorAlwaysShown(false);
+        float val=hours +  remainderMinutes;
+        return  val ;
+    }
     private  void  loadLineChart(List<DaytimeWork> daytimeWorkList,Workers workers){
         workTimeLineChart.getData().clear();
-        workTimeLineChart.setTitle("Przepracowane Minuty");
-        XYChart.Series<String, Integer> series1 = new XYChart.Series();
+        workTimeLineChart.setTitle("Przepracowane Godziny");
+        XYChart.Series<String, Float> series1 = new XYChart.Series();
         series1.setName(workers.getFirstName() +" "+ workers.getLastName());
         if(daytimeWorkList!=null){
             for(DaytimeWork daytimeWork:daytimeWorkList){
-                series1.getData().add(new XYChart.Data(daytimeWork.getDate().toString(), daytimeWork.getMinutes()));
+                series1.getData().add(new XYChart.Data(daytimeWork.getDate().toString(),minutesToHoursAndMinutesFloat(daytimeWork.getMinutes())));
+                System.out.println(daytimeWork.getMinutes()+"xx"+minutesToHoursAndMinutesFloat(daytimeWork.getMinutes()));
             }
             workTimeLineChart.getData().add(series1);
         }
+
+
 
     }
     private void loadAreaChart(List<WorkNameDate> workNameDateList) {

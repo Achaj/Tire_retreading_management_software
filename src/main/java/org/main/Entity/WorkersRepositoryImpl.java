@@ -1,11 +1,20 @@
 package org.main.Entity;
 
-import javax.persistence.*;
+import org.main.Entity.Temporaty.EmployeesOverworkedTime;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import javax.persistence.TypedQuery;
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 public class WorkersRepositoryImpl implements WorkersRepository {
     EntityManager entityManager = ConnectionToDB.entityManager;
     EntityTransaction entityTransaction = ConnectionToDB.entityTransaction;
+
     @Override
     public boolean saveWorker(Workers worker) {
         if (!entityTransaction.isActive()) {
@@ -24,7 +33,7 @@ public class WorkersRepositoryImpl implements WorkersRepository {
             e.printStackTrace();
             entityTransaction.rollback();
             return false;
-        }finally {
+        } finally {
             entityManager.getEntityManagerFactory().getCache().evictAll();
         }
 
@@ -39,9 +48,10 @@ public class WorkersRepositoryImpl implements WorkersRepository {
         productTypedQuery.setParameter("id", id);
         return productTypedQuery.getResultList().get(0);
     }
+
     @Override
-    public Workers getWorkerByEmail(String email){
-        if(!entityTransaction.isActive()) {
+    public Workers getWorkerByEmail(String email) {
+        if (!entityTransaction.isActive()) {
             entityTransaction.begin();
         }
         TypedQuery<Workers> userTypedQuery = entityManager.createQuery("FROM Workers p WHERE p.email=:email", Workers.class);
@@ -55,7 +65,7 @@ public class WorkersRepositoryImpl implements WorkersRepository {
 
     @Override
     public Workers getWorkerByTag(String tag) {
-        if(!entityTransaction.isActive()) {
+        if (!entityTransaction.isActive()) {
             entityTransaction.begin();
         }
         TypedQuery<Workers> userTypedQuery = entityManager.createQuery("FROM Workers p WHERE p.tag=:tag", Workers.class);
@@ -112,7 +122,7 @@ public class WorkersRepositoryImpl implements WorkersRepository {
             e.printStackTrace();
             entityTransaction.rollback();
             return false;
-        }finally {
+        } finally {
             entityManager.getEntityManagerFactory().getCache().evictAll();
         }
     }
@@ -131,8 +141,55 @@ public class WorkersRepositoryImpl implements WorkersRepository {
         } catch (Exception e) {
             entityTransaction.rollback();
             return false;
-        }finally {
+        } finally {
             entityManager.getEntityManagerFactory().getCache().evictAll();
         }
     }
+
+    @Override
+    public List<EmployeesOverworkedTime> getEmployeesOverworkedTimeList(Workers workers ,Date date) {
+
+        if (!entityTransaction.isActive()) {
+            entityTransaction.begin();
+        }
+        String sumHql;
+        List<Object[]> results;
+        if (workers != null) {
+            sumHql = " SELECT w.first_name,w.last_name,w.email, DATE_FORMAT(DATE_ADD(LAST_DAY(:date), INTERVAL -1 DAY),'%Y-%m-01') AS FirstDay, " +
+                    " LAST_DAY(:date) AS LastDay, SUM( TIMESTAMPDIFF(MINUTE, wt.date_login, wt.date_logout)) AS WorkingMinutsAtMounth " +
+                    " FROM working_time wt INNER JOIN workers w ON wt.id_worker=w.id_worker Where wt.id_worker=:id and  wt.date_logout IS NOT NULL  AND  " +
+                    " DATE(wt.date_logout) BETWEEN DATE_FORMAT(DATE_ADD(LAST_DAY(:date), INTERVAL -1 DAY),'%Y-%m-01') " +
+                    " AND LAST_DAY(:date) GROUP BY w.email;";
+            results = entityManager.createNativeQuery(sumHql).setParameter("id", workers.getIdWorker()).setParameter("date",date).getResultList();
+        } else {
+            sumHql = " SELECT w.first_name,w.last_name,w.email, DATE_FORMAT(DATE_ADD(LAST_DAY(:date), INTERVAL -1 DAY),'%Y-%m-01') AS FirstDay, " +
+                    " LAST_DAY(:date) AS LastDay, SUM( TIMESTAMPDIFF(MINUTE, wt.date_login, wt.date_logout)) AS WorkingMinutsAtMounth " +
+                    " FROM working_time wt INNER JOIN workers w ON wt.id_worker=w.id_worker Where wt.date_logout IS NOT NULL  AND  " +
+                    " DATE(wt.date_logout) BETWEEN DATE_FORMAT(DATE_ADD(LAST_DAY(:date), INTERVAL -1 DAY),'%Y-%m-01') " +
+                    " AND LAST_DAY(:date) GROUP BY w.email;";
+            results = entityManager.createNativeQuery(sumHql).setParameter("date",date).getResultList();
+        }
+
+        List<EmployeesOverworkedTime> employeesOverworkedTimes = new ArrayList<>();
+        for (Object[] result : results) {
+
+            employeesOverworkedTimes.add(new EmployeesOverworkedTime(
+                    (String) result[0], (String) result[1], (String) result[2],
+                    Date.valueOf((String) result[3]), (Date) result[4],
+                    minutesToHoursAndMinutesFloat(((BigDecimal) result[5]).intValue())));
+            // dailyStatusWorks.add(new DaytimeWork((Date) result[0],((BigDecimal) result[1]).intValue()));
+        }
+
+        return employeesOverworkedTimes.isEmpty() ? null : employeesOverworkedTimes;
+    }
+
+    public static float minutesToHoursAndMinutesFloat(int minutes) {
+        float hours = (float) Math.floor((float) minutes / 60);
+        float remainderMinutes = ((float) minutes % 60) / 100;
+        DecimalFormat df = new DecimalFormat("#.##");
+        // df.setDecimalSeparatorAlwaysShown(false);
+        float val = hours + remainderMinutes;
+        return val;
+    }
+
 }

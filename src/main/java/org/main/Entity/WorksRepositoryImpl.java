@@ -309,16 +309,17 @@ public class WorksRepositoryImpl implements WorksRepository {
         List<Object[]> results;
 
         if(workers==null) {
-            sumHql = " SELECT DATE(w.date_stop),w.name,CEILING(AVG(TIMESTAMPDIFF(MINUTE,w.date_start,w.date_stop))) " +
-                    " FROM works w WHERE w.date_stop IS NOT NULL " +
+            sumHql = " SELECT DATE(w.date_stop),w.name,CEILING(AVG(TIMESTAMPDIFF(MINUTE,w.date_start,w.date_stop))) FROM works w " +
+                    " WHERE w.date_stop IS NOT NULL " +
                     " AND DATE(w.date_stop) BETWEEN DATE_SUB(CURDATE(), INTERVAL 31 DAY) AND CURRENT_DATE " +
-                    "GROUP BY w.name ORDER BY DATE(w.date_stop);";
+                    "GROUP BY w.name, DATE(w.date_stop) " +
+                    "ORDER BY DATE(date_stop)";
             results = entityManager.createNativeQuery(sumHql).getResultList();
         }else {
             sumHql = " SELECT DATE(w.date_stop),w.name,CEILING(AVG(TIMESTAMPDIFF(MINUTE,w.date_start,w.date_stop))) FROM works w " +
                     " WHERE id_worker=:id AND w.date_stop IS NOT NULL  " +
                     " AND DATE(w.date_stop) BETWEEN DATE_SUB(CURDATE(), INTERVAL 31 DAY) AND CURRENT_DATE " +
-                    " GROUP BY w.name ORDER BY DATE(w.date_stop);";
+                    " GROUP BY w.name , DATE(w.date_stop) ORDER BY DATE(w.date_stop);";
             results = entityManager.createNativeQuery(sumHql).setParameter("id",workers.getIdWorker()).getResultList();
         }
 

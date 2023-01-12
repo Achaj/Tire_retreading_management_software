@@ -80,6 +80,14 @@
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button layoutX="15.0" layoutY="280.0" mnemonicParsing="false" onAction="#generateHoursWorked" prefHeight="49.0" prefWidth="126.0" style="-fx-background-color: white;" text="Przepracowane Godziny" textAlignment="CENTER" wrapText="true">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
                   </Button>
                </children>
                <padding>

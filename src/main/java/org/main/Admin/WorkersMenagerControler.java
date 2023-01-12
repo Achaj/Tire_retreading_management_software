@@ -13,14 +13,19 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import org.main.Admin.GeneratorPDF.GenerateListOfHoursWorked;
 import org.main.App;
+import org.main.Entity.Temporaty.EmployeesOverworkedTime;
 import org.main.Entity.Workers;
 import org.main.Entity.WorkersRepositoryImpl;
 import org.main.Utils.ConectionCardReader;
 import org.main.Utils.ValidadiotData;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -160,6 +165,14 @@ public class WorkersMenagerControler implements Initializable {
         if (workers != null) {
             WorkerDetailsControler.setEditWorker(workers);
             App.setNextRootScene("Admin/WorkerDetails");
+        }
+    }
+    @FXML
+    private void generateHoursWorked() throws FileNotFoundException {
+        List<EmployeesOverworkedTime> overworkedTimeList=workerRepository.getEmployeesOverworkedTimeList(null, Date.valueOf(LocalDate.now()));
+        if(overworkedTimeList!=null){
+            GenerateListOfHoursWorked generateListOfHoursWorked=new GenerateListOfHoursWorked();
+            generateListOfHoursWorked.generatePDF(overworkedTimeList);
         }
     }
 
