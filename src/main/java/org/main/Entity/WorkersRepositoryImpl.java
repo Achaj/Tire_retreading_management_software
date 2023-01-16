@@ -1,5 +1,6 @@
 package org.main.Entity;
 
+import org.jetbrains.annotations.NotNull;
 import org.main.Entity.Temporaty.EmployeesOverworkedTime;
 
 import javax.persistence.EntityManager;
@@ -176,6 +177,69 @@ public class WorkersRepositoryImpl implements WorkersRepository {
             employeesOverworkedTimes.add(new EmployeesOverworkedTime(
                     (String) result[0], (String) result[1], (String) result[2],
                     Date.valueOf((String) result[3]), (Date) result[4],
+                    minutesToHoursAndMinutesFloat(((BigDecimal) result[5]).intValue())));
+            // dailyStatusWorks.add(new DaytimeWork((Date) result[0],((BigDecimal) result[1]).intValue()));
+        }
+
+        return employeesOverworkedTimes.isEmpty() ? null : employeesOverworkedTimes;
+    }
+
+    @Override
+    public List<EmployeesOverworkedTime> getEmployeesOverworkedTimeByDepatmentList(Departments departments, Date date) {
+
+        if (!entityTransaction.isActive()) {
+            entityTransaction.begin();
+        }
+        String sumHql;
+        List<Object[]> results;
+
+            sumHql = "SELECT w.first_name,w.last_name,w.email," +
+                    " DATE_FORMAT(DATE_ADD(LAST_DAY(:date), INTERVAL -1 DAY),'%Y-%m-01') AS FirstDay, LAST_DAY(:date) AS LastDay," +
+                    " SUM( TIMESTAMPDIFF(MINUTE,wt.date_login,wt.date_logout)) AS WorkingMinutsAtMounth " +
+                    " FROM working_time wt INNER JOIN workers w ON wt.id_worker=w.id_worker " +
+                    " INNER JOIN departments d On w.id_department=d.id_department " +
+                    " Where d.id_department=:id AND wt.date_logout IS NOT NULL " +
+                    " AND DATE(wt.date_logout) BETWEEN DATE_FORMAT(DATE_ADD(LAST_DAY(:date), INTERVAL -1 DAY),'%Y-%m-01') " +
+                    " AND LAST_DAY(:date) GROUP By w.email;";
+            results = entityManager.createNativeQuery(sumHql).setParameter("id",departments.getIdDepartment()).setParameter("date",date).getResultList();
+
+
+        List<EmployeesOverworkedTime> employeesOverworkedTimes = new ArrayList<>();
+        for (Object[] result : results) {
+
+            employeesOverworkedTimes.add(new EmployeesOverworkedTime(
+                    (String) result[0], (String) result[1], (String) result[2],
+                    Date.valueOf((String) result[3]), (Date) result[4],
+                    minutesToHoursAndMinutesFloat(((BigDecimal) result[5]).intValue())));
+            // dailyStatusWorks.add(new DaytimeWork((Date) result[0],((BigDecimal) result[1]).intValue()));
+        }
+
+        return employeesOverworkedTimes.isEmpty() ? null : employeesOverworkedTimes;
+    }
+
+    @Override
+    public List<EmployeesOverworkedTime> getEmployeesOverworkedTimeByDaysList(@NotNull Workers workers, Date date) {
+        if (!entityTransaction.isActive()) {
+            entityTransaction.begin();
+        }
+        String sumHql;
+        List<Object[]> results;
+
+            sumHql = "SELECT w.first_name,w.last_name,w.email,DATE(wt.date_login),DATE(wt.date_logout)," +
+                    " SUM( TIMESTAMPDIFF(MINUTE,wt.date_login,wt.date_logout)) AS WorkingMinutsAtMounth " +
+                    " FROM working_time wt INNER JOIN workers w ON wt.id_worker=w.id_worker " +
+                    " Where wt.id_worker=:id AND wt.date_logout IS NOT NULL  AND   " +
+                    " DATE(wt.date_logout) BETWEEN DATE_FORMAT(DATE_ADD(LAST_DAY(:date), INTERVAL -1 DAY),'%Y-%m-01')  AND LAST_DAY(:date) " +
+                    " GROUP BY DATE(wt.date_logout);";
+            results = entityManager.createNativeQuery(sumHql).setParameter("id", workers.getIdWorker()).setParameter("date",date).getResultList();
+
+
+        List<EmployeesOverworkedTime> employeesOverworkedTimes = new ArrayList<>();
+        for (Object[] result : results) {
+
+            employeesOverworkedTimes.add(new EmployeesOverworkedTime(
+                    (String) result[0], (String) result[1], (String) result[2],
+                    (Date) result[3], (Date) result[4],
                     minutesToHoursAndMinutesFloat(((BigDecimal) result[5]).intValue())));
             // dailyStatusWorks.add(new DaytimeWork((Date) result[0],((BigDecimal) result[1]).intValue()));
         }

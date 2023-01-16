@@ -1,5 +1,6 @@
 package org.main.Entity;
 
+import org.jetbrains.annotations.NotNull;
 import org.main.Entity.Temporaty.EmployeesOverworkedTime;
 
 import java.sql.Date;
@@ -16,6 +17,8 @@ public interface WorkersRepository {
     public  boolean changeDadataWorker(Workers worker);
     public  boolean delateWorker(int id);
     public List<EmployeesOverworkedTime> getEmployeesOverworkedTimeList(Workers workers, Date date);
+    public List<EmployeesOverworkedTime> getEmployeesOverworkedTimeByDepatmentList(Departments departments, Date date);
+    public List<EmployeesOverworkedTime> getEmployeesOverworkedTimeByDaysList(@NotNull Workers workers,@NotNull Date date);
 
 
 }

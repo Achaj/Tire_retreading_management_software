@@ -1,9 +1,16 @@
 package org.main.Entity;
 
 
+import org.main.Entity.Temporaty.DailyStatusWork;
+import org.main.Entity.Temporaty.TireDepartmentTime;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
+import java.math.BigInteger;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class TiresRepositoryImpl implements  TiresRepository{
@@ -121,6 +128,39 @@ public class TiresRepositoryImpl implements  TiresRepository{
         } finally {
             entityManager.getEntityManagerFactory().getCache().evictAll();
         }
+    }
+
+    @Override
+    public List<TireDepartmentTime> getTiresStockLevel(Departments departments) {
+        if (!entityTransaction.isActive()) {
+            entityTransaction.begin();
+        }
+        String sumHql;
+        List<Object[]> results;
+
+        if(departments!=null) {
+            sumHql = " SELECT t.id_tire,t.height,t.width,t.diameter,t.tag,t.load_index,t.speed_index,d.name," +
+                    " GREATEST(w.date_start, IFNULL(w.date_stop, w.date_start)) FROM works w " +
+                    " INNER JOIN departments d On w.id_department=d.id_department " +
+                    " INNER Join tires t On w.id_tire=t.id_tire WHERE d.id_department=:id GROUP BY t.tag;";
+            results = entityManager.createNativeQuery(sumHql).setParameter("id", departments.getIdDepartment()).getResultList();
+        }else{
+            sumHql = " SELECT t.id_tire,t.height,t.width,t.diameter,t.tag,t.load_index,t.speed_index,d.name," +
+                    " GREATEST(w.date_start, IFNULL(w.date_stop, w.date_start)) FROM works w " +
+                    " INNER JOIN departments d On w.id_department=d.id_department " +
+                    " INNER Join tires t On w.id_tire=t.id_tire GROUP BY t.tag;";
+            results = entityManager.createNativeQuery(sumHql).getResultList();
+        }
+
+
+        List<TireDepartmentTime> tireDepartmentTimeList=new ArrayList<>();
+        for (Object[] result : results) {
+            //dailyStatusWorks.add(new DailyStatusWork((String) result[0],(String) result[1],((BigInteger) result[2]).intValue()));
+            tireDepartmentTimeList.add(new TireDepartmentTime((Integer) result[0],(Integer) result[1],(Integer) result[2],(Integer) result[3],
+            (String) result[4],(String) result[5],(String) result[6],(String) result[7], ((Timestamp) result[8]).toLocalDateTime()));
+        }
+
+        return tireDepartmentTimeList.isEmpty() ? null:tireDepartmentTimeList;
     }
 
 }

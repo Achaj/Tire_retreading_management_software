@@ -8,10 +8,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.main.Admin.GeneratorPDF.GenerateListOfHoursWorked;
 import org.main.App;
@@ -28,6 +25,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class WorkersMenagerControler implements Initializable {
@@ -45,6 +43,7 @@ public class WorkersMenagerControler implements Initializable {
     public TableColumn<Workers, String> position;
     @FXML
     public TextField serchField;
+    @FXML private DatePicker workingDate;
 
     WorkersRepositoryImpl workerRepository = new WorkersRepositoryImpl();
 
@@ -97,7 +96,7 @@ public class WorkersMenagerControler implements Initializable {
     }
 
     public void getAllStoremen() {
-        loadDateUser(workerRepository.getWorkersByPosition("STOREMEN"));
+        loadDateUser(workerRepository.getWorkersByPosition("STOREMAN"));
 
     }
 
@@ -169,13 +168,64 @@ public class WorkersMenagerControler implements Initializable {
     }
     @FXML
     private void generateHoursWorked() throws FileNotFoundException {
-        List<EmployeesOverworkedTime> overworkedTimeList=workerRepository.getEmployeesOverworkedTimeList(null, Date.valueOf(LocalDate.now()));
-        if(overworkedTimeList!=null){
-            GenerateListOfHoursWorked generateListOfHoursWorked=new GenerateListOfHoursWorked();
-            generateListOfHoursWorked.generatePDF(overworkedTimeList);
+
+        Date date = null;
+        if(workingDate.getValue()!=null){
+            date=Date.valueOf(workingDate.getValue());
+        }else {
+            date=Date.valueOf(LocalDate.now());
         }
+        Workers workers=null;
+        List<EmployeesOverworkedTime> overworkedTimeList;
+        if(tableWorkers.getSelectionModel().getSelectedItem()!=null) {
+            workers = tableWorkers.getSelectionModel().getSelectedItem();
+
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setHeaderText("Wybierz jak wygerujesz raport ");
+            alert.setContentText("Wybierz opcje ");
+
+            ButtonType buttonTypeOne = new ButtonType("Dla dni w miesiącu");
+            ButtonType buttonTypeTwo = new ButtonType("Dal całego misiąca");
+            ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+            alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo, buttonTypeCancel);
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == buttonTypeOne) {
+                assert workers != null;
+                overworkedTimeList = workerRepository.getEmployeesOverworkedTimeByDaysList(workers, date);
+                if (overworkedTimeList != null) {
+                    GenerateListOfHoursWorked.generatePDFSumMonthByDays(overworkedTimeList);
+                } else {
+                    showAlerLackOfData();
+                }
+            } else if (result.get() == buttonTypeTwo) {
+                overworkedTimeList = workerRepository.getEmployeesOverworkedTimeList(workers, date);
+                if (overworkedTimeList != null) {
+                    GenerateListOfHoursWorked.generatePDFSumMonth(overworkedTimeList,"");
+                } else {
+                    showAlerLackOfData();
+                }
+            } else {
+                // ... user chose CANCEL or closed the dialog
+            }
+        }else {
+            overworkedTimeList = workerRepository.getEmployeesOverworkedTimeList(workers, date);
+            if (overworkedTimeList != null) {
+                GenerateListOfHoursWorked.generatePDFSumMonth(overworkedTimeList,"");
+            } else {
+                showAlerLackOfData();
+            }
+        }
+
     }
 
+    private void showAlerLackOfData(){
+        Alert alert=new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText("Brak danych ");
+        alert.setContentText("Wybierz inny miesiąc lub innego pracownika");
+        alert.show();
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

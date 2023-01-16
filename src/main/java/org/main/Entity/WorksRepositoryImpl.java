@@ -9,6 +9,8 @@ import java.math.BigInteger;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.*;
 
 public class WorksRepositoryImpl implements WorksRepository {
@@ -64,6 +66,33 @@ public class WorksRepositoryImpl implements WorksRepository {
         TypedQuery<Works> typedQuery = entityManager.createQuery("SELECT w FROM Works w ", Works.class);
         return typedQuery.getResultList().isEmpty() ? null : typedQuery.getResultList();
     }
+
+    @Override
+    public List<Works> getListWorksByDepartmentANDEBetweenDates(Departments departments, LocalDate dateStart, LocalDate dateStop) {
+        if (!entityTransaction.isActive()) {
+            entityTransaction.begin();
+        }
+        TypedQuery<Works> typedQuery;
+        if(departments!=null){
+       typedQuery = entityManager.createQuery("SELECT w FROM Works w  WHERE w.departments.idDepartment=:id " +
+                "  AND CAST(w.dateStop as date) BETWEEN :dateStartParameter AND  :dateStopParameter " +
+                " ORDER BY w.dateStop DESC" ,Works.class);
+        typedQuery.setParameter("id", departments.getIdDepartment());
+            typedQuery.setParameter("dateStartParameter",Date.valueOf(dateStart));
+            typedQuery.setParameter("dateStopParameter",Date.valueOf( dateStop));
+
+        }else {
+            typedQuery = entityManager.createQuery("SELECT w FROM Works w  " +
+                    " WHERE  CAST(w.dateStop as date) BETWEEN :dateStartParameter AND  :dateStopParameter " +
+                    " ORDER BY w.dateStop DESC" ,Works.class);
+            typedQuery.setParameter("dateStartParameter",Date.valueOf(dateStart));
+            typedQuery.setParameter("dateStopParameter",Date.valueOf( dateStop));
+
+        }
+
+        return typedQuery.getResultList().isEmpty() ? null : typedQuery.getResultList();
+    }
+
 
     @Override
     public boolean save(Works works) {

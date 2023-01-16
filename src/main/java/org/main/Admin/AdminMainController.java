@@ -28,6 +28,9 @@ public class AdminMainController implements Initializable {
     public void showStatisticWortkTime() throws IOException {
         App.setNextRootScene("Admin/StatisticWorkTime");
     }
+    public void showGeneratorStatements() throws IOException {
+        App.setNextRootScene("Admin/GeneratingStatements");
+    }
 
 
 

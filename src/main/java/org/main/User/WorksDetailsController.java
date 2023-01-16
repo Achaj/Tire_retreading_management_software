@@ -252,6 +252,8 @@ public class WorksDetailsController implements Initializable {
             departmentsComboBox.getSelectionModel().select(worksEdit.getDepartments());
             nameChoiceBox.getSelectionModel().select(worksEdit.getName());
             statusChoiceBox.getSelectionModel().select(worksEdit.getStatus());
+
+
             if (worksEdit.getTires() != null) {
                 List<Tires> tiresList = new ArrayList<>();
                 tiresList.add(worksEdit.getTires());
@@ -417,9 +419,21 @@ public class WorksDetailsController implements Initializable {
         if (!nameWork.isEmpty()) {
             nameWork.clear();
         }else {
-            status = FXCollections.observableArrayList();
-            nameWork.addAll(nameList);
-            nameChoiceBox.setItems(nameWork);
+            if(worksEdit!=null) {
+
+                int index = nameList.indexOf(worksEdit.getName());
+                if (index > 0) {
+                    nameList = nameList.subList(index, nameList.size());
+                }
+                nameWork = FXCollections.observableArrayList();
+                nameWork.addAll(nameList);
+                nameChoiceBox.setItems(nameWork);
+            } else {
+                nameWork = FXCollections.observableArrayList();
+                nameWork.addAll(nameList);
+                nameChoiceBox.setItems(nameWork);
+            }
+
         }
     }
 

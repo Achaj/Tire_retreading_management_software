@@ -3,6 +3,8 @@ package org.main.Entity;
 import org.main.Entity.Temporaty.DailyStatusWork;
 import org.main.Entity.Temporaty.WorkNameDate;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +14,7 @@ public interface WorksRepository {
     public List<Works> getListWorksByTire(int id);
     public List<Works> getListWorksByWorker(int id);
     public List<Works> getListWorks();
+    public List<Works> getListWorksByDepartmentANDEBetweenDates(Departments departments, LocalDate dateStart, LocalDate dateStop);
     public Works saveWork(Works works);
     public boolean save(Works  works);
     public boolean change(Works works);

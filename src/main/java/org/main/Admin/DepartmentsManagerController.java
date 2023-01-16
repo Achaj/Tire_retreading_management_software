@@ -6,15 +6,23 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import org.main.Admin.GeneratorPDF.GenerateListOfHoursWorked;
 import org.main.App;
 import org.main.Entity.Departments;
 import org.main.Entity.DepartmentsRepositoryImpl;
+import org.main.Entity.Temporaty.EmployeesOverworkedTime;
+import org.main.Entity.Workers;
+import org.main.Entity.WorkersRepositoryImpl;
 import org.main.Utils.ValidadiotData;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class DepartmentsManagerController implements Initializable {
@@ -35,6 +43,7 @@ public class DepartmentsManagerController implements Initializable {
     public TableColumn<Departments, String> street;
     @FXML
     public TableColumn<Departments, String> flatNumber;
+    @FXML private DatePicker workingDate;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -98,6 +107,40 @@ public class DepartmentsManagerController implements Initializable {
                 loadDateUser(departmentsList);
             }
         }
+    }
+    WorkersRepositoryImpl workersRepository=new WorkersRepositoryImpl();
+    @FXML
+    private void generateHoursWorked() throws FileNotFoundException {
+
+        Date date = null;
+        if(workingDate.getValue()!=null){
+            date=Date.valueOf(workingDate.getValue());
+        }else {
+            date=Date.valueOf(LocalDate.now());
+        }
+        List<EmployeesOverworkedTime> overworkedTimeList;
+        Departments departments=null;
+        String depatrmentsName="";
+        if(tableDepartments.getSelectionModel().getSelectedItem()!=null) {
+            departments = tableDepartments.getSelectionModel().getSelectedItem();
+            depatrmentsName=departments.getName();
+            overworkedTimeList=workersRepository.getEmployeesOverworkedTimeByDepatmentList(departments,date);
+        }else {
+            overworkedTimeList=workersRepository.getEmployeesOverworkedTimeList(null,date);
+        }
+        if(overworkedTimeList!=null){
+            GenerateListOfHoursWorked.generatePDFSumMonth(overworkedTimeList,depatrmentsName);
+        }else {
+            showAlerLackOfData();
+        }
+
+    }
+
+    private void showAlerLackOfData(){
+        Alert alert=new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText("Brak danych ");
+        alert.setContentText("Wybierz inny miesiąc lub inny wydzuał");
+        alert.show();
     }
 }
 

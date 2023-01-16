@@ -84,7 +84,12 @@
                         <Insets bottom="10.0" />
                      </VBox.margin>
                   </Button>
-                  <Button layoutX="15.0" layoutY="280.0" mnemonicParsing="false" onAction="#generateHoursWorked" prefHeight="49.0" prefWidth="126.0" style="-fx-background-color: white;" text="Przepracowane Godziny" textAlignment="CENTER" wrapText="true">
+                  <DatePicker fx:id="workingDate" prefHeight="25.0" prefWidth="136.0" promptText="01-01-2023">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </DatePicker>
+                  <Button layoutX="15.0" layoutY="280.0" mnemonicParsing="false" onAction="#generateHoursWorked" prefHeight="49.0" prefWidth="149.0" style="-fx-background-color: white;" text="Przepracowane Godziny" textAlignment="CENTER" wrapText="true">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
