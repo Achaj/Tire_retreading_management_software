@@ -37,18 +37,27 @@
       </HBox>
    </top>
    <center>
-      <HBox prefHeight="493.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+      <GridPane BorderPane.alignment="CENTER">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+         </rowConstraints>
          <children>
             <VBox id="container" alignment="TOP_CENTER" prefHeight="514.0" prefWidth="251.0" stylesheets="@../style.css">
                <children>
-                  <Label id="header" alignment="CENTER" prefHeight="22.0" prefWidth="252.0" stylesheets="@../style.css" text="Pracownicy" textAlignment="CENTER">
+                  <Label id="header" alignment="CENTER" prefHeight="22.0" prefWidth="300.0" stylesheets="@../style.css" text="Pracownicy" textAlignment="CENTER">
                      <VBox.margin>
                         <Insets />
                      </VBox.margin>
                      <font>
                         <Font name="System Bold" size="14.0" />
-                     </font></Label>
-                  <Label alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="22.0" prefWidth="252.0" text="Przepracowane Godziny" textAlignment="CENTER">
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="22.0" prefWidth="300.0" text="Przepracowane Godziny" textAlignment="CENTER">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -56,29 +65,29 @@
                         <Insets top="10.0" />
                      </VBox.margin>
                   </Label>
-                  <DatePicker fx:id="workingEmployeeDatePicker" prefHeight="25.0" prefWidth="258.0" promptText="01-01-2023">
+                  <DatePicker fx:id="workingEmployeeDatePicker" prefHeight="25.0" prefWidth="300.0" promptText="01-01-2023">
                      <VBox.margin>
                         <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
                      </VBox.margin>
                   </DatePicker>
-                  <ComboBox fx:id="employeeDepartmentComboBox" prefHeight="25.0" prefWidth="258.0" promptText="Wydział">
+                  <ComboBox fx:id="employeeDepartmentComboBox" prefHeight="25.0" prefWidth="300.0" promptText="Wydział">
                      <VBox.margin>
                         <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
                      </VBox.margin>
                   </ComboBox>
-                  <Button id="dark-blue" mnemonicParsing="false" onAction="#generatePDFHoursWorked" prefHeight="35.0" prefWidth="254.0" stylesheets="@../style.css" text="Generuj">
+                  <Button id="dark-blue" mnemonicParsing="false" onAction="#generatePDFHoursWorked" prefHeight="35.0" prefWidth="300.0" stylesheets="@../style.css" text="Generuj">
                      <VBox.margin>
                         <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
                      </VBox.margin>
                   </Button>
                </children>
-               <HBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </HBox.margin>
+               <GridPane.margin>
+                  <Insets left="10.0" right="10.0" />
+               </GridPane.margin>
             </VBox>
-            <VBox id="container" alignment="TOP_CENTER" prefHeight="514.0" prefWidth="252.0" stylesheets="@../style.css">
+            <VBox id="container" alignment="TOP_CENTER" prefHeight="514.0" prefWidth="252.0" stylesheets="@../style.css" GridPane.columnIndex="1">
                <children>
-                  <Label id="header" alignment="CENTER" prefHeight="22.0" prefWidth="342.0" stylesheets="@../style.css" text="Wydziały" textAlignment="CENTER">
+                  <Label id="header" alignment="CENTER" prefHeight="22.0" prefWidth="300.0" stylesheets="@../style.css" text="Wydziały" textAlignment="CENTER">
                      <VBox.margin>
                         <Insets />
                      </VBox.margin>
@@ -86,7 +95,7 @@
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
-                  <Label alignment="CENTER" prefHeight="22.0" prefWidth="252.0" text="Wykonane Zadania" textAlignment="CENTER">
+                  <Label alignment="CENTER" prefHeight="22.0" prefWidth="300.0" text="Wykonane Zadania" textAlignment="CENTER">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -94,7 +103,7 @@
                         <Insets top="10.0" />
                      </VBox.margin>
                   </Label>
-                  <Label layoutX="10.0" layoutY="42.0" prefHeight="22.0" prefWidth="252.0" text="Data Od">
+                  <Label layoutX="10.0" layoutY="42.0" prefHeight="22.0" prefWidth="300.0" text="Data Od">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -102,12 +111,12 @@
                         <Insets left="5.0" right="5.0" top="10.0" />
                      </VBox.margin>
                   </Label>
-                  <DatePicker fx:id="worksDateDatePicker" prefHeight="25.0" prefWidth="366.0" promptText="01-01-2023">
+                  <DatePicker fx:id="worksDateDatePicker" prefHeight="25.0" prefWidth="300.0" promptText="01-01-2023">
                      <VBox.margin>
                         <Insets bottom="10.0" left="5.0" right="5.0" />
                      </VBox.margin>
                   </DatePicker>
-                  <Label layoutX="15.0" layoutY="74.0" prefHeight="22.0" prefWidth="258.0" text="Data Do">
+                  <Label layoutX="15.0" layoutY="74.0" prefHeight="22.0" prefWidth="300.0" text="Data Do">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -115,39 +124,39 @@
                         <Insets left="5.0" right="5.0" top="10.0" />
                      </VBox.margin>
                   </Label>
-                  <DatePicker fx:id="worksEndDateDatePicker" layoutX="15.0" layoutY="74.0" prefHeight="25.0" prefWidth="366.0" promptText="31-01-2023">
+                  <DatePicker fx:id="worksEndDateDatePicker" layoutX="15.0" layoutY="74.0" prefHeight="25.0" prefWidth="300.0" promptText="31-01-2023">
                      <VBox.margin>
                         <Insets bottom="10.0" left="5.0" right="5.0" />
                      </VBox.margin>
                   </DatePicker>
-                  <ComboBox fx:id="worksDepartmnetComboBox" prefHeight="25.0" prefWidth="287.0" promptText="Wydział">
+                  <ComboBox fx:id="worksDepartmnetComboBox" prefHeight="25.0" prefWidth="300.0" promptText="Wydział">
                      <VBox.margin>
                         <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
                      </VBox.margin>
                   </ComboBox>
-                  <RadioButton fx:id="oneDateRadioButton" mnemonicParsing="false" prefHeight="17.0" prefWidth="261.0" text="Wyszukaj po dacie Od Do">
+                  <RadioButton fx:id="oneDateRadioButton" mnemonicParsing="false" prefHeight="17.0" prefWidth="300.0" text="Wyszukaj po dacie Od Do">
                      <VBox.margin>
                         <Insets left="5.0" right="5.0" top="10.0" />
                      </VBox.margin>
                   </RadioButton>
-                  <RadioButton fx:id="twoDateRadioButton" mnemonicParsing="false" prefHeight="46.0" prefWidth="279.0" text="Wyszukaj po dacie Od - 31 Dni" wrapText="true">
+                  <RadioButton fx:id="twoDateRadioButton" mnemonicParsing="false" prefHeight="46.0" prefWidth="300.0" text="Wyszukaj po dacie Od - 31 Dni" wrapText="true">
                      <VBox.margin>
                         <Insets bottom="10.0" left="5.0" right="5.0" />
                      </VBox.margin>
                   </RadioButton>
-                  <Button id="dark-blue" mnemonicParsing="false" onAction="#generatePDFTasksPerformed" prefHeight="35.0" prefWidth="278.0" stylesheets="@../style.css" text="Generuj">
+                  <Button id="dark-blue" mnemonicParsing="false" onAction="#generatePDFTasksPerformed" prefHeight="35.0" prefWidth="300.0" stylesheets="@../style.css" text="Generuj">
                      <VBox.margin>
                         <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
                      </VBox.margin>
                   </Button>
                </children>
-               <HBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </HBox.margin>
+               <GridPane.margin>
+                  <Insets left="10.0" right="10.0" />
+               </GridPane.margin>
             </VBox>
-            <VBox id="container" alignment="TOP_CENTER" prefHeight="514.0" prefWidth="292.0" stylesheets="@../style.css">
+            <VBox id="container" alignment="TOP_CENTER" prefHeight="514.0" prefWidth="292.0" stylesheets="@../style.css" GridPane.columnIndex="2">
                <children>
-                  <Label id="header" alignment="CENTER" prefHeight="22.0" prefWidth="255.0" stylesheets="@../style.css" text="Stan Magazynowy" textAlignment="CENTER">
+                  <Label id="header" alignment="CENTER" prefHeight="22.0" prefWidth="300.0" stylesheets="@../style.css" text="Stan Magazynowy" textAlignment="CENTER">
                      <VBox.margin>
                         <Insets />
                      </VBox.margin>
@@ -155,7 +164,7 @@
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
-                  <CheckBox fx:id="tireCheckBox" alignment="TOP_LEFT" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="20.0" prefWidth="266.0" text="Opony" textOverrun="CLIP">
+                  <CheckBox fx:id="tireCheckBox" alignment="TOP_LEFT" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="20.0" prefWidth="300.0" text="Opony" textOverrun="CLIP">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -163,12 +172,12 @@
                         <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
                      </VBox.margin>
                   </CheckBox>
-                  <ComboBox fx:id="stockDepartmentComboBox" prefHeight="25.0" prefWidth="260.0" promptText="Wydział">
+                  <ComboBox fx:id="stockDepartmentComboBox" prefHeight="25.0" prefWidth="300.0" promptText="Wydział">
                      <VBox.margin>
                         <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
                      </VBox.margin>
                   </ComboBox>
-                  <CheckBox fx:id="semifinishedCheckBox" mnemonicParsing="false" prefHeight="20.0" prefWidth="260.0" text="Prefabrykaty">
+                  <CheckBox fx:id="semifinishedCheckBox" mnemonicParsing="false" prefHeight="20.0" prefWidth="300.0" text="Prefabrykaty">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -176,17 +185,20 @@
                         <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
                      </VBox.margin>
                   </CheckBox>
-                  <Button id="dark-blue" mnemonicParsing="false" onAction="#generatePDFStockMagazine" prefHeight="35.0" prefWidth="258.0" stylesheets="@../style.css" text="Generuj">
+                  <Button id="dark-blue" mnemonicParsing="false" onAction="#generatePDFStockMagazine" prefHeight="35.0" prefWidth="300.0" stylesheets="@../style.css" text="Generuj">
                      <VBox.margin>
                         <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
                      </VBox.margin>
                   </Button>
                </children>
-               <HBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </HBox.margin>
+               <GridPane.margin>
+                  <Insets left="10.0" right="10.0" />
+               </GridPane.margin>
             </VBox>
          </children>
-      </HBox>
+         <BorderPane.margin>
+            <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
+         </BorderPane.margin>
+      </GridPane>
    </center>
 </BorderPane>
