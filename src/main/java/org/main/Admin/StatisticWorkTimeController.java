@@ -1,11 +1,7 @@
 package org.main.Admin;
 
-import com.fazecast.jSerialComm.SerialPort;
-import com.fazecast.jSerialComm.SerialPortDataListener;
-import com.fazecast.jSerialComm.SerialPortEvent;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.AreaChart;
@@ -13,26 +9,22 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
 import org.main.App;
 import org.main.Entity.*;
-import org.main.Entity.Temporaty.DailyStatusWork;
 import org.main.Entity.Temporaty.DaytimeWork;
 import org.main.Entity.Temporaty.WorkNameDate;
-import org.main.Utils.ConectionCardReader;
+import org.main.Utils.ConnectionCardReader;
 import org.main.Utils.Temporary;
 import org.main.Utils.ValidadiotData;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Date;
 import java.text.DecimalFormat;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class StatisticWorkTimeController  implements Initializable {
+public class StatisticWorkTimeController extends ConnectionCardReader implements Initializable {
 
     @FXML
     private AreaChart<String, Integer> worksAreaChart;
@@ -42,7 +34,8 @@ public class StatisticWorkTimeController  implements Initializable {
     private ComboBox<String> positionComboBox;
     @FXML
     private ComboBox<Workers> workerComboBox;
-    @FXML private ComboBox<String >worksNameComboBox;
+    @FXML
+    private ComboBox<String> worksNameComboBox;
     @FXML
     private ComboBox<Departments> departmentComboBox;
     @FXML private LineChart<String,Float> workTimeLineChart;
@@ -57,7 +50,8 @@ public class StatisticWorkTimeController  implements Initializable {
         loadComboBoxWorkName();
         loadAreaChart(worksRepository.countTimeWorkNameWorker(null));
         try {
-            listeningPort();
+            initSerialPort(portName, 9600);
+            listeningPort(searchTextField);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -338,31 +332,5 @@ public class StatisticWorkTimeController  implements Initializable {
         }
         //nameWorkBarChart.getData().addAll(series1, series2, series3, series4, series5, series6, series7, series8, series9, series10);
     }
-    String idTagReaded = "";
-    public void listeningPort() throws Exception {
-        ConectionCardReader.initSerialPort(ConectionCardReader.portName, 9600);
-        ConectionCardReader.serialPort.
-                addDataListener(new SerialPortDataListener() {
-                                    @Override
-                                    public int getListeningEvents() {
-                                        return SerialPort.LISTENING_EVENT_DATA_RECEIVED;
-                                    }
 
-                                    @Override
-                                    public void serialEvent(SerialPortEvent serialPortEvent) {
-                                        String databBuffer = "";
-                                        byte[] newData = serialPortEvent.getReceivedData();
-                                        for (int i = 0; i < newData.length; i++) {
-                                            databBuffer += (char) newData[i];
-                                        }
-                                        if (!idTagReaded.equals(databBuffer)) {
-                                            idTagReaded = databBuffer;
-                                            searchTextField.setText(idTagReaded);
-                                        }
-                                        // System.out.println(idTagReaded);
-                                    }
-                                }
-                );
-
-    }
 }

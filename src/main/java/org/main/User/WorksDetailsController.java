@@ -1,8 +1,5 @@
 package org.main.User;
 
-import com.fazecast.jSerialComm.SerialPort;
-import com.fazecast.jSerialComm.SerialPortDataListener;
-import com.fazecast.jSerialComm.SerialPortEvent;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -16,7 +13,7 @@ import javafx.util.Callback;
 import org.jetbrains.annotations.NotNull;
 import org.main.App;
 import org.main.Entity.*;
-import org.main.Utils.ConectionCardReader;
+import org.main.Utils.ConnectionCardReader;
 import org.main.Utils.Temporary;
 import org.main.Utils.ValidadiotData;
 
@@ -30,7 +27,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class WorksDetailsController implements Initializable {
+public class WorksDetailsController extends ConnectionCardReader implements Initializable {
 
     @FXML
     public ComboBox<Workers> workersComboBox;
@@ -61,7 +58,8 @@ public class WorksDetailsController implements Initializable {
         loadChoiceBox();
         loadEditWork();
         try {
-            listeningPort();
+            initSerialPort(portName, 9600);
+            listeningPort(tag);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -496,35 +494,7 @@ public class WorksDetailsController implements Initializable {
 
     }
 
-    String idTagReaded = "";
 
-    public void listeningPort() throws Exception {
-        ConectionCardReader.initSerialPort(ConectionCardReader.portName, 9600);
-        ConectionCardReader.serialPort.
-                addDataListener(
-                        new SerialPortDataListener() {
-                            @Override
-                            public int getListeningEvents() {
-                                return SerialPort.LISTENING_EVENT_DATA_RECEIVED;
-                            }
-
-                            @Override
-                            public void serialEvent(SerialPortEvent serialPortEvent) {
-                                String databBuffer = "";
-                                byte[] newData = serialPortEvent.getReceivedData();
-                                for (int i = 0; i < newData.length; i++) {
-                                    databBuffer += (char) newData[i];
-                                }
-                                if (!idTagReaded.equals(databBuffer)) {
-                                    idTagReaded = databBuffer;
-                                    tag.setText(idTagReaded);
-                                }
-                                // System.out.println(idTagReaded);
-                            }
-                        }
-                );
-
-    }
 
     private boolean correctNam = false;
     private boolean correctStatus = false;

@@ -5,16 +5,16 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.main.Login.LoginController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.main.Login.LoginController">
     <left>
         <AnchorPane prefHeight="400.0" prefWidth="460.0" style="-fx-background-color: #404040;" BorderPane.alignment="CENTER">
             <children>
-                <Text fill="WHITE" layoutX="75.0" layoutY="165.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bieżnikowanie" wrappingWidth="309.51171875">
+                <Text fill="WHITE" layoutX="18.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Systrm do zarządzania obiektów fizycznych  " wrappingWidth="435.51171875">
                     <font>
                         <Font name="System Bold" size="41.0" />
                     </font>
                 </Text>
-                <Text fill="WHITE" layoutX="112.0" layoutY="220.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Opon Samochodowych">
+                <Text fill="WHITE" layoutX="96.0" layoutY="307.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Za pomocą technologi RFID">
                     <font>
                         <Font size="18.0" />
                     </font>

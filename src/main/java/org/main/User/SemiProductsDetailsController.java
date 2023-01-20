@@ -1,8 +1,5 @@
 package org.main.User;
 
-import com.fazecast.jSerialComm.SerialPort;
-import com.fazecast.jSerialComm.SerialPortDataListener;
-import com.fazecast.jSerialComm.SerialPortEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -12,7 +9,7 @@ import javafx.scene.control.TextField;
 import org.main.App;
 import org.main.Entity.SemiProducts;
 import org.main.Entity.SemiProductsRepositoryImpl;
-import org.main.Utils.ConectionCardReader;
+import org.main.Utils.ConnectionCardReader;
 import org.main.Utils.Temporary;
 import org.main.Utils.ValidadiotData;
 
@@ -21,12 +18,13 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class SemiProductsDetailsController implements Initializable {
+public class SemiProductsDetailsController extends ConnectionCardReader implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         inizjalizeChoiceBox();
         try {
-            listeningPort();
+            initSerialPort(portName, 9600);
+            listeningPort(tag);
         } catch (Exception e) {
             e.getMessage();
         }
@@ -212,33 +210,5 @@ public class SemiProductsDetailsController implements Initializable {
 
     }
 
-    String idTagReaded = "";
 
-    public void listeningPort() throws Exception {
-        ConectionCardReader.initSerialPort(ConectionCardReader.portName, 9600);
-        ConectionCardReader.serialPort.
-                addDataListener(
-                        new SerialPortDataListener() {
-                            @Override
-                            public int getListeningEvents() {
-                                return SerialPort.LISTENING_EVENT_DATA_RECEIVED;
-                            }
-
-                            @Override
-                            public void serialEvent(SerialPortEvent serialPortEvent) {
-                                String databBuffer = "";
-                                byte[] newData = serialPortEvent.getReceivedData();
-                                for (int i = 0; i < newData.length; i++) {
-                                    databBuffer += (char) newData[i];
-                                }
-                                if (!idTagReaded.equals(databBuffer)) {
-                                    idTagReaded = databBuffer;
-                                    tag.setText(idTagReaded);
-                                }
-                                // System.out.println(idTagReaded);
-                            }
-                        }
-                );
-
-    }
 }

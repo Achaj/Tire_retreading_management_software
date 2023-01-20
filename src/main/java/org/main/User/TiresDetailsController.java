@@ -1,27 +1,22 @@
 package org.main.User;
 
-import com.fazecast.jSerialComm.SerialPort;
-import com.fazecast.jSerialComm.SerialPortDataListener;
-import com.fazecast.jSerialComm.SerialPortEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import org.main.App;
 import org.main.Entity.*;
-import org.main.Utils.ConectionCardReader;
+import org.main.Utils.ConnectionCardReader;
 import org.main.Utils.Temporary;
 import org.main.Utils.ValidadiotData;
 
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class TiresDetailsController implements Initializable {
+public class TiresDetailsController extends ConnectionCardReader implements Initializable {
     @FXML
     public TextField idTag;
     @FXML
@@ -62,7 +57,8 @@ public class TiresDetailsController implements Initializable {
         }
         listinerField();
         try {
-            listeningPort();
+            initSerialPort(portName, 9600);
+            listeningPort(idTag);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -273,32 +269,5 @@ public class TiresDetailsController implements Initializable {
         }
     }
 
-    String idTagReaded = "";
 
-    public void listeningPort() throws Exception {
-        ConectionCardReader.initSerialPort(ConectionCardReader.portName, 9600);
-        ConectionCardReader.serialPort.addDataListener
-                (new SerialPortDataListener() {
-                     @Override
-                     public int getListeningEvents() {
-                         return SerialPort.LISTENING_EVENT_DATA_RECEIVED;
-                     }
-
-                     @Override
-                     public void serialEvent(SerialPortEvent serialPortEvent) {
-                         String databBuffer = "";
-                         byte[] newData = serialPortEvent.getReceivedData();
-                         for (int i = 0; i < newData.length; i++) {
-                             databBuffer += (char) newData[i];
-                         }
-                         if (!idTagReaded.equals(databBuffer)) {
-                             idTagReaded = databBuffer;
-                             idTag.setText(idTagReaded);
-                         }
-                         // System.out.println(idTagReaded);
-                     }
-                 }
-                );
-
-    }
 }

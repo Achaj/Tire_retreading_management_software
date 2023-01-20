@@ -8,16 +8,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import org.main.Entity.WorkingTime;
 import org.main.Entity.WorkingTimeRepositoryImpl;
-import org.main.Utils.ConectionCardReader;
+import org.main.Utils.ConnectionCardReader;
 import org.main.Utils.Temporary;
 
 import java.io.IOException;
-import java.sql.Date;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.LinkedList;
 
 /**
@@ -54,21 +50,21 @@ public class App extends Application {
         scene.setRoot(loadFXML(fxml));
     }
     public static  void setNextRootScene(String fxml) throws IOException {
-        ConectionCardReader.closePort();
+        //ConnectionCardReader.closePort();
         linkedListSceneName.add(fxml);
         scene.setRoot(loadFXML(fxml));
     }
     public static  void setPrevRootScene() throws IOException {
-        ConectionCardReader.closePort();
+        //ConnectionCardReader.closePort();
         linkedListSceneName.removeLast();
         scene.setRoot(loadFXML(linkedListSceneName.getLast()));
     }
     WorkingTimeRepositoryImpl  workingTimeRepository=new WorkingTimeRepositoryImpl();
 
     public  static void setLoginRootScene() throws IOException {
-        App app=new App();
-        ConectionCardReader.closePort();
-       Temporary.workingTime.setDateLogOut(LocalDateTime.now());
+        App app = new App();
+        //  ConnectionCardReader.closePort();
+        Temporary.workingTime.setDateLogOut(LocalDateTime.now());
         app.workingTimeRepository.change(Temporary.workingTime);
         Temporary.setWorkers(null);
         linkedListSceneName.clear();

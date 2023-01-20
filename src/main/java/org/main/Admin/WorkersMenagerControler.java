@@ -1,8 +1,5 @@
 package org.main.Admin;
 
-import com.fazecast.jSerialComm.SerialPort;
-import com.fazecast.jSerialComm.SerialPortDataListener;
-import com.fazecast.jSerialComm.SerialPortEvent;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -15,7 +12,7 @@ import org.main.App;
 import org.main.Entity.Temporaty.EmployeesOverworkedTime;
 import org.main.Entity.Workers;
 import org.main.Entity.WorkersRepositoryImpl;
-import org.main.Utils.ConectionCardReader;
+import org.main.Utils.ConnectionCardReader;
 import org.main.Utils.ValidadiotData;
 
 import java.io.FileNotFoundException;
@@ -28,7 +25,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class WorkersMenagerControler implements Initializable {
+public class WorkersMenagerControler extends ConnectionCardReader implements Initializable {
     @FXML
     public TableView<Workers> tableWorkers;
     @FXML
@@ -129,8 +126,8 @@ public class WorkersMenagerControler implements Initializable {
         }
     }
 
+    /*
     String idTagReaded = "";
-
     public void listeningPort() throws Exception {
         ConectionCardReader.initSerialPort(ConectionCardReader.portName, 9600);
         ConectionCardReader.serialPort.
@@ -157,7 +154,7 @@ public class WorkersMenagerControler implements Initializable {
                 );
 
     }
-
+*/
 
     public void editOneUser() throws IOException {
         Workers workers = tableWorkers.getSelectionModel().getSelectedItem();
@@ -232,9 +229,11 @@ public class WorkersMenagerControler implements Initializable {
         initializeColumn();
         loadDateUser(workerRepository.getWorkers());
         try {
-            listeningPort();
+            initSerialPort(portName, 9600);
+            listeningPort(serchField);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 }

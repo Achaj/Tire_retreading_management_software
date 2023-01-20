@@ -3,17 +3,18 @@ package org.main.Utils;
 import com.fazecast.jSerialComm.SerialPort;
 import com.fazecast.jSerialComm.SerialPortDataListener;
 import com.fazecast.jSerialComm.SerialPortEvent;
+import javafx.scene.control.TextField;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ConectionCardReader {
+public class ConnectionCardReader {
     public static SerialPort serialPort;
-    public static String dataTagUID = "";
+    String dataTagUID = "";
     public static String portName = "COM7";
 
-    public static void initSerialPort(String name, int baud) throws Exception {
+    protected void initSerialPort(String name, int baud) throws Exception {
         if (serialPort != null && serialPort.isOpen()) {
             closePort();
         }
@@ -33,7 +34,7 @@ public class ConectionCardReader {
         }
     }
 
-    public static void listeningPort() {
+    protected void listeningPort(TextField textField) {
         serialPort.addDataListener(new SerialPortDataListener() {
             @Override
             public int getListeningEvents() {
@@ -50,6 +51,7 @@ public class ConectionCardReader {
                 }
                 if (!dataTagUID.equals(databBuffer)) {
                     dataTagUID = databBuffer;
+                    textField.setText(dataTagUID);
 
                 }
                 System.out.println(dataTagUID);

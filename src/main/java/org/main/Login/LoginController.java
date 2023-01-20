@@ -1,8 +1,5 @@
 package org.main.Login;
 
-import com.fazecast.jSerialComm.SerialPort;
-import com.fazecast.jSerialComm.SerialPortDataListener;
-import com.fazecast.jSerialComm.SerialPortEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -15,28 +12,28 @@ import org.main.Entity.WorkersRepositoryImpl;
 import org.main.Entity.Workers;
 import org.main.Entity.WorkingTime;
 import org.main.Entity.WorkingTimeRepositoryImpl;
-import org.main.Utils.ConectionCardReader;
+import org.main.Utils.ConnectionCardReader;
 import org.main.Utils.PasswordHashing;
 import org.main.Utils.Temporary;
 import org.main.Utils.ValidadiotData;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Date;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class LoginController implements Initializable {
-    @FXML public TextField username;
-    @FXML public PasswordField password;
-    @FXML public PasswordField passTag;
+public class LoginController extends ConnectionCardReader implements Initializable {
+    @FXML
+    public TextField username;
+    @FXML
+    public PasswordField password;
+    @FXML
+    public PasswordField passTag;
 
     WorkersRepositoryImpl workerRepository = new WorkersRepositoryImpl();
-    WorkingTimeRepositoryImpl workingTimeRepository=new WorkingTimeRepositoryImpl();
+    WorkingTimeRepositoryImpl workingTimeRepository = new WorkingTimeRepositoryImpl();
 
     public void logInApplication() throws IOException {
 
@@ -161,10 +158,10 @@ public class LoginController implements Initializable {
     }
 
     public void connectionCardReader() throws Exception {
-        ConectionCardReader.initSerialPort(ConectionCardReader.portName, 9600);
-        if (!ConectionCardReader.serialPort.isOpen()) {
-            List<String> choices = ConectionCardReader.getPortNames();
-            if(!choices.isEmpty()) {
+        initSerialPort(ConnectionCardReader.portName, 9600);
+        if (!ConnectionCardReader.serialPort.isOpen()) {
+            List<String> choices = ConnectionCardReader.getPortNames();
+            if (!choices.isEmpty()) {
                 ChoiceDialog<String> dialog = new ChoiceDialog<>(choices.get(0), choices);
                 dialog.setTitle("Choice your Com Port");
                 dialog.setHeaderText("Look, a Choice Port");
@@ -174,47 +171,47 @@ public class LoginController implements Initializable {
                 Optional<String> result = dialog.showAndWait();
                 // The Java 8 way to get the response value (with lambda expression).
                 result.ifPresent(letter -> System.out.println("Your choice: " + letter));
-                ConectionCardReader.portName = result.get().trim().toString();
-                ConectionCardReader.initSerialPort(ConectionCardReader.portName, 9600);
-                listeningPort();
+                ConnectionCardReader.portName = result.get().trim().toString();
+                initSerialPort(ConnectionCardReader.portName, 9600);
+                listeningPort(passTag);
             }else {
                 Alert alert = new Alert(Alert.AlertType.NONE);
                 alert.setAlertType(Alert.AlertType.WARNING);
                 alert.setHeaderText("Nie wykryto czytnika !");
                 alert.showAndWait();
                 //passTag.setEditable(true);
-               //connectionCardReader();
+                //connectionCardReader();
             }
-        }else{
-            listeningPort();
+        } else {
+            listeningPort(passTag);
         }
     }
-     String idTAG="";
-    public  void listeningPort(){
-        ConectionCardReader.serialPort.addDataListener(new SerialPortDataListener() {
-            @Override
-            public int getListeningEvents() {
+    //   String idTAG="";
+    //  public  void listeningPort(){
+    //      ConectionCardReader.serialPort.addDataListener(new SerialPortDataListener() {
+    //          @Override
+    //          public int getListeningEvents() {
 
-                return SerialPort.LISTENING_EVENT_DATA_RECEIVED;
-            }
+    //              return SerialPort.LISTENING_EVENT_DATA_RECEIVED;
+    //          }
 
-            @Override
-            public void serialEvent(SerialPortEvent serialPortEvent) {
-                String databBuffer="";
-                byte []newData=serialPortEvent.getReceivedData();
-                for(int i=0; i< newData.length;i++){
-                    databBuffer+=(char)newData[i];
-                }
-                if(!idTAG.equals(databBuffer)){
-                    idTAG=databBuffer;
-                    passTag.setText(idTAG);
-                }
-               // System.out.println(idTAG);
-            }
+    //          @Override
+    //          public void serialEvent(SerialPortEvent serialPortEvent) {
+    //              String databBuffer="";
+    //              byte []newData=serialPortEvent.getReceivedData();
+    //              for(int i=0; i< newData.length;i++){
+    //                  databBuffer+=(char)newData[i];
+    //              }
+    //              if(!idTAG.equals(databBuffer)){
+    //                  idTAG=databBuffer;
+    //                  passTag.setText(idTAG);
+    //              }
+    //             // System.out.println(idTAG);
+    //          }
 
-        }
-        );
+    //      }
+    //      );
 
-    }
+    //  }
 
 }
