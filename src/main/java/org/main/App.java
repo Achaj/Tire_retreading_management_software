@@ -50,12 +50,12 @@ public class App extends Application {
         scene.setRoot(loadFXML(fxml));
     }
     public static  void setNextRootScene(String fxml) throws IOException {
-        //ConnectionCardReader.closePort();
+        ConnectionCardReader.closePort();
         linkedListSceneName.add(fxml);
         scene.setRoot(loadFXML(fxml));
     }
     public static  void setPrevRootScene() throws IOException {
-        //ConnectionCardReader.closePort();
+        ConnectionCardReader.closePort();
         linkedListSceneName.removeLast();
         scene.setRoot(loadFXML(linkedListSceneName.getLast()));
     }
@@ -63,7 +63,7 @@ public class App extends Application {
 
     public  static void setLoginRootScene() throws IOException {
         App app = new App();
-        //  ConnectionCardReader.closePort();
+        ConnectionCardReader.closePort();
         Temporary.workingTime.setDateLogOut(LocalDateTime.now());
         app.workingTimeRepository.change(Temporary.workingTime);
         Temporary.setWorkers(null);

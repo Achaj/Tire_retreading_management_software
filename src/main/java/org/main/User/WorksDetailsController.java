@@ -1,5 +1,8 @@
 package org.main.User;
 
+import com.fazecast.jSerialComm.SerialPort;
+import com.fazecast.jSerialComm.SerialPortDataListener;
+import com.fazecast.jSerialComm.SerialPortEvent;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -530,4 +533,5 @@ public class WorksDetailsController extends ConnectionCardReader implements Init
                     correctTire = true;
                 });
     }
+
 }

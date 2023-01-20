@@ -46,41 +46,16 @@ public class ConnectionCardReader {
                 for (byte newDatum : newData) {
                     dataBuffer.append((char) newDatum);
                 }
-                if (!dataTagUID.equals(dataBuffer.toString())) {
-                    dataTagUID = dataBuffer.toString();
-                    textField.setText(dataTagUID);
 
-                }
+                dataTagUID = dataBuffer.toString();
+                textField.setText(dataTagUID);
+
+
                 System.out.println(dataTagUID);
             }
         });
-
     }
 
-    public void listeningPort() {
-        serialPort.addDataListener(new SerialPortDataListener() {
-            @Override
-            public int getListeningEvents() {
-
-                return SerialPort.LISTENING_EVENT_DATA_RECEIVED;
-            }
-
-            @Override
-            public void serialEvent(SerialPortEvent serialPortEvent) {
-                StringBuilder dataBuffer = new StringBuilder();
-                byte[] newData = serialPortEvent.getReceivedData();
-                for (byte newDatum : newData) {
-                    dataBuffer.append((char) newDatum);
-                }
-                if (!dataTagUID.equals(dataBuffer.toString())) {
-                    dataTagUID = dataBuffer.toString();
-
-                }
-                System.out.println(dataTagUID);
-            }
-        });
-
-    }
 
     public static List<String> getPortNames() {
         return Arrays.stream(SerialPort.getCommPorts())
