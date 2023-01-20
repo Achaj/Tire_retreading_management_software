@@ -12,12 +12,9 @@ import java.util.stream.Collectors;
 public class ConnectionCardReader {
     public static SerialPort serialPort;
     String dataTagUID = "";
-    public static String portName = "COM7";
+    public static String portName = "COM15";
 
-    protected void initSerialPort(String name, int baud) throws Exception {
-        if (serialPort != null && serialPort.isOpen()) {
-            closePort();
-        }
+    public void initSerialPort(String name, int baud) throws Exception {
         serialPort = SerialPort.getCommPort(name);
         serialPort.setParity(SerialPort.NO_PARITY);
         serialPort.setNumStopBits(SerialPort.ONE_STOP_BIT);
@@ -34,7 +31,7 @@ public class ConnectionCardReader {
         }
     }
 
-    protected void listeningPort(TextField textField) {
+    public void listeningPort(TextField textField) {
         serialPort.addDataListener(new SerialPortDataListener() {
             @Override
             public int getListeningEvents() {
@@ -44,14 +41,39 @@ public class ConnectionCardReader {
 
             @Override
             public void serialEvent(SerialPortEvent serialPortEvent) {
-                String databBuffer = "";
+                StringBuilder dataBuffer = new StringBuilder();
                 byte[] newData = serialPortEvent.getReceivedData();
-                for (int i = 0; i < newData.length; i++) {
-                    databBuffer += (char) newData[i];
+                for (byte newDatum : newData) {
+                    dataBuffer.append((char) newDatum);
                 }
-                if (!dataTagUID.equals(databBuffer)) {
-                    dataTagUID = databBuffer;
+                if (!dataTagUID.equals(dataBuffer.toString())) {
+                    dataTagUID = dataBuffer.toString();
                     textField.setText(dataTagUID);
+
+                }
+                System.out.println(dataTagUID);
+            }
+        });
+
+    }
+
+    public void listeningPort() {
+        serialPort.addDataListener(new SerialPortDataListener() {
+            @Override
+            public int getListeningEvents() {
+
+                return SerialPort.LISTENING_EVENT_DATA_RECEIVED;
+            }
+
+            @Override
+            public void serialEvent(SerialPortEvent serialPortEvent) {
+                StringBuilder dataBuffer = new StringBuilder();
+                byte[] newData = serialPortEvent.getReceivedData();
+                for (byte newDatum : newData) {
+                    dataBuffer.append((char) newDatum);
+                }
+                if (!dataTagUID.equals(dataBuffer.toString())) {
+                    dataTagUID = dataBuffer.toString();
 
                 }
                 System.out.println(dataTagUID);

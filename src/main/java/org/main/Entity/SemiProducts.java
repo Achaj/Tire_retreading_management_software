@@ -29,6 +29,14 @@ public class SemiProducts implements Serializable,Comparable<SemiProducts> {
     public SemiProducts() {
     }
 
+    public SemiProducts(int idSemiProduct, String name, String category, String tag, int amount) {
+        this.idSemiProduct = idSemiProduct;
+        this.name = name;
+        this.category = category;
+        this.tag = tag;
+        this.amount = amount;
+    }
+
     public SemiProducts(int idSemiProduct, String name, String category, String tag, int amount, List<WorkSemiProducts> workSemiProducts) {
         this.idSemiProduct = idSemiProduct;
         this.name = name;
@@ -37,6 +45,15 @@ public class SemiProducts implements Serializable,Comparable<SemiProducts> {
         this.amount = amount;
         this.workSemiProducts = workSemiProducts;
     }
+
+    public SemiProducts(String name, String category, String tag, int amount) {
+
+        this.name = name;
+        this.category = category;
+        this.tag = tag;
+        this.amount = amount;
+    }
+
 
     public int getIdSemiProduct() {
         return idSemiProduct;
