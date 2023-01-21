@@ -24,8 +24,8 @@ public class ConnectionToDB {
         return entityManagerFactory;
     }
 
-    static EntityManagerFactory entityManagerFactory=null;
-    static EntityManager entityManager = ConnectionToDB.getEntityManagerFactory().createEntityManager();
-    static EntityTransaction entityTransaction = entityManager.getTransaction();
+    public static EntityManagerFactory entityManagerFactory = null;
+    public static EntityManager entityManager = ConnectionToDB.getEntityManagerFactory().createEntityManager();
+    public static EntityTransaction entityTransaction = entityManager.getTransaction();
 
 }

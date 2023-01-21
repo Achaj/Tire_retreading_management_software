@@ -56,7 +56,11 @@ public class SemiProductsRepositoryImpl implements SemiProductsRepository{
             entityTransaction.begin();
         }
         try {
-            entityManager.persist(semiProducts);
+            if (semiProducts.getIdSemiProduct() == 0) {
+                entityManager.persist(semiProducts);
+            } else {
+                entityManager.merge(semiProducts);
+            }
             entityTransaction.commit();
 
             return true;

@@ -41,6 +41,17 @@ public class Departments implements Serializable {
     public Departments() {
     }
 
+    public Departments(int idDepartment, String name, String city, String street, String flatNumber, String postCode, String hallName, String phoneNumber) {
+        this.idDepartment = idDepartment;
+        this.name = name;
+        this.city = city;
+        this.street = street;
+        this.flatNumber = flatNumber;
+        this.postCode = postCode;
+        this.hallName = hallName;
+        this.phoneNumber = phoneNumber;
+    }
+
     public Departments(int idDepartment, String name, String city, String street, String flatNumber, String postCode, String hallName, String phoneNumber, List<Workers> workersList, List<Works> worksList) {
         this.idDepartment = idDepartment;
         this.name = name;

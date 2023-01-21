@@ -158,9 +158,9 @@ public class LoginController extends ConnectionCardReader implements Initializab
     }
 
     public void connectionCardReader() throws Exception {
-        initSerialPort(ConnectionCardReader.portName, 9600);
-        if (!ConnectionCardReader.serialPort.isOpen()) {
-            List<String> choices = ConnectionCardReader.getPortNames();
+        initSerialPort(portName, 9600);
+        if (!serialPort.isOpen()) {
+            List<String> choices = getPortNames();
             if (!choices.isEmpty()) {
                 ChoiceDialog<String> dialog = new ChoiceDialog<>(choices.get(0), choices);
                 dialog.setTitle("Choice your Com Port");
@@ -171,8 +171,8 @@ public class LoginController extends ConnectionCardReader implements Initializab
                 Optional<String> result = dialog.showAndWait();
                 // The Java 8 way to get the response value (with lambda expression).
                 result.ifPresent(letter -> System.out.println("Your choice: " + letter));
-                ConnectionCardReader.portName = result.get().trim().toString();
-                initSerialPort(ConnectionCardReader.portName, 9600);
+                portName = result.get().trim().toString();
+                initSerialPort(portName, 9600);
                 listeningPort(passTag);
             }else {
                 Alert alert = new Alert(Alert.AlertType.NONE);
@@ -186,32 +186,6 @@ public class LoginController extends ConnectionCardReader implements Initializab
             listeningPort(passTag);
         }
     }
-    //   String idTAG="";
-    //  public  void listeningPort(){
-    //      ConectionCardReader.serialPort.addDataListener(new SerialPortDataListener() {
-    //          @Override
-    //          public int getListeningEvents() {
 
-    //              return SerialPort.LISTENING_EVENT_DATA_RECEIVED;
-    //          }
-
-    //          @Override
-    //          public void serialEvent(SerialPortEvent serialPortEvent) {
-    //              String databBuffer="";
-    //              byte []newData=serialPortEvent.getReceivedData();
-    //              for(int i=0; i< newData.length;i++){
-    //                  databBuffer+=(char)newData[i];
-    //              }
-    //              if(!idTAG.equals(databBuffer)){
-    //                  idTAG=databBuffer;
-    //                  passTag.setText(idTAG);
-    //              }
-    //             // System.out.println(idTAG);
-    //          }
-
-    //      }
-    //      );
-
-    //  }
 
 }

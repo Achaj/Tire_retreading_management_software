@@ -12,9 +12,9 @@ import java.util.stream.Collectors;
 public class ConnectionCardReader {
     public static SerialPort serialPort;
     String dataTagUID = "";
-    public static String portName = "COM7";
+    public static String portName = "COM15";
 
-    protected void initSerialPort(String name, int baud) throws Exception {
+    public void initSerialPort(String name, int baud) throws Exception {
         if (serialPort != null && serialPort.isOpen()) {
             closePort();
         }
@@ -25,6 +25,7 @@ public class ConnectionCardReader {
         serialPort.setBaudRate(baud);
         serialPort.openPort();
         //listeningPort();
+
     }
 
 
@@ -34,7 +35,7 @@ public class ConnectionCardReader {
         }
     }
 
-    protected void listeningPort(TextField textField) {
+    public void listeningPort(TextField textField) {
         serialPort.addDataListener(new SerialPortDataListener() {
             @Override
             public int getListeningEvents() {
@@ -44,21 +45,21 @@ public class ConnectionCardReader {
 
             @Override
             public void serialEvent(SerialPortEvent serialPortEvent) {
-                String databBuffer = "";
+                StringBuilder dataBuffer = new StringBuilder();
                 byte[] newData = serialPortEvent.getReceivedData();
-                for (int i = 0; i < newData.length; i++) {
-                    databBuffer += (char) newData[i];
+                for (byte newDatum : newData) {
+                    dataBuffer.append((char) newDatum);
                 }
-                if (!dataTagUID.equals(databBuffer)) {
-                    dataTagUID = databBuffer;
-                    textField.setText(dataTagUID);
 
-                }
+                dataTagUID = dataBuffer.toString();
+                textField.setText(dataTagUID);
+
+
                 System.out.println(dataTagUID);
             }
         });
-
     }
+
 
     public static List<String> getPortNames() {
         return Arrays.stream(SerialPort.getCommPorts())

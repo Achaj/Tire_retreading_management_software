@@ -1,5 +1,8 @@
 package org.main.Admin;
 
+import com.fazecast.jSerialComm.SerialPort;
+import com.fazecast.jSerialComm.SerialPortDataListener;
+import com.fazecast.jSerialComm.SerialPortEvent;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -40,9 +43,11 @@ public class WorkersMenagerControler extends ConnectionCardReader implements Ini
     public TableColumn<Workers, String> position;
     @FXML
     public TextField serchField;
-    @FXML private DatePicker workingDate;
+    @FXML
+    private DatePicker workingDate;
 
     WorkersRepositoryImpl workerRepository = new WorkersRepositoryImpl();
+
 
     private void initializeColumn() {
         id.setCellValueFactory(new PropertyValueFactory<>("idWorker"));
@@ -58,14 +63,12 @@ public class WorkersMenagerControler extends ConnectionCardReader implements Ini
         if (tableWorkers != null) {
             tableWorkers.getItems().clear();
         }
-        //List<Workers>  workersList=workerRepository.getWorkers();
-        //List<Workers>  workersList=new ArrayList<>();
+
         if (!workersList.isEmpty()) {
             workersObservableList = FXCollections.observableArrayList();
             workersObservableList.removeAll(workersObservableList);
             workersObservableList.addAll(workersList);
             tableWorkers.getItems().addAll(workersObservableList);
-            System.out.println(workersObservableList);
         } else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setHeaderText("Brak pracowników do wyświetlenia");
@@ -102,11 +105,12 @@ public class WorkersMenagerControler extends ConnectionCardReader implements Ini
 
     }
 
-    public void getAllWorker(ActionEvent actionEvent) {
+    public void getAllWorker() {
         loadDateUser(workerRepository.getWorkers());
     }
 
-    public void searchWorkers() {
+    @FXML
+    private void searchWorkers() {
         //file is not empty
         if (!serchField.getText().equals("")) {
             List<Workers> workersList = new ArrayList<>();
@@ -126,55 +130,27 @@ public class WorkersMenagerControler extends ConnectionCardReader implements Ini
         }
     }
 
-    /*
-    String idTagReaded = "";
-    public void listeningPort() throws Exception {
-        ConectionCardReader.initSerialPort(ConectionCardReader.portName, 9600);
-        ConectionCardReader.serialPort.
-                addDataListener(new SerialPortDataListener() {
-                                    @Override
-                                    public int getListeningEvents() {
-                                        return SerialPort.LISTENING_EVENT_DATA_RECEIVED;
-                                    }
-
-                                    @Override
-                                    public void serialEvent(SerialPortEvent serialPortEvent) {
-                                        String databBuffer = "";
-                                        byte[] newData = serialPortEvent.getReceivedData();
-                                        for (int i = 0; i < newData.length; i++) {
-                                            databBuffer += (char) newData[i];
-                                        }
-                                        if (!idTagReaded.equals(databBuffer)) {
-                                            idTagReaded = databBuffer;
-                                            serchField.setText(idTagReaded);
-                                        }
-                                        // System.out.println(idTagReaded);
-                                    }
-                                }
-                );
-
-    }
-*/
-
-    public void editOneUser() throws IOException {
+    @FXML
+    private void editOneUser() throws IOException {
         Workers workers = tableWorkers.getSelectionModel().getSelectedItem();
         if (workers != null) {
             WorkerDetailsControler.setEditWorker(workers);
             App.setNextRootScene("Admin/WorkerDetails");
         }
     }
+
     @FXML
     private void generateHoursWorked() throws FileNotFoundException {
 
         Date date = null;
-        if(workingDate.getValue()!=null){
-            date=Date.valueOf(workingDate.getValue());
-        }else {
-            date=Date.valueOf(LocalDate.now());
+        if (workingDate.getValue() != null) {
+            date = Date.valueOf(workingDate.getValue());
+        } else {
+            date = Date.valueOf(LocalDate.now());
         }
-        Workers workers=null;
+        Workers workers = null;
         List<EmployeesOverworkedTime> overworkedTimeList;
-        if(tableWorkers.getSelectionModel().getSelectedItem()!=null) {
+        if (tableWorkers.getSelectionModel().getSelectedItem() != null) {
             workers = tableWorkers.getSelectionModel().getSelectedItem();
 
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -199,17 +175,15 @@ public class WorkersMenagerControler extends ConnectionCardReader implements Ini
             } else if (result.get() == buttonTypeTwo) {
                 overworkedTimeList = workerRepository.getEmployeesOverworkedTimeList(workers, date);
                 if (overworkedTimeList != null) {
-                    GenerateListOfHoursWorked.generatePDFSumMonth(overworkedTimeList,"");
+                    GenerateListOfHoursWorked.generatePDFSumMonth(overworkedTimeList, "");
                 } else {
                     showAlerLackOfData();
                 }
-            } else {
-                // ... user chose CANCEL or closed the dialog
             }
-        }else {
+        } else {
             overworkedTimeList = workerRepository.getEmployeesOverworkedTimeList(workers, date);
             if (overworkedTimeList != null) {
-                GenerateListOfHoursWorked.generatePDFSumMonth(overworkedTimeList,"");
+                GenerateListOfHoursWorked.generatePDFSumMonth(overworkedTimeList, "");
             } else {
                 showAlerLackOfData();
             }
@@ -217,8 +191,8 @@ public class WorkersMenagerControler extends ConnectionCardReader implements Ini
 
     }
 
-    private void showAlerLackOfData(){
-        Alert alert=new Alert(Alert.AlertType.INFORMATION);
+    private void showAlerLackOfData() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText("Brak danych ");
         alert.setContentText("Wybierz inny miesiąc lub innego pracownika");
         alert.show();

@@ -2,12 +2,17 @@ package org.main.Utils;
 
 
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ValidadiotData {
     private static final String REGEX_PASSWORD = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[#$@!%&*?])[A-Za-z\\d#$@!%&*?]{8,30}$";
     private static final String REGEX_NAME = "[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ ]{3,20}$";
+
     private static final String REGEX_ZIPCODE = "\\d{2}(-\\d{3})?";
     private static final String REGEX_STREET_SHORT = "[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ]{3,20}$";
     private static final String REGEX_STREET_MISSING = "(-)";
@@ -17,13 +22,14 @@ public class ValidadiotData {
     private static final String REGEX_NUMBERS_DECIMAL_TIRE = "[0-9]{2,3}$";
     private static final String REGEX_NUMBERS_TAG = "[0-9]{8,10}$";
     private static final String REGEX_DATE = "^[0-3]?[0-9].[0-3]?[0-9].(?:[0-9]{2})?[0-9]{2}$";
-    private static final String REGEX_STREET_NUMBER = "[A-Za-z0-9]{1,5}$";
+    private static final String REGEX_STREET_NUMBER = "^\\d{1,4}([A-Z]{1,2}|/\\d{1,4})?$";
     private static final String REGEX_ACCOUNT_NUMBER = "\\d{2}[ ]\\d{4}[ ]\\d{4}[ ]\\d{4}[ ]\\d{4}[ ]\\d{4}[ ]\\d{4}";
     private static final String REGEX_BANK_NAME = "[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ ]{3,40}$";
     private static final String REGEX_MODEL_MARKA = "[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ0-9 ]{2,50}$";
     private static final String REGEX_NIP_COMPANY = "\\d{3}[-]\\d{2}[-]\\d{2}[-]\\d{3}";
     private static final String REGEX_NIP_PERSON = "\\d{3}[-]\\d{3}[-]\\d{2}[-]\\d{2}";
 
+    private static final String REGEX_CITY = "^[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ ]{3,30}$";
     public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
             Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 
@@ -38,11 +44,14 @@ public class ValidadiotData {
         return matcher.find();
     }
     public static boolean validateDate(String date) {
-        if (Pattern.matches(REGEX_DATE, date) ) {
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+            LocalDate.parse(date, formatter);
             return true;
-        } else {
+        } catch (DateTimeParseException e) {
             return false;
         }
+
     }
     /**
      * Sprawdzenie poprawnośici hasłą
@@ -95,17 +104,10 @@ public class ValidadiotData {
         }
     }
 
-    /**
-     *   Sprawdzenie poprawnośici kodu pocztowego
-     *    00-000
-     *   zwraza prwade jesi spełnia warunki
-     */
     public static boolean validateCity(String city) {
-        if (Pattern.matches(REGEX_NAME, city)) {
-            return true;
-        } else {
-            return false;
-        }
+        return Pattern.matches(REGEX_CITY, city);
+
+
     }
 
     /**
@@ -230,5 +232,6 @@ public class ValidadiotData {
             return false;
         }
     }
+
 
 }
