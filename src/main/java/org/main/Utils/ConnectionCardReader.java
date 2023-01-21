@@ -15,6 +15,9 @@ public class ConnectionCardReader {
     public static String portName = "COM15";
 
     public void initSerialPort(String name, int baud) throws Exception {
+        if (serialPort != null && serialPort.isOpen()) {
+            closePort();
+        }
         serialPort = SerialPort.getCommPort(name);
         serialPort.setParity(SerialPort.NO_PARITY);
         serialPort.setNumStopBits(SerialPort.ONE_STOP_BIT);
@@ -22,6 +25,7 @@ public class ConnectionCardReader {
         serialPort.setBaudRate(baud);
         serialPort.openPort();
         //listeningPort();
+
     }
 
 
