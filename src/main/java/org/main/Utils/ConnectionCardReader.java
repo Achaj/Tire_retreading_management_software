@@ -3,10 +3,17 @@ package org.main.Utils;
 import com.fazecast.jSerialComm.SerialPort;
 import com.fazecast.jSerialComm.SerialPortDataListener;
 import com.fazecast.jSerialComm.SerialPortEvent;
+import javafx.application.Platform;
 import javafx.scene.control.TextField;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 public class ConnectionCardReader {
@@ -28,36 +35,47 @@ public class ConnectionCardReader {
 
     }
 
+    static Controller controller = new Controller();
 
     public static void closePort() {
         if (serialPort.isOpen()) {
             serialPort.closePort();
+
         }
+        controller.cleanup();
     }
 
+
     public void listeningPort(TextField textField) {
-        serialPort.addDataListener(new SerialPortDataListener() {
-            @Override
-            public int getListeningEvents() {
+        if (serialPort != null && serialPort.isOpen()) {
+            serialPort.addDataListener(new SerialPortDataListener() {
+                @Override
+                public int getListeningEvents() {
 
-                return SerialPort.LISTENING_EVENT_DATA_RECEIVED;
-            }
-
-            @Override
-            public void serialEvent(SerialPortEvent serialPortEvent) {
-                StringBuilder dataBuffer = new StringBuilder();
-                byte[] newData = serialPortEvent.getReceivedData();
-                for (byte newDatum : newData) {
-                    dataBuffer.append((char) newDatum);
+                    return SerialPort.LISTENING_EVENT_DATA_RECEIVED;
                 }
 
-                dataTagUID = dataBuffer.toString();
-                textField.setText(dataTagUID);
+                @Override
+                public void serialEvent(SerialPortEvent serialPortEvent) {
+                    StringBuilder dataBuffer = new StringBuilder();
+                    byte[] newData = serialPortEvent.getReceivedData();
+                    for (byte newDatum : newData) {
+                        dataBuffer.append((char) newDatum);
+                    }
+
+                    dataTagUID = dataBuffer.toString();
+                    textField.setText(dataTagUID);
 
 
-                System.out.println(dataTagUID);
-            }
-        });
+                    System.out.println(dataTagUID);
+                }
+            });
+        } else {
+
+            controller.setTextField(textField);
+            controller.initialize();
+
+        }
     }
 
 
@@ -66,4 +84,6 @@ public class ConnectionCardReader {
                 .map(SerialPort::getSystemPortName)
                 .collect(Collectors.toList());
     }
+
+
 }

@@ -176,11 +176,13 @@ public class LoginController extends ConnectionCardReader implements Initializab
                 listeningPort(passTag);
             }else {
                 Alert alert = new Alert(Alert.AlertType.NONE);
-                alert.setAlertType(Alert.AlertType.WARNING);
-                alert.setHeaderText("Nie wykryto czytnika !");
-                alert.showAndWait();
+                alert.setAlertType(Alert.AlertType.INFORMATION);
+                alert.setHeaderText("Nie wykryto czytnika ze stacjonarnym czytnikiem!");
+                alert.setContentText("Został uruchomine połącznie do zdalnego czytnika");
+                alert.show();
                 //passTag.setEditable(true);
                 //connectionCardReader();
+                listeningPort(passTag);
             }
         } else {
             listeningPort(passTag);
