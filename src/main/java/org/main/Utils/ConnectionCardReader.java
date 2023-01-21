@@ -30,7 +30,8 @@ public class ConnectionCardReader {
         serialPort.setNumStopBits(SerialPort.ONE_STOP_BIT);
         serialPort.setNumDataBits(8);
         serialPort.setBaudRate(baud);
-        serialPort.openPort();
+        boolean result = serialPort.openPort();
+        System.out.println("Open Port :" + result);
         //listeningPort();
 
     }
@@ -67,7 +68,7 @@ public class ConnectionCardReader {
                     textField.setText(dataTagUID);
 
 
-                    System.out.println(dataTagUID);
+                    System.out.println("Recivet data COM: " + dataTagUID);
                 }
             });
         } else {

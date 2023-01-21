@@ -28,7 +28,7 @@ public class Controller {
     }
 
     public void cleanup() {
-        if (!serverSocketHandler.isInterrupted()) {
+        if (serverSocketHandler != null) {
             try {
                 serverSocketHandler.interrupt();  //stop the thread
                 serverSocketHandler.serverSocket.close(); // close the server socket
@@ -53,10 +53,12 @@ public class Controller {
                 while (!isInterrupted()) {
                     try {
                         clientSocket = serverSocket.accept();
+                        System.out.println("Connection received from " + clientSocket.getInetAddress().getHostAddress());
                         BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                         String request;
                         while (!clientSocket.isClosed() && (request = in.readLine()) != null) {
                             String finalRequest = request;
+                            System.out.println("Received data: " + request);
                             Platform.runLater(() -> textField.setText(finalRequest));
                         }
                     } catch (IOException e) {
