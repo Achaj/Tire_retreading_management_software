@@ -16,37 +16,50 @@ import java.util.ResourceBundle;
 
 public class UserMainController implements Initializable {
 
-   @FXML public Button backAdminBTN;
+    @FXML
+    private Button backAdminBTN;
+    @FXML
+    private Button employeeEditBNT;
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-            if(Temporary.getWorkers()!=null){
-                if(Temporary.getWorkers().getPosition().equals("ADMIN"));
+        if (Temporary.getWorkers() != null) {
+            employeeEditBNT.setText(Temporary.getWorkers().getPosition());
+            if (Temporary.getWorkers().getPosition().equals("ADMIN")) {
                 backAdminBTN.setVisible(true);
-            }else {
-                try {
-                    logOutApp();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+
             }
+        } else {
+            try {
+                logOutApp();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
+
     public void backToAdminScene() throws IOException {
         App.setPrevRootScene();
     }
+
     public void logOutApp() throws IOException {
         App.setLoginRootScene();
     }
+
     public void showTireView() throws IOException {
         App.setNextRootScene("User/TiresManager");
     }
+
     public void showWorksView() throws IOException {
         App.setNextRootScene("User/WorksManager");
     }
+
     public void showSemiProductsView() throws IOException {
         App.setNextRootScene("User/SemiProductsManager");
     }
+
     public void showUserDetails() throws IOException {
         App.setNextRootScene("User/UserDetails");
     }

@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.main.Admin.AdminMainController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.main.Admin.AdminMainController">
    <left>
       <VBox alignment="CENTER" fillWidth="false" minHeight="-Infinity" minWidth="-Infinity" prefHeight="525.0" prefWidth="226.0" style="-fx-background-color: #404040;">
             <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="System Zarzadzanie Obiektami" textAlignment="CENTER" wrappingWidth="218.326171875">
@@ -99,12 +99,12 @@
             </HBox>
             <HBox prefHeight="78.0" prefWidth="554.0" style="-fx-background-color: #dedad9;">
                <children>
-                           <Button mnemonicParsing="false" onAction="#showGeneratorStatements" prefHeight="70.0" prefWidth="146.0" text="Generowanie Zestawień" textAlignment="CENTER" wrapText="true">
+                           <Button mnemonicParsing="false" onAction="#showGeneratorStatements" prefHeight="70.0" prefWidth="146.0" text="Raportowanie" textAlignment="CENTER" wrapText="true">
                               <font>
                                  <Font size="16.0" />
                                  </font>
                            </Button>
-                  <Label prefHeight="63.0" prefWidth="322.0" text="Generowanie aktulanych stanów na wybranych obiektach" textAlignment="JUSTIFY" wrapText="true">
+                  <Label prefHeight="63.0" prefWidth="322.0" text="Panel raportowania to narzędzie umożliwiające generowanie i prezentowanie różnego rodzaju raportów. " textAlignment="JUSTIFY" wrapText="true">
                      <HBox.margin>
                         <Insets left="5.0" />
                      </HBox.margin>
@@ -119,12 +119,12 @@
             </HBox>
             <HBox prefHeight="74.0" prefWidth="554.0" style="-fx-background-color: #dedad9;">
                <children>
-                  <Button mnemonicParsing="false" onAction="#showBasicUser" prefHeight="59.0" prefWidth="148.0" text="Pracownik">
+                  <Button mnemonicParsing="false" onAction="#showBasicUser" prefHeight="59.0" prefWidth="148.0" text="Praca">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Button>
-                  <Label prefHeight="90.0" prefWidth="341.0" text="Pokazuje obecny przepływ pracy " textAlignment="JUSTIFY" wrapText="true">
+                  <Label prefHeight="90.0" prefWidth="341.0" text="Panel pracownika to narzędzie, które pozwala pracownikom na zarządzanie swoimi danymi i informacjami związanymi z pracą." textAlignment="JUSTIFY" wrapText="true">
                      <HBox.margin>
                         <Insets left="5.0" />
                      </HBox.margin>
@@ -144,7 +144,7 @@
                         <Font size="16.0" />
                      </font>
                   </Button>
-                  <Label prefHeight="90.0" prefWidth="341.0" text="Pokazuje przepracowane grzepracowane godziny" textAlignment="JUSTIFY" wrapText="true">
+                  <Label prefHeight="90.0" prefWidth="341.0" text="Panel kontrole pokazujeące ilość wykonanych prac." textAlignment="JUSTIFY" wrapText="true">
                      <HBox.margin>
                         <Insets left="5.0" />
                      </HBox.margin>
@@ -164,7 +164,7 @@
                         <Font size="16.0" />
                      </font>
                   </Button>
-                  <Label prefHeight="90.0" prefWidth="341.0" text="Pokazuje przepracowane grzepracowane godziny" textAlignment="JUSTIFY" wrapText="true">
+                  <Label prefHeight="90.0" prefWidth="341.0" text="Panel pokazuje oqólne statystyki o przepracowanych godzinach,średnim czasie wykonywania czynność." textAlignment="JUSTIFY" wrapText="true">
                      <HBox.margin>
                         <Insets left="5.0" />
                      </HBox.margin>

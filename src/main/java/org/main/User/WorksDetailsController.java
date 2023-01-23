@@ -51,11 +51,16 @@ public class WorksDetailsController extends ConnectionCardReader implements Init
     public ComboBox<String> nameChoiceBox;
     @FXML
     public ComboBox<String> statusChoiceBox;
+    @FXML
+    private Button removeBTN;
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        if (Temporary.getWorkers().getPosition().equals("ADMIN")) {
+            removeBTN.setDisable(false);
+            departmentsComboBox.setDisable(false);
+        }
         loadWorkersToComboBox();
         loadDepartmentsToComboBox();
         loadChoiceBox();
@@ -223,7 +228,7 @@ public class WorksDetailsController extends ConnectionCardReader implements Init
             } if(parameter.equals("edit")) {
                 AddSemiProductToWorkController.setWorksEdit(works);
             }
-
+            ConnectionCardReader.closePort();
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("AddSemiProductToWork.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 1000, 600);
@@ -251,7 +256,9 @@ public class WorksDetailsController extends ConnectionCardReader implements Init
         if (worksEdit != null) {
             workersComboBox.getSelectionModel().select(worksEdit.getWorkers());
             departmentsComboBox.getSelectionModel().select(worksEdit.getDepartments());
+
             nameChoiceBox.getSelectionModel().select(worksEdit.getName());
+            nameChoiceBox.setDisable(true);
             statusChoiceBox.getSelectionModel().select(worksEdit.getStatus());
 
 
@@ -266,9 +273,14 @@ public class WorksDetailsController extends ConnectionCardReader implements Init
             if (worksEdit.getDateStop() != null) {
                 timeStop.setText(String.valueOf(worksEdit.getDateStop()));
             }
-            loadSemiProductsToTreeView();
+            List<WorkSemiProducts> workSemiProductsList = workSemiProductsRepository.getSemiProductsByWork(worksEdit.getIdWork());
+            loadSemiProductsToTreeView(workSemiProductsList);
         } else {
             loadTiresToTreeView(tiresRepository.getTires());
+            loadSemiProductsToTreeView(null);
+            departmentsComboBox.setDisable(false);
+            // workersComboBox.getSelectionModel().select(Temporary.getWorkers());
+            // departmentsComboBox.getSelectionModel().select(Temporary.getWorkers().getDepartments());
         }
 
     }
@@ -453,11 +465,11 @@ public class WorksDetailsController extends ConnectionCardReader implements Init
 
     WorkSemiProductsRepositoryImpl workSemiProductsRepository = new WorkSemiProductsRepositoryImpl();
 
-    public void loadSemiProductsToTreeView() {
+    public void loadSemiProductsToTreeView(List<WorkSemiProducts> workSemiProductsList) {
 
         TreeItem rootItem = new TreeItem("Użyte komponenty");
         rootItem.setExpanded(true);
-        List<WorkSemiProducts> workSemiProductsList = workSemiProductsRepository.getSemiProductsByWork(worksEdit.getIdWork());
+
         if (workSemiProductsList != null) {
             for (WorkSemiProducts workSemiProducts : workSemiProductsList) {
                 rootItem.getChildren().add(new TreeItem<String>("Nazwa: " + workSemiProducts.getSemiProducts().getName() +

@@ -6,15 +6,15 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.main.User.UserMainController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.main.User.UserMainController">
    <left>
       <VBox alignment="CENTER" fillWidth="false" minHeight="-Infinity" minWidth="-Infinity" prefHeight="476.0" prefWidth="226.0" style="-fx-background-color: #404040;">
-            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Bieżnikowanie" textAlignment="CENTER" wrappingWidth="218.0498046875">
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="System Zarzadzanie Obiektami" textAlignment="CENTER" wrappingWidth="218.0498046875">
                <font>
                   <Font name="System Bold" size="31.0" />
                </font>
             </Text>
-            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Opon Samochodowych" textAlignment="CENTER">
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Przy pomocy RFID" textAlignment="CENTER">
                <font>
                   <Font size="15.0" />
                </font>
@@ -27,16 +27,16 @@
    <top>
       <GridPane prefHeight="56.0" prefWidth="800.0" style="-fx-background-color: #404040;" BorderPane.alignment="CENTER">
          <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="513.0" minWidth="10.0" prefWidth="369.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="526.0" minWidth="10.0" prefWidth="281.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="296.0" minWidth="3.0" prefWidth="40.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="186.0" minWidth="10.0" prefWidth="95.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="513.0" minWidth="10.0" prefWidth="299.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="526.0" minWidth="10.0" prefWidth="242.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="296.0" minWidth="3.0" prefWidth="140.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="186.0" minWidth="10.0" prefWidth="115.0" />
          </columnConstraints>
          <rowConstraints>
             <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-               <Button mnemonicParsing="false" onAction="#logOutApp" prefHeight="24.0" prefWidth="104.0" text="Wyloguj" GridPane.columnIndex="3">
+               <Button mnemonicParsing="false" onAction="#logOutApp" prefHeight="31.0" prefWidth="104.0" text="Wyloguj" GridPane.columnIndex="3">
                <graphic>
                   <ImageView fitHeight="27.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -44,8 +44,11 @@
                      </image>
                   </ImageView>
                </graphic>
+               <GridPane.margin>
+                  <Insets right="10.0" />
+               </GridPane.margin>
             </Button>
-            <Button mnemonicParsing="false" onAction="#showUserDetails" prefHeight="31.0" prefWidth="31.0" GridPane.columnIndex="2">
+            <Button fx:id="employeeEditBNT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#showUserDetails" prefHeight="31.0" prefWidth="115.0" text="Pracownik" GridPane.columnIndex="2">
                <graphic>
                   <ImageView fitHeight="27.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -54,12 +57,12 @@
                   </ImageView>
                </graphic>
             </Button>
-                  <Label alignment="CENTER" contentDisplay="CENTER" text="Panel Pracownika" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1">
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="30.0" prefWidth="306.0" text="Panel Pracy" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1">
                      <font>
                         <Font name="System Bold" size="20.0" />
                      </font>
                   </Label>
-            <Button fx:id="backAdminBTN" mnemonicParsing="false" onAction="#backToAdminScene" prefHeight="31.0" prefWidth="103.0" text="ADMIN" visible="false" GridPane.halignment="RIGHT">
+            <Button fx:id="backAdminBTN" mnemonicParsing="false" onAction="#backToAdminScene" prefHeight="31.0" prefWidth="103.0" text=" Cofnij" visible="false" GridPane.halignment="RIGHT">
                <graphic>
                   <ImageView fitHeight="27.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -83,14 +86,14 @@
    <center>
       <VBox prefHeight="512.0" prefWidth="467.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox prefHeight="110.0" prefWidth="492.0" style="-fx-background-color: #dedad9;">
+            <HBox prefHeight="72.0" prefWidth="554.0" style="-fx-background-color: #dedad9;">
                <children>
                            <Button mnemonicParsing="false" onAction="#showTireView" prefHeight="77.0" prefWidth="143.0" text="Opony">
                               <font>
                                  <Font size="16.0" />
                               </font>
                            </Button>
-                  <Label prefHeight="63.0" prefWidth="322.0" text="Panel kontrolny menedżera użytkowników wyświetla elementy panelu kontrolnego, które są skonfigurowane dla roli menedżera użytkowników. " textAlignment="JUSTIFY" wrapText="true">
+                  <Label prefHeight="63.0" prefWidth="395.0" text="Panel do zarządzania oponami umożliwia użytkownikom przeglądanie i edycję właściwości obiektów, sortowanie i filtrowanie obiektów według różnych kryteriów." textAlignment="JUSTIFY" wrapText="true">
                      <HBox.margin>
                         <Insets left="5.0" />
                      </HBox.margin>
@@ -103,14 +106,14 @@
                   <Insets bottom="10.0" top="10.0" />
                </VBox.margin>
             </HBox>
-            <HBox layoutX="10.0" layoutY="120.0" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #dedad9;">
+            <HBox layoutX="10.0" layoutY="120.0" prefHeight="71.0" prefWidth="554.0" style="-fx-background-color: #dedad9;">
                <children>
                   <Button mnemonicParsing="false" onAction="#showWorksView" prefHeight="61.0" prefWidth="146.0" text="Zadania">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Button>
-                  <Label prefHeight="63.0" prefWidth="322.0" text="Panel kontrolny menedżera działów wyświetla elementy panelu kontrolnego, które są skonfigurowane dla roli menedżera dziłów " textAlignment="JUSTIFY" wrapText="true">
+                  <Label prefHeight="63.0" prefWidth="377.0" text="Pozwala on na tworzenie listy zadań, przypisywanie ich do konkretnych Pozwala on na tworzenie listy zadań, przypisywanie ich do konkretnych osób." textAlignment="JUSTIFY" wrapText="true">
                      <HBox.margin>
                         <Insets left="5.0" />
                      </HBox.margin>
@@ -122,12 +125,12 @@
             </HBox>
             <HBox prefHeight="74.0" prefWidth="505.0" style="-fx-background-color: #dedad9;">
                <children>
-                           <Button mnemonicParsing="false" onAction="#showSemiProductsView" prefHeight="61.0" prefWidth="146.0" text="Pół produkty" textAlignment="CENTER" wrapText="true">
+                           <Button mnemonicParsing="false" onAction="#showSemiProductsView" prefHeight="61.0" prefWidth="146.0" text="Komponenty" textAlignment="CENTER" wrapText="true">
                               <font>
                                  <Font size="16.0" />
                               </font>
                            </Button>
-                  <Label prefHeight="63.0" prefWidth="322.0" text="Panel dla zwykłego użytkwonika aplikacji, umożliwiający wykonywanie pracy" textAlignment="JUSTIFY" wrapText="true">
+                  <Label prefHeight="63.0" prefWidth="392.0" text="Panel do zarządzania komponentami umożliwia użytkownikom przeglądanie i edycję właściwości obiektów, sortowanie i filtrowanie obiektów według różnych kryteriów." textAlignment="JUSTIFY" wrapText="true">
                      <HBox.margin>
                         <Insets left="5.0" />
                      </HBox.margin>

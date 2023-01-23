@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.main.Admin.GeneratingStatementsController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.main.Admin.GeneratingStatementsController">
    <top>
       <HBox spacing="5.0" style="-fx-background-color: #404040;" BorderPane.alignment="CENTER">
          <children>
@@ -25,7 +25,7 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </HBox.margin>
             </Button>
-            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Genewrowanie Zestawień PDF" wrappingWidth="665.0">
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Raportowanie" wrappingWidth="665.0">
                <font>
                   <Font name="System Bold" size="40.0" />
                </font>
@@ -64,6 +64,11 @@
                      <VBox.margin>
                         <Insets top="10.0" />
                      </VBox.margin>
+                  </Label>
+                  <Label alignment="CENTER" layoutX="10.0" layoutY="42.0" prefHeight="22.0" prefWidth="300.0" text="Wybierz miesiąc" textAlignment="CENTER">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
                   </Label>
                   <DatePicker fx:id="workingEmployeeDatePicker" prefHeight="25.0" prefWidth="300.0" promptText="01-01-2023">
                      <VBox.margin>
@@ -139,7 +144,7 @@
                         <Insets left="5.0" right="5.0" top="10.0" />
                      </VBox.margin>
                   </RadioButton>
-                  <RadioButton fx:id="twoDateRadioButton" mnemonicParsing="false" prefHeight="46.0" prefWidth="300.0" text="Wyszukaj po dacie Od - 31 Dni" wrapText="true">
+                  <RadioButton fx:id="twoDateRadioButton" mnemonicParsing="false" prefHeight="59.0" prefWidth="220.0" text="Wyszukaj Od  pierwszej daty  31 dni w stecz" wrapText="true">
                      <VBox.margin>
                         <Insets bottom="10.0" left="5.0" right="5.0" />
                      </VBox.margin>

@@ -2,10 +2,7 @@ package org.main.User;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import org.main.App;
 import org.main.Entity.SemiProducts;
 import org.main.Entity.SemiProductsRepositoryImpl;
@@ -19,8 +16,12 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class SemiProductsDetailsController extends ConnectionCardReader implements Initializable {
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        if (Temporary.getWorkers().getPosition().equals("ADMIN")) {
+            removeBTN.setDisable(false);
+        }
         inizjalizeChoiceBox();
         try {
             initSerialPort(portName, 9600);
@@ -31,6 +32,9 @@ public class SemiProductsDetailsController extends ConnectionCardReader implemen
         loadEditSemiProd();
         listinerField();
     }
+
+    @FXML
+    private Button removeBTN;
 
     @FXML
     public TextField name;

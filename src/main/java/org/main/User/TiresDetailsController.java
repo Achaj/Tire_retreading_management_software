@@ -35,6 +35,8 @@ public class TiresDetailsController extends ConnectionCardReader implements Init
     public ChoiceBox<String> loadIndex;
     @FXML
     public TreeView<String> lastWork;
+    @FXML
+    private Button removeBTN;
 
     private boolean corectIdTag=false;
     private boolean corectHeight=false;
@@ -51,11 +53,13 @@ public class TiresDetailsController extends ConnectionCardReader implements Init
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        if (Temporary.getWorkers().getPosition().equals("ADMIN")) {
+            removeBTN.setDisable(false);
+        }
 
         inizjalizeChoiceBox();
-    
-        if(tiresEdit !=null){
+
+        if (tiresEdit != null) {
             loadTiere();
         }
         listinerField();

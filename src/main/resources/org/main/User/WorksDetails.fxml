@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.main.User.WorksDetailsController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.main.User.WorksDetailsController">
    <top>
       <AnchorPane prefHeight="82.0" prefWidth="609.0" style="-fx-background-color: #404040;" BorderPane.alignment="CENTER">
          <children>
@@ -116,7 +116,7 @@
                                           <Insets bottom="10.0" />
                                        </VBox.margin>
                                     </ComboBox>
-                                    <ComboBox fx:id="departmentsComboBox" prefHeight="25.0" prefWidth="370.0">
+                                    <ComboBox fx:id="departmentsComboBox" disable="true" prefHeight="25.0" prefWidth="370.0">
                                        <VBox.margin>
                                           <Insets bottom="10.0" />
                                        </VBox.margin>
@@ -134,7 +134,7 @@
                            </VBox.margin></TreeView>
                         <HBox prefHeight="48.0" prefWidth="529.0">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#remove" prefHeight="42.0" prefWidth="138.0" style="-fx-background-color: #404040;" text="Usuń" textFill="WHITE" textOverrun="CLIP">
+                              <Button fx:id="removeBTN" disable="true" mnemonicParsing="false" onAction="#remove" prefHeight="42.0" prefWidth="138.0" style="-fx-background-color: #404040;" text="Usuń" textFill="WHITE" textOverrun="CLIP">
                                  <font>
                                     <Font name="System Bold" size="17.0" />
                                  </font>
