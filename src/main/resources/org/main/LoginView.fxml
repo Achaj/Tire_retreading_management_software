@@ -25,18 +25,29 @@
     <right>
         <AnchorPane prefHeight="600.0" prefWidth="361.0" BorderPane.alignment="CENTER">
             <children>
-                <TextField fx:id="username" layoutX="49.0" layoutY="163.0" prefHeight="25.0" prefWidth="202.0" promptText="Username" style="-fx-border-color: #404040; -fx-border-width: 0px 0px 2px 0px; -fx-background-color: transparent;" />
-                <PasswordField fx:id="password" layoutX="49.0" layoutY="202.0" prefHeight="25.0" prefWidth="202.0" promptText="Password" style="-fx-background-color: transparent; -fx-border-color: #404040; -fx-border-width: 0px 0px 2px 0px;" />
-                <Button fx:id="loginButton" layoutX="98.0" layoutY="291.0" mnemonicParsing="false" onAction="#logInApplication" prefHeight="32.0" prefWidth="76.0" style="-fx-background-color: #404040; -fx-background-radius: 0px;" text="Login" textFill="WHITE">
+                <TextField fx:id="username" layoutX="49.0" layoutY="163.0" prefHeight="25.0" prefWidth="202.0"
+                           promptText="Login"
+                           style="-fx-border-color: #404040; -fx-border-width: 0px 0px 2px 0px; -fx-background-color: transparent;"/>
+                <PasswordField fx:id="password" layoutX="49.0" layoutY="202.0" prefHeight="25.0" prefWidth="202.0"
+                               promptText="Hasło"
+                               style="-fx-background-color: transparent; -fx-border-color: #404040; -fx-border-width: 0px 0px 2px 0px;"/>
+                <Button fx:id="loginButton" layoutX="98.0" layoutY="291.0" mnemonicParsing="false"
+                        onAction="#logInApplication" prefHeight="32.0" prefWidth="76.0"
+                        style="-fx-background-color: #404040; -fx-background-radius: 0px;" text="Zaloguj się"
+                        textFill="WHITE">
                     <cursor>
-                        <Cursor fx:constant="OPEN_HAND" />
-                    </cursor></Button>
-                <Text fill="#404040" layoutX="81.0" layoutY="143.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User Login" wrappingWidth="137.24869537353516">
+                        <Cursor fx:constant="OPEN_HAND"/>
+                    </cursor>
+                </Button>
+                <Text fill="#404040" layoutX="21.0" layoutY="135.0" strokeType="OUTSIDE" strokeWidth="0.0"
+                      text="Logowanie użytkownika" wrappingWidth="305.24869537353516">
                     <font>
-                        <Font name="Wingdings 3" size="27.0" />
+                        <Font name="Wingdings 3" size="27.0"/>
                     </font>
                 </Text>
-            <PasswordField fx:id="passTag" layoutX="49.0" layoutY="240.0" prefHeight="25.0" prefWidth="202.0" promptText="tag UID" style="-fx-background-color: transparent; -fx-border-color: #404040; -fx-border-width: 0px 0px 2px 0px;" />
+                <PasswordField fx:id="passTag" layoutX="49.0" layoutY="240.0" prefHeight="25.0" prefWidth="202.0"
+                               promptText="tag UID"
+                               style="-fx-background-color: transparent; -fx-border-color: #404040; -fx-border-width: 0px 0px 2px 0px;"/>
             </children>
         </AnchorPane>
     </right>

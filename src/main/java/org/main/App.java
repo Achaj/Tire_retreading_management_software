@@ -44,6 +44,7 @@ public class App extends Application {
                 }
             });
 
+
     }
 
     static void setRoot(String fxml) throws IOException {

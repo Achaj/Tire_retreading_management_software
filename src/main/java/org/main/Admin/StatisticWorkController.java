@@ -245,32 +245,7 @@ public class StatisticWorkController extends ConnectionCardReader implements Ini
     }
 
     private void loadAreaChart(List<WorkNameDate> workNameDateList) {
-        /*
-        worksAreaChart.setTitle("Wykres pracy z ostatnich 30 dni");
-        XYChart.Series series = new XYChart.Series();
-        series.setName("Prace");
 
-        Map<String, XYChart.Series> seriesMap = new HashMap<>();
-        seriesMap.put("Przyjęcie na stan", series);
-        seriesMap.put("Wstępna kontrola", series);
-        seriesMap.put("Kontrola maszynowa", series);
-        seriesMap.put("Szorstkowanie krasu", series);
-        seriesMap.put("Szlifowanie opony", series);
-        seriesMap.put("Wypełnienie ubytków", series);
-        seriesMap.put("Nakładanie bieżnika", series);
-        seriesMap.put("Wulkanizacja opony", series);
-        seriesMap.put("Kontrola jakości wyrobu", series);
-        seriesMap.put("Magazynowanie", series);
-
-        if (workNameDateList != null) {
-            for (WorkNameDate workNameDate : workNameDateList) {
-                XYChart.Series workSeries = seriesMap.get(workNameDate.getName());
-                workSeries.getData().add(new XYChart.Data<>(workNameDate.getDate().toString(), workNameDate.getCount()));
-            }
-        }
-
-        worksAreaChart.getData().add(series);
-        */
 
         worksAreaChart.getData().clear();
         worksAreaChart.setTitle("Wykres pracy z ostatnich 31 dni");
