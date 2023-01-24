@@ -1,14 +1,19 @@
 package org.main.Entity;
 
+import org.main.Utils.MyLogger;
+import org.main.Utils.Temporary;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class DepartmentsRepositoryImpl implements DepartmentsRepository {
     EntityManager entityManager = ConnectionToDB.entityManager;
     EntityTransaction entityTransaction = ConnectionToDB.entityTransaction;
-
+    Logger logger = MyLogger.getInstance().getLogger();
     @Override
     public List<Departments> getDepartments() {
         if (!entityTransaction.isActive()) {
@@ -30,6 +35,7 @@ public class DepartmentsRepositoryImpl implements DepartmentsRepository {
                  entityManager.merge(departments);
             }
             entityTransaction.commit();
+            logger.log(Level.INFO, "SAVE:" + departments.toStringLong() + " By: " + Temporary.getWorkers().toString());
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -85,10 +91,12 @@ public class DepartmentsRepositoryImpl implements DepartmentsRepository {
         try {
             entityManager.merge(departments);
             entityTransaction.commit();
+            logger.log(Level.INFO, "CHANGE:" + departments.toStringLong() + " By: " + Temporary.getWorkers().toString());
             return true;
         } catch (Exception e) {
             e.printStackTrace();
             entityTransaction.rollback();
+            logger.log(Level.WARNING, "ERROR  By: " + Temporary.getWorkers().toString(), e);
             return false;
         } finally {
             entityManager.getEntityManagerFactory().getCache().evictAll();
@@ -106,9 +114,11 @@ public class DepartmentsRepositoryImpl implements DepartmentsRepository {
             Departments departments = getDepartment(id);
             entityManager.remove(departments);
             entityTransaction.commit();
+            logger.log(Level.INFO, "REMOVE:" + departments.toStringLong() + " By: " + Temporary.getWorkers().toString());
             return true;
         } catch (Exception e) {
             entityTransaction.rollback();
+            logger.log(Level.WARNING, "ERROR  By: " + Temporary.getWorkers().toString(), e);
             return false;
         } finally {
             entityManager.getEntityManagerFactory().getCache().evictAll();

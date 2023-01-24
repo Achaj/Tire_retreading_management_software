@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.main.Entity.WorkingTimeRepositoryImpl;
 import org.main.Utils.ConnectionCardReader;
+import org.main.Utils.MyLogger;
 import org.main.Utils.Temporary;
 
 import java.io.IOException;
@@ -34,15 +35,17 @@ public class App extends Application {
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
                 @Override
                 public void handle(WindowEvent e) {
-                    if(Temporary.getWorkers()!=null){
-                        App app=new App();
+                    if (Temporary.getWorkers() != null) {
+                        App app = new App();
                         Temporary.workingTime.setDateLogOut(LocalDateTime.now());
                         app.workingTimeRepository.change(Temporary.workingTime);
                     }
                     Platform.exit();
                     System.exit(0);
                 }
-            });
+        });
+        MyLogger.setup();
+        MyLogger.getInstance();
 
     }
 

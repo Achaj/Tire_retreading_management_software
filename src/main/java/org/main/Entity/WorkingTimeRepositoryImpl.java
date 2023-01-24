@@ -2,6 +2,8 @@ package org.main.Entity;
 
 import org.main.Entity.Temporaty.DailyStatusWork;
 import org.main.Entity.Temporaty.DaytimeWork;
+import org.main.Utils.MyLogger;
+import org.main.Utils.Temporary;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -11,10 +13,13 @@ import java.math.BigInteger;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class WorkingTimeRepositoryImpl implements WorkingTimeRepository {
     EntityManager entityManager = ConnectionToDB.entityManager;
     EntityTransaction entityTransaction = ConnectionToDB.entityTransaction;
+    Logger logger = MyLogger.getInstance().getLogger();
 
     @Override
     public WorkingTime getWorkingTimeByID(int id) {
@@ -47,11 +52,12 @@ public class WorkingTimeRepositoryImpl implements WorkingTimeRepository {
                 entityManager.merge(workingTime);
             }
             entityTransaction.commit();
-
+            logger.log(Level.INFO, "SAVE:" + workingTime.toString() + " BY:" + Temporary.getWorkers());
             return true;
         } catch (Exception e) {
             e.printStackTrace();
             entityTransaction.rollback();
+            logger.log(Level.WARNING, " Error BY:" + Temporary.getWorkers(), e);
             return false;
         }finally {
             entityManager.getEntityManagerFactory().getCache().evictAll();
@@ -67,10 +73,12 @@ public class WorkingTimeRepositoryImpl implements WorkingTimeRepository {
         try {
             entityManager.merge(workingTime);
             entityTransaction.commit();
+            logger.log(Level.INFO, "CHANGE:" + workingTime.toString() + " BY:" + Temporary.getWorkers());
             return true;
         } catch (Exception e) {
             e.printStackTrace();
             entityTransaction.rollback();
+            logger.log(Level.WARNING, " Error BY:" + Temporary.getWorkers(), e);
             return false;
         }finally {
             entityManager.getEntityManagerFactory().getCache().evictAll();
@@ -85,9 +93,11 @@ public class WorkingTimeRepositoryImpl implements WorkingTimeRepository {
         try {
             entityManager.remove(workingTime);
             entityTransaction.commit();
+            logger.log(Level.INFO, "REMOVE:" + workingTime.toString() + " BY:" + Temporary.getWorkers());
             return true;
         } catch (Exception e) {
             entityTransaction.rollback();
+            logger.log(Level.WARNING, " Error BY:" + Temporary.getWorkers(), e);
             return false;
         }finally {
             entityManager.getEntityManagerFactory().getCache().evictAll();

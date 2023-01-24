@@ -155,7 +155,22 @@ public class Workers implements Serializable {
     @Override
     public String toString() {
         return
-                firstName + "-" +lastName + "-" + position ;
+                firstName + "-" + lastName + "-" + position;
+    }
+
+
+    public String toStringLong() {
+        return "Workers{" +
+                "idWorker=" + idWorker +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", tag='" + tag + '\'' +
+                ", position='" + position + '\'' +
+                ", enploymentDate=" + enploymentDate +
+                ", stackingDate=" + stackingDate +
+                ", departments=" + departments +
+                '}';
     }
 }
 

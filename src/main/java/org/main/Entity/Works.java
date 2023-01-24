@@ -113,4 +113,18 @@ public class Works implements Serializable {
     public Works() {
     }
 
+    @Override
+    public String toString() {
+        return "Works{" +
+                "idWork=" + idWork +
+                ", name='" + name + '\'' +
+                ", dateStart=" + dateStart +
+                ", dateStop=" + dateStop +
+                ", status='" + status + '\'' +
+                ", workers=" + workers +
+                ", tires=" + tires +
+                ", departments=" + departments +
+                ", workSemiProducts=" + workSemiProducts +
+                '}';
+    }
 }

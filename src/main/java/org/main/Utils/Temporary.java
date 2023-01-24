@@ -56,6 +56,14 @@ public class Temporary {
     }
 
     //static private List<TireIndex> loadIndexTiere = new ArrayList<>();
+    public static List<String> typeUserList() {
+        List<String> typeList = new ArrayList<>();
+        typeList.add("ADMIN");
+        typeList.add("CHECKER");
+        typeList.add("STOREMAN");
+        typeList.add("VULCANISER");
+        return typeList;
+    }
 
     public static List<TireIndex> getLoadIndexTiere() {
         List<TireIndex> loadIndexTiere = new ArrayList<>();

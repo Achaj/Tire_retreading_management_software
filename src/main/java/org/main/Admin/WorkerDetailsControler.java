@@ -13,6 +13,7 @@ import org.main.Entity.Workers;
 import org.main.Entity.WorkersRepositoryImpl;
 import org.main.Utils.ConnectionCardReader;
 import org.main.Utils.PasswordHashing;
+import org.main.Utils.Temporary;
 import org.main.Utils.ValidadiotData;
 
 import java.io.IOException;
@@ -153,40 +154,42 @@ public class WorkerDetailsControler extends ConnectionCardReader implements Init
     }
 
     public void editWorkerInDB() {
-        Alert alert = new Alert(Alert.AlertType.NONE);
-        if (correctFirstname || correctLastname ||
-                correctEmail || correctStackingtDate||
-                correctPosition || correctTag ||
-                correctDepartment || correctEnploymentDate
-                || (correctPassword  && !editWorker.getPassword().equals(PasswordHashing.doHashing(pass.getText())))) {
-            editWorker.setFirstName(firstName.getText());
-            editWorker.setLastName(secondName.getText());
-            editWorker.setEmail(email.getText());
-            if (!editWorker.getPassword().equals(PasswordHashing.doHashing(pass.getText()))) {
-                editWorker.setPassword(PasswordHashing.doHashing(pass.getText()));
-            }
-            editWorker.setTag(idTag.getText());
-            editWorker.setPosition(positionChoiceBox.getValue());
-            editWorker.setDepartments(seearchDepartment());
-            editWorker.setEnploymentDate(Date.valueOf(enploymentDate.getValue()));
-            if (stackingDate.getValue() != null) {
-                editWorker.setStackingDate(Date.valueOf(stackingDate.getValue()));
-            }
-            if (workersRepository.changeDadataWorker(editWorker)) {
-                alert.setAlertType(Alert.AlertType.INFORMATION);
-                alert.setHeaderText("Dane zostały zapisane");
-                alert.setContentText("OK");
+        if (editWorker != null) {
+            Alert alert = new Alert(Alert.AlertType.NONE);
+            if (correctFirstname || correctLastname ||
+                    correctEmail || correctStackingtDate ||
+                    correctPosition || correctTag ||
+                    correctDepartment || correctEnploymentDate
+                    || (correctPassword && !editWorker.getPassword().equals(PasswordHashing.doHashing(pass.getText())))) {
+                editWorker.setFirstName(firstName.getText());
+                editWorker.setLastName(secondName.getText());
+                editWorker.setEmail(email.getText());
+                if (!editWorker.getPassword().equals(PasswordHashing.doHashing(pass.getText()))) {
+                    editWorker.setPassword(PasswordHashing.doHashing(pass.getText()));
+                }
+                editWorker.setTag(idTag.getText());
+                editWorker.setPosition(positionChoiceBox.getValue());
+                editWorker.setDepartments(seearchDepartment());
+                editWorker.setEnploymentDate(Date.valueOf(enploymentDate.getValue()));
+                if (stackingDate.getValue() != null) {
+                    editWorker.setStackingDate(Date.valueOf(stackingDate.getValue()));
+                }
+                if (workersRepository.changeDadataWorker(editWorker)) {
+                    alert.setAlertType(Alert.AlertType.INFORMATION);
+                    alert.setHeaderText("Dane zostały zapisane");
+                    alert.setContentText("OK");
+                } else {
+                    alert.setAlertType(Alert.AlertType.ERROR);
+                    alert.setHeaderText("Bład zapisu danych");
+                    alert.setContentText("Sprawdz dane");
+                }
             } else {
-                alert.setAlertType(Alert.AlertType.ERROR);
-                alert.setHeaderText("Bład zapisu danych");
-                alert.setContentText("Sprawdz dane");
+                alert.setAlertType(Alert.AlertType.INFORMATION);
+                alert.setHeaderText("Dane nie zostały zmienione");
+                alert.setContentText("Brak informacji do zmiany");
             }
-        } else {
-            alert.setAlertType(Alert.AlertType.INFORMATION);
-            alert.setHeaderText("Dane nie zostały zmienione");
-            alert.setContentText("Brak informacji do zmiany");
+            alert.show();
         }
-        alert.show();
     }
 
     public void remoweWorkerInDB() throws IOException {
@@ -243,10 +246,7 @@ public class WorkerDetailsControler extends ConnectionCardReader implements Init
 
     private void loadDataChoiceBox() {
         positionChoiceBox.getItems().clear();
-        positionChoiceBox.getItems().add("ADMIN");
-        positionChoiceBox.getItems().add("CHECKER");
-        positionChoiceBox.getItems().add("STOREMAN");
-        positionChoiceBox.getItems().add("VULCANISER");
+        positionChoiceBox.getItems().addAll(Temporary.typeUserList());
     }
 
     public void listinerTextField() {

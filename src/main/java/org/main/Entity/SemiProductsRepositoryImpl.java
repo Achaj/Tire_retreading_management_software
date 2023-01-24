@@ -1,13 +1,19 @@
 package org.main.Entity;
 
+import org.main.Utils.MyLogger;
+import org.main.Utils.Temporary;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class SemiProductsRepositoryImpl implements SemiProductsRepository{
     EntityManager entityManager = ConnectionToDB.entityManager;
     EntityTransaction entityTransaction = ConnectionToDB.entityTransaction;
+    Logger logger = MyLogger.getInstance().getLogger();
     @Override
     public SemiProducts getSemiProductsById(int id) {
         if (!entityTransaction.isActive()) {
@@ -62,11 +68,12 @@ public class SemiProductsRepositoryImpl implements SemiProductsRepository{
                 entityManager.merge(semiProducts);
             }
             entityTransaction.commit();
-
+            logger.log(Level.INFO, "SAVE:" + semiProducts.toString() + " By: " + Temporary.getWorkers().toString());
             return true;
         } catch (Exception e) {
             e.printStackTrace();
             entityTransaction.rollback();
+            logger.log(Level.WARNING, "ERROR  By: " + Temporary.getWorkers().toString(), e);
             return false;
         }finally {
             entityManager.getEntityManagerFactory().getCache().evictAll();
@@ -81,10 +88,12 @@ public class SemiProductsRepositoryImpl implements SemiProductsRepository{
         try {
             entityManager.merge(semiProducts);
             entityTransaction.commit();
+            logger.log(Level.INFO, "CHANGE:" + semiProducts.toString() + " By: " + Temporary.getWorkers().toString());
             return true;
         } catch (Exception e) {
             e.printStackTrace();
             entityTransaction.rollback();
+            logger.log(Level.WARNING, "ERROR  By: " + Temporary.getWorkers().toString(), e);
             return false;
         }finally {
             entityManager.getEntityManagerFactory().getCache().evictAll();
@@ -101,9 +110,11 @@ public class SemiProductsRepositoryImpl implements SemiProductsRepository{
             SemiProducts semiProduct= getSemiProductsById(id);
             entityManager.remove(semiProduct);
             entityTransaction.commit();
+            logger.log(Level.INFO, "REMOVE :" + semiProduct.toString() + " By: " + Temporary.getWorkers().toString());
             return true;
         } catch (Exception e) {
             entityTransaction.rollback();
+            logger.log(Level.WARNING, "ERROR  By: " + Temporary.getWorkers().toString(), e);
             return false;
         }finally {
             entityManager.getEntityManagerFactory().getCache().evictAll();

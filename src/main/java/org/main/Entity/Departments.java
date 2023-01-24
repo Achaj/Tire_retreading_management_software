@@ -143,6 +143,22 @@ public class Departments implements Serializable {
 
     @Override
     public String toString() {
-        return name +" "+hallName;
+        return name + " " + hallName;
+    }
+
+
+    public String toStringLong() {
+        return "Departments{" +
+                "idDepartment=" + idDepartment +
+                ", name='" + name + '\'' +
+                ", city='" + city + '\'' +
+                ", street='" + street + '\'' +
+                ", flatNumber='" + flatNumber + '\'' +
+                ", postCode='" + postCode + '\'' +
+                ", hallName='" + hallName + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", workersList=" + workersList +
+                ", worksList=" + worksList +
+                '}';
     }
 }

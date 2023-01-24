@@ -2,6 +2,8 @@ package org.main.Entity;
 
 import org.main.Entity.Temporaty.DailyStatusWork;
 import org.main.Entity.Temporaty.WorkNameDate;
+import org.main.Utils.MyLogger;
+import org.main.Utils.Temporary;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -12,11 +14,14 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class WorksRepositoryImpl implements WorksRepository {
     EntityManager entityManager = ConnectionToDB.entityManager;
     EntityTransaction entityTransaction = ConnectionToDB.entityTransaction;
 
+    Logger logger = MyLogger.getInstance().getLogger();
 
     @Override
     public Works getWorkByID(int id) {
@@ -106,9 +111,10 @@ public class WorksRepositoryImpl implements WorksRepository {
                 entityManager.merge(works);
             }
             entityTransaction.commit();
-
+            logger.log(Level.INFO, "SAVE:" + works.toString() + " BY:" + Temporary.getWorkers());
             return true;
         } catch (Exception e) {
+            logger.log(Level.WARNING, "ERROR:", e);
             e.printStackTrace();
             entityTransaction.rollback();
             return false;
@@ -128,11 +134,12 @@ public class WorksRepositoryImpl implements WorksRepository {
                 entityManager.merge(works);
             }
             entityTransaction.commit();
-
+            logger.log(Level.INFO, "SAVE:" + works.toString() + " BY:" + Temporary.getWorkers());
             return works;
         } catch (Exception e) {
             e.printStackTrace();
             entityTransaction.rollback();
+            logger.log(Level.WARNING, "ERROR:", e);
             return null;
         }finally {
             entityManager.getEntityManagerFactory().getCache().evictAll();
@@ -148,10 +155,12 @@ public class WorksRepositoryImpl implements WorksRepository {
         try {
             entityManager.merge(works);
             entityTransaction.commit();
+            logger.log(Level.INFO, "CHANGE:" + works.toString() + " BY:" + Temporary.getWorkers());
             return true;
         } catch (Exception e) {
             e.printStackTrace();
             entityTransaction.rollback();
+            logger.log(Level.WARNING, "ERROR:", e);
             return false;
         }finally {
             entityManager.getEntityManagerFactory().getCache().evictAll();
@@ -169,9 +178,11 @@ public class WorksRepositoryImpl implements WorksRepository {
             Works works=getWorkByID(id);
             entityManager.remove(works);
             entityTransaction.commit();
+            logger.log(Level.INFO, "REMOVE:" + works.toString() + " BY:" + Temporary.getWorkers());
             return true;
         } catch (Exception e) {
             entityTransaction.rollback();
+            logger.log(Level.WARNING, "ERROR:", e);
             return false;
         }finally {
             entityManager.getEntityManagerFactory().getCache().evictAll();

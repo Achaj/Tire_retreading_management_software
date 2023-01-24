@@ -114,7 +114,7 @@ public class DepartmentsDetailsController implements Initializable {
                 corectCity || corectStreet ||
                 corectFlatNumber || corectPostCode ||
                 corectPhoneNumber){
-            departmentsEdit.setIdDepartment(0);
+
             departmentsEdit.setName(name.getText());
             departmentsEdit.setCity(city.getText());
             departmentsEdit.setStreet(street.getText());
@@ -122,7 +122,7 @@ public class DepartmentsDetailsController implements Initializable {
             departmentsEdit.setPostCode(postCode.getText());
             departmentsEdit.setHallName(hallName.getText());
             departmentsEdit.setPhoneNumber(phoneNumber.getText());
-            if (departmentsRepository.saveDepartment(departmentsEdit)) {
+            if (departmentsRepository.changeDepartment(departmentsEdit)) {
                 alert.setAlertType(Alert.AlertType.INFORMATION);
                 alert.setHeaderText("Dane zostały zmienione");
                 clearTextFields();
