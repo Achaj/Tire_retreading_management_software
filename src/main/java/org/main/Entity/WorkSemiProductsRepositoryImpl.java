@@ -1,14 +1,19 @@
 package org.main.Entity;
 
+import org.main.Utils.MyLogger;
+import org.main.Utils.Temporary;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class WorkSemiProductsRepositoryImpl implements WorkSemiProductsRepository {
     EntityManager entityManager = ConnectionToDB.entityManager;
     EntityTransaction entityTransaction = ConnectionToDB.entityTransaction;
-
+    Logger logger = MyLogger.getInstance().getLogger();
     public boolean save(WorkSemiProducts workSemiProducts) {
         if (!entityTransaction.isActive()) {
             entityTransaction.begin();
@@ -16,11 +21,12 @@ public class WorkSemiProductsRepositoryImpl implements WorkSemiProductsRepositor
         try {
             entityManager.persist(workSemiProducts);
             entityTransaction.commit();
-
+            logger.log(Level.INFO, "SAVE:" + workSemiProducts.toString() + " BY:" + Temporary.getWorkers());
             return true;
         } catch (Exception e) {
             e.printStackTrace();
             entityTransaction.rollback();
+            logger.log(Level.WARNING, "ERROR:", e);
             return false;
         } finally {
             entityManager.getEntityManagerFactory().getCache().evictAll();
@@ -35,11 +41,12 @@ public class WorkSemiProductsRepositoryImpl implements WorkSemiProductsRepositor
         try {
             entityManager.merge(workSemiProducts);
             entityTransaction.commit();
-
+            logger.log(Level.INFO, "CHANGE:" + workSemiProducts.toString() + " BY:" + Temporary.getWorkers());
             return true;
         } catch (Exception e) {
             e.printStackTrace();
             entityTransaction.rollback();
+            logger.log(Level.WARNING, "ERROR:", e);
             return false;
         } finally {
             entityManager.getEntityManagerFactory().getCache().evictAll();
@@ -56,11 +63,14 @@ public class WorkSemiProductsRepositoryImpl implements WorkSemiProductsRepositor
         try {
             WorkSemiProducts workSemiProducts=getWorkSemiProductsByID(id);
             entityManager.remove(workSemiProducts);
+
             entityTransaction.commit();
+            logger.log(Level.INFO, "REMOVE:" + workSemiProducts.toString() + " BY:" + Temporary.getWorkers());
             return true;
         } catch (Exception e) {
             e.printStackTrace();
             entityTransaction.rollback();
+            logger.log(Level.WARNING, "ERROR:", e);
             return false;
         }finally {
             entityManager.getEntityManagerFactory().getCache().evictAll();
@@ -77,10 +87,12 @@ public class WorkSemiProductsRepositoryImpl implements WorkSemiProductsRepositor
 
             entityManager.remove(workSemiProducts);
             entityTransaction.commit();
+            logger.log(Level.INFO, "REMOVE:" + workSemiProducts.toString() + " BY:" + Temporary.getWorkers());
             return true;
         } catch (Exception e) {
             e.printStackTrace();
             entityTransaction.rollback();
+            logger.log(Level.WARNING, "ERROR:", e);
             return false;
         }finally {
             entityManager.getEntityManagerFactory().getCache().evictAll();

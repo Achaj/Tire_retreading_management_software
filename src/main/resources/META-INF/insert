@@ -1,3 +1,113 @@
+CREATE DATABASE IF NOT EXISTS `tire_retarding_db` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_polish_ci;
+USE `tire_retarding_db`;
+
+create table tire_retarding_db.departments
+(
+    id_department int auto_increment
+        primary key,
+    city          varchar(255) not null,
+    flat_number   varchar(255) not null,
+    hall_name     varchar(255) not null,
+    name          varchar(255) not null,
+    phone_number  varchar(255) not null,
+    post_code     varchar(255) not null,
+    street        varchar(255) not null,
+    constraint UK_jgekpgygvdlc7q47p4pr12bx7
+        unique (name)
+);
+
+create table tire_retarding_db.semi_products
+(
+    id_semi_product int auto_increment
+        primary key,
+    amount          int          not null,
+    category        varchar(255) not null,
+    name            varchar(255) not null,
+    tag             varchar(255) not null,
+    constraint UK_5c66r3xini1elpd8o2uhfwv0o
+        unique (tag)
+);
+
+create table tire_retarding_db.tires
+(
+    id_tire     int auto_increment
+        primary key,
+    diameter    int          not null,
+    height      int          not null,
+    load_index  varchar(255) not null,
+    speed_index varchar(255) not null,
+    tag         varchar(255) not null,
+    width       int          not null,
+    constraint UK_lm32y7mx4gffk483q8timx00c
+        unique (tag)
+);
+
+create table tire_retarding_db.workers
+(
+    id_worker       int auto_increment
+        primary key,
+    email           varchar(255) not null,
+    employment_date date         not null,
+    first_name      varchar(255) not null,
+    last_name       varchar(255) not null,
+    password        varchar(255) not null,
+    position        varchar(255) not null,
+    stacking_date   date         null,
+    tag             varchar(255) not null,
+    id_department   int          not null,
+    constraint UK_fj43safv8iv8huckidh7a9gyf
+        unique (tag),
+    constraint UK_i6vwpyxsybidq4u5krwa12aa7
+        unique (email),
+    constraint FKdddb0406wfy877o5ev788rqhn
+        foreign key (id_department) references tire_retarding_db.departments (id_department)
+);
+
+create table tire_retarding_db.working_time
+(
+    id_working_time int auto_increment
+        primary key,
+    date_logout     datetime(6) null,
+    date_login      datetime(6) not null,
+    id_worker       int         not null,
+    constraint FKqkx0yx89xagrb1m4an3brgr7s
+        foreign key (id_worker) references tire_retarding_db.workers (id_worker)
+);
+
+create table tire_retarding_db.works
+(
+    id_work       int auto_increment
+        primary key,
+    date_start    datetime(6)  null,
+    date_stop     datetime(6)  null,
+    name          varchar(255) not null,
+    status        varchar(255) not null,
+    id_department int          not null,
+    id_tire       int          not null,
+    id_worker     int          not null,
+    constraint FK170oky38eejjdnya7hxr4dyym
+        foreign key (id_department) references tire_retarding_db.departments (id_department),
+    constraint FKavx4ryw0bkxifqop0arvr4rec
+        foreign key (id_worker) references tire_retarding_db.workers (id_worker),
+    constraint FKbyj64k98e7ijot93677rk88lg
+        foreign key (id_tire) references tire_retarding_db.tires (id_tire)
+);
+
+create table tire_retarding_db.work_semi_products
+(
+    id_work_semi_product int auto_increment
+        primary key,
+    amount               int not null,
+    id_semi_product      int null,
+    id_work              int null,
+    constraint FKgd8bga6hmahrdobpf6ggtn9kk
+        foreign key (id_semi_product) references tire_retarding_db.semi_products (id_semi_product),
+    constraint FKryjhuwyds3p81ath4jav9p4el
+        foreign key (id_work) references tire_retarding_db.works (id_work)
+);
+
+
+
 INSERT INTO `departments` (`id_department`, `city`, `flat_number`, `hall_name`, `name`, `phone_number`, `post_code`, `street`) VALUES (NULL, 'Rzeszów', '12', 'A1', 'Magazyn', '555444333', '11-115', 'Kopisto');
 INSERT INTO `departments` (`id_department`, `city`, `flat_number`, `hall_name`, `name`, `phone_number`, `post_code`, `street`) VALUES (NULL, 'Rzeszów', '12', 'A2', 'Kontrola Jakości', '555444333', '11-115', 'Kopisto');
 INSERT INTO `departments` (`id_department`, `city`, `flat_number`, `hall_name`, `name`, `phone_number`, `post_code`, `street`) VALUES (NULL, 'Rzeszów', '12', 'A3', 'Obróbka Wstępna', '555444333', '11-115', 'Kopisto');
@@ -8,7 +118,7 @@ INSERT INTO `workers` (`id_worker`, `email`, `employment_date`, `first_name`, `l
 INSERT INTO `workers` (`id_worker`, `email`, `employment_date`, `first_name`, `last_name`, `password`, `position`, `stacking_date`, `tag`, `id_department`) VALUES (NULL, 'pawel@op.pl', '2022-12-01', 'Paweł', 'Rozbujny', 'ac372981350dfb7490424abf990a7b0ac90c2ea3d0750623dbe029ec75befa1d18bae6c9e44262641ec90305d150bd33efc5d34e6ecf0536a97b766ace951262', 'ADMIN', NULL, '17985236', '1');
 INSERT INTO `workers` (`id_worker`, `email`, `employment_date`, `first_name`, `last_name`, `password`, `position`, `stacking_date`, `tag`, `id_department`) VALUES (NULL, 'michal@op.pl', '2022-12-01', 'Michał', 'Rozbujny', 'ac372981350dfb7490424abf990a7b0ac90c2ea3d0750623dbe029ec75befa1d18bae6c9e44262641ec90305d150bd33efc5d34e6ecf0536a97b766ace951262', 'ADMIN', NULL, '17985237', '1');
 
-INSERT INTO `workers` (`id_worker`, `email`, `employment_date`, `first_name`, `last_name`, `password`, `position`, `stacking_date`, `tag`, `id_department`) VALUES (NULL, 'jannowak@op.pl', '2022-12-01', 'Jan', 'Nowak', 'ac372981350dfb7490424abf990a7b0ac90c2ea3d0750623dbe029ec75befa1d18bae6c9e44262641ec90305d150bd33efc5d34e6ecf0536a97b766ace951262', 'ADMIN', NULL, '17985238', '2');
+INSERT INTO `workers` (`id_worker`, `email`, `employment_date`, `first_name`, `last_name`, `password`, `position`, `stacking_date`, `tag`, `id_department`) VALUES (NULL, 'jannowak@op.pl', '2022-12-01', 'Jan', 'Nowak', 'ac372981350dfb7490424abf990a7b0ac90c2ea3d0750623dbe029ec75befa1d18bae6c9e44262641ec90305d150bd33efc5d34e6ecf0536a97b766ace951262', 'ADMIN', NULL, '3316718438', '2');
 INSERT INTO `workers` (`id_worker`, `email`, `employment_date`, `first_name`, `last_name`, `password`, `position`, `stacking_date`, `tag`, `id_department`) VALUES (NULL, 'pawelnowek@op.pl', '2022-12-01', 'Paweł', 'Nowak', 'ac372981350dfb7490424abf990a7b0ac90c2ea3d0750623dbe029ec75befa1d18bae6c9e44262641ec90305d150bd33efc5d34e6ecf0536a97b766ace951262', 'ADMIN', NULL, '17985239', '2');
 INSERT INTO `workers` (`id_worker`, `email`, `employment_date`, `first_name`, `last_name`, `password`, `position`, `stacking_date`, `tag`, `id_department`) VALUES (NULL, 'michalnowak@op.pl', '2022-12-01', 'Michał', 'Nowak', 'ac372981350dfb7490424abf990a7b0ac90c2ea3d0750623dbe029ec75befa1d18bae6c9e44262641ec90305d150bd33efc5d34e6ecf0536a97b766ace951262', 'ADMIN', NULL, '17985230', '2');
 
@@ -19,6 +129,7 @@ INSERT INTO `workers` (`id_worker`, `email`, `employment_date`, `first_name`, `l
 INSERT INTO `workers` (`id_worker`, `email`, `employment_date`, `first_name`, `last_name`, `password`, `position`, `stacking_date`, `tag`, `id_department`) VALUES (NULL, 'janfergisz@op.pl', '2022-12-01', 'Jan', 'Fergisz', 'ac372981350dfb7490424abf990a7b0ac90c2ea3d0750623dbe029ec75befa1d18bae6c9e44262641ec90305d150bd33efc5d34e6ecf0536a97b766ace951262', 'ADMIN', NULL, '47985238', '4');
 INSERT INTO `workers` (`id_worker`, `email`, `employment_date`, `first_name`, `last_name`, `password`, `position`, `stacking_date`, `tag`, `id_department`) VALUES (NULL, 'pawelfergisz@op.pl', '2022-12-01', 'Paweł', 'Fergisz', 'ac372981350dfb7490424abf990a7b0ac90c2ea3d0750623dbe029ec75befa1d18bae6c9e44262641ec90305d150bd33efc5d34e6ecf0536a97b766ace951262', 'ADMIN', NULL, '47985239', '4');
 INSERT INTO `workers` (`id_worker`, `email`, `employment_date`, `first_name`, `last_name`, `password`, `position`, `stacking_date`, `tag`, `id_department`) VALUES (NULL, 'michalfergisz@op.pl', '2022-12-01', 'Michał', 'Fergisz', 'ac372981350dfb7490424abf990a7b0ac90c2ea3d0750623dbe029ec75befa1d18bae6c9e44262641ec90305d150bd33efc5d34e6ecf0536a97b766ace951262', 'ADMIN', NULL, '47985230', '4');
+
 INSERT INTO `workers` (`id_worker`, `email`, `employment_date`, `first_name`, `last_name`, `password`, `position`, `stacking_date`, `tag`, `id_department`) VALUES (NULL, 'jankowalczyk@op.pl', '2022-12-01', 'Jan', 'Kowalczyk', 'ac372981350dfb7490424abf990a7b0ac90c2ea3d0750623dbe029ec75befa1d18bae6c9e44262641ec90305d150bd33efc5d34e6ecf0536a97b766ace951262', 'ADMIN', NULL, '57985238', '5');
 INSERT INTO `workers` (`id_worker`, `email`, `employment_date`, `first_name`, `last_name`, `password`, `position`, `stacking_date`, `tag`, `id_department`) VALUES (NULL, 'pawelkowalczyk@op.pl', '2022-12-01', 'Paweł', 'Kowalczyk', 'ac372981350dfb7490424abf990a7b0ac90c2ea3d0750623dbe029ec75befa1d18bae6c9e44262641ec90305d150bd33efc5d34e6ecf0536a97b766ace951262', 'ADMIN', NULL, '57985239', '5');
 INSERT INTO `workers` (`id_worker`, `email`, `employment_date`, `first_name`, `last_name`, `password`, `position`, `stacking_date`, `tag`, `id_department`) VALUES (NULL, 'michalkowalczyk@op.pl', '2022-12-01', 'Michał', 'Kowalczyk', 'ac372981350dfb7490424abf990a7b0ac90c2ea3d0750623dbe029ec75befa1d18bae6c9e44262641ec90305d150bd33efc5d34e6ecf0536a97b766ace951262', 'ADMIN', NULL, '57985230', '5');

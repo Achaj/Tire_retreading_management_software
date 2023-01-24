@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -41,7 +43,7 @@ public class Controller {
     }
 
     private class ServerSocketHandler extends Thread {
-
+        Logger logger = MyLogger.getInstance().getLogger();
         private ServerSocket serverSocket;
         private Socket clientSocket;
 
@@ -59,6 +61,7 @@ public class Controller {
                         while (!clientSocket.isClosed() && (request = in.readLine()) != null) {
                             String finalRequest = request;
                             System.out.println("Received data: " + request);
+                            logger.log(Level.INFO, "Received data from " + clientSocket.getInetAddress().getHostAddress() + ": " + request);
                             Platform.runLater(() -> textField.setText(finalRequest));
                         }
                     } catch (IOException e) {

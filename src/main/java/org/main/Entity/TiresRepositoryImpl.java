@@ -3,6 +3,8 @@ package org.main.Entity;
 
 import org.main.Entity.Temporaty.DailyStatusWork;
 import org.main.Entity.Temporaty.TireDepartmentTime;
+import org.main.Utils.MyLogger;
+import org.main.Utils.Temporary;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -12,13 +14,15 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class TiresRepositoryImpl implements  TiresRepository{
 
     EntityManager entityManager = ConnectionToDB.entityManager;
     EntityTransaction entityTransaction = ConnectionToDB.entityTransaction;
 
-
+    Logger logger = MyLogger.getInstance().getLogger();
 
     @Override
     public Tires getTireById(int id) {
@@ -60,10 +64,12 @@ public class TiresRepositoryImpl implements  TiresRepository{
                  entityManager.merge(tire);
             }
             entityTransaction.commit();
+            logger.log(Level.INFO, "Save:" + tire.toString() + " By:" + Temporary.getWorkers().toString());
             return true;
         } catch (Exception e) {
             e.printStackTrace();
             entityTransaction.rollback();
+            logger.log(Level.WARNING, "ERROR BY" + Temporary.getWorkers(), e);
             return false;
         } finally {
             entityManager.getEntityManagerFactory().getCache().evictAll();
@@ -83,10 +89,12 @@ public class TiresRepositoryImpl implements  TiresRepository{
                 entityManager.merge(tire);
             }
             entityTransaction.commit();
+            logger.log(Level.INFO, "Save:" + tire.toString() + " By:" + Temporary.getWorkers().toString());
             return tire;
         } catch (Exception e) {
             e.printStackTrace();
             entityTransaction.rollback();
+            logger.log(Level.WARNING, "ERROR BY" + Temporary.getWorkers(), e);
             return null;
         } finally {
             entityManager.getEntityManagerFactory().getCache().evictAll();
@@ -101,10 +109,12 @@ public class TiresRepositoryImpl implements  TiresRepository{
         try {
             entityManager.merge(tire);
             entityTransaction.commit();
+            logger.log(Level.INFO, "CHANGE:" + tire.toString() + " By:" + Temporary.getWorkers().toString());
             return true;
         } catch (Exception e) {
             e.printStackTrace();
             entityTransaction.rollback();
+            logger.log(Level.WARNING, "ERROR BY" + Temporary.getWorkers(), e);
             return false;
         } finally {
             entityManager.getEntityManagerFactory().getCache().evictAll();
@@ -121,8 +131,10 @@ public class TiresRepositoryImpl implements  TiresRepository{
             Tires tire = getTireById(id);
             entityManager.remove(tire);
             entityTransaction.commit();
+            logger.log(Level.INFO, "REMOVE:" + tire.toString() + " By:" + Temporary.getWorkers().toString());
             return true;
         } catch (Exception e) {
+            logger.log(Level.WARNING, "ERROR BY" + Temporary.getWorkers(), e);
             entityTransaction.rollback();
             return false;
         } finally {

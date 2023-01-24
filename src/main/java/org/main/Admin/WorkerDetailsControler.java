@@ -13,6 +13,7 @@ import org.main.Entity.Workers;
 import org.main.Entity.WorkersRepositoryImpl;
 import org.main.Utils.ConnectionCardReader;
 import org.main.Utils.PasswordHashing;
+import org.main.Utils.Temporary;
 import org.main.Utils.ValidadiotData;
 
 import java.io.IOException;
@@ -245,10 +246,7 @@ public class WorkerDetailsControler extends ConnectionCardReader implements Init
 
     private void loadDataChoiceBox() {
         positionChoiceBox.getItems().clear();
-        positionChoiceBox.getItems().add("ADMIN");
-        positionChoiceBox.getItems().add("CHECKER");
-        positionChoiceBox.getItems().add("STOREMAN");
-        positionChoiceBox.getItems().add("VULCANISER");
+        positionChoiceBox.getItems().addAll(Temporary.typeUserList());
     }
 
     public void listinerTextField() {

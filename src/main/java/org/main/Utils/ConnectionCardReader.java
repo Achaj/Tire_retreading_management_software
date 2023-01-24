@@ -14,14 +14,18 @@ import java.net.Socket;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class ConnectionCardReader {
     public static SerialPort serialPort;
     String dataTagUID = "";
     public static String portName = "COM15";
+    Logger logger = MyLogger.getInstance().getLogger();
 
     public void initSerialPort(String name, int baud) throws Exception {
+
         if (serialPort != null && serialPort.isOpen()) {
             closePort();
         }
@@ -30,7 +34,9 @@ public class ConnectionCardReader {
         serialPort.setNumStopBits(SerialPort.ONE_STOP_BIT);
         serialPort.setNumDataBits(8);
         serialPort.setBaudRate(baud);
+
         boolean result = serialPort.openPort();
+        logger.log(Level.INFO, String.valueOf(result));
         System.out.println("Open Port :" + result);
         //listeningPort();
 
@@ -67,7 +73,7 @@ public class ConnectionCardReader {
                     dataTagUID = dataBuffer.toString();
                     textField.setText(dataTagUID);
 
-
+                    logger.log(Level.INFO, "Recivet data COM: " + dataTagUID);
                     System.out.println("Recivet data COM: " + dataTagUID);
                 }
             });

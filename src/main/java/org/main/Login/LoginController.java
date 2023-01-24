@@ -12,10 +12,7 @@ import org.main.Entity.WorkersRepositoryImpl;
 import org.main.Entity.Workers;
 import org.main.Entity.WorkingTime;
 import org.main.Entity.WorkingTimeRepositoryImpl;
-import org.main.Utils.ConnectionCardReader;
-import org.main.Utils.PasswordHashing;
-import org.main.Utils.Temporary;
-import org.main.Utils.ValidadiotData;
+import org.main.Utils.*;
 
 import java.io.IOException;
 import java.net.URL;
@@ -23,6 +20,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 
 public class LoginController extends ConnectionCardReader implements Initializable {
     @FXML
@@ -39,7 +39,7 @@ public class LoginController extends ConnectionCardReader implements Initializab
         Alert alert = new Alert(Alert.AlertType.NONE);
         if (ValidadiotData.validdateEmail(username.getText())) {
             Workers worker = workerRepository.getWorkerByEmail(username.getText());
-            // debugLogger.debug("Find User with email:"+username.getText()+ " status:"+worker);
+            logger.log(Level.INFO, "Find User with email:" + username.getText() + " status:" + worker);
             if (worker != null) {
                 if (PasswordHashing.doHashing(password.getText()).equals(worker.getPassword()) && ValidadiotData.validatePassword(password.getText())) {
                     if (passTag.getText().trim().equals(worker.getTag())) {
@@ -60,15 +60,15 @@ public class LoginController extends ConnectionCardReader implements Initializab
                             }
 
                         } else {
-                        //  warnLogger.error( "Wrong tag passsword");
-                            passTag.setStyle("-fx-background-color:  transparent;-fx-border-color:   red;-fx-border-width:   0px 0px 4px 0px;");
+                        logger.log(Level.INFO, "Wrong tag passsword");
+                        passTag.setStyle("-fx-background-color:  transparent;-fx-border-color:   red;-fx-border-width:   0px 0px 4px 0px;");
                             alert.setAlertType(Alert.AlertType.INFORMATION);
                             alert.setHeaderText("Zeskanowano nieprawidłową kartę");
                             alert.setContentText("Zeskanuj ponownie dobrą kartę");
 
                         }
                 } else {
-                    //    warnLogger.error( "Wrong  passsword");
+                    logger.log(Level.INFO, "Wrong  passsword");
                     password.setStyle("-fx-background-color:  transparent;-fx-border-color:   red;-fx-border-width:   0px 0px 4px 0px;");
                     alert.setAlertType(Alert.AlertType.INFORMATION);
                     alert.setHeaderText("Wpisano błędne hasło");
@@ -86,9 +86,11 @@ public class LoginController extends ConnectionCardReader implements Initializab
         alert.show();
     }
 
+
+    Logger logger = MyLogger.getInstance().getLogger();
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
 
         username.setText("jan@op.pl");
         password.setText("ZAQ!2wsx");
@@ -165,7 +167,6 @@ public class LoginController extends ConnectionCardReader implements Initializab
         } else {
             listeningPort(passTag);
         }
-        //  debugLogger.info("Status open Com port connection:"+String.valueOf(serialPort.isOpen()));
     }
 
 

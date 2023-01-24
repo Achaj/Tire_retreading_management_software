@@ -51,4 +51,14 @@ public class WorkingTime {
     public void setWorkers(Workers workers) {
         this.workers = workers;
     }
+
+    @Override
+    public String toString() {
+        return "WorkingTime{" +
+                "idWorkingTime=" + idWorkingTime +
+                ", dateLogin=" + dateLogin +
+                ", dateLogOut=" + dateLogOut +
+                ", workers=" + workers +
+                '}';
+    }
 }
