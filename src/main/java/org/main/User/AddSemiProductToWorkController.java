@@ -158,7 +158,7 @@ public class AddSemiProductToWorkController extends ConnectionCardReader impleme
 
         if (semiProducts != null) {
             if (ValidadiotData.validateDecimalNumber(amountTextField.getText()) &&
-                    Integer.valueOf(amountTextField.getText()) <= tableView.getSelectionModel().getSelectedItem().getAmount()) {
+                    Integer.valueOf(amountTextField.getText()) <= tableView.getSelectionModel().getSelectedItem().getAmount() && Integer.valueOf(amountTextField.getText()) > 0) {
                 amountTextField.setStyle("-fx-border-color: green");
                 int tmpAmount = semiProducts.getAmount() - Integer.valueOf(amountTextField.getText());
                 SemiProducts tempProducts = new SemiProducts();

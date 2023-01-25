@@ -3,10 +3,12 @@ package org.main.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import org.main.App;
 import org.main.Entity.Works;
 import org.main.Entity.WorksRepositoryImpl;
@@ -26,6 +28,25 @@ public class WorksManagerController implements Initializable {
         loadTableData(worksRepository.getListWorks());
         loadComboBox();
 
+
+        listenerTable();
+
+    }
+
+    private void listenerTable() {
+        tableView.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
+                    try {
+                        editSelectWork();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                }
+            }
+        });
         tableView.setRowFactory(tv -> new TableRow<Works>() {
             @Override
             public void updateItem(Works item, boolean empty) {
@@ -45,11 +66,13 @@ public class WorksManagerController implements Initializable {
                 } else {
                     setStyle("");
                 }
+                if (tableView.getSelectionModel().getSelectedItem() == item) {
+                    setStyle("-fx-background-color: blue;-fx-text-fill: red;");
+                }
             }
         });
 
     }
-
     @FXML
     public TableView<Works> tableView;
     @FXML

@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class TiresRepositoryImpl implements  TiresRepository{
+public class TiresRepositoryImpl implements TiresRepository {
 
     EntityManager entityManager = ConnectionToDB.entityManager;
     EntityTransaction entityTransaction = ConnectionToDB.entityTransaction;
@@ -31,7 +31,7 @@ public class TiresRepositoryImpl implements  TiresRepository{
         }
         TypedQuery<Tires> tiresTypedQuery = entityManager.createQuery("SELECT t FROM Tires t WHERE t.idTire=:id", Tires.class);
         tiresTypedQuery.setParameter("id", id);
-        return  tiresTypedQuery.getResultList().isEmpty() ? null : tiresTypedQuery.getResultList().get(0);
+        return tiresTypedQuery.getResultList().isEmpty() ? null : tiresTypedQuery.getResultList().get(0);
     }
 
     @Override
@@ -41,7 +41,7 @@ public class TiresRepositoryImpl implements  TiresRepository{
         }
         TypedQuery<Tires> tiresTypedQuery = entityManager.createQuery("SELECT t FROM Tires t WHERE t.tag=:tag", Tires.class);
         tiresTypedQuery.setParameter("tag", tag);
-        return  tiresTypedQuery.getResultList().isEmpty() ? null : tiresTypedQuery.getResultList().get(0);
+        return tiresTypedQuery.getResultList().isEmpty() ? null : tiresTypedQuery.getResultList().get(0);
     }
 
     @Override
@@ -52,6 +52,7 @@ public class TiresRepositoryImpl implements  TiresRepository{
         TypedQuery<Tires> tiresTypedQuery = entityManager.createQuery("SELECT t FROM Tires t", Tires.class);
         return tiresTypedQuery.getResultList();
     }
+
     @Override
     public boolean saveTire(Tires tire) {
         if (!entityTransaction.isActive()) {
@@ -61,7 +62,7 @@ public class TiresRepositoryImpl implements  TiresRepository{
             if (tire.getIdTire() == 0) {
                 entityManager.persist(tire);
             } else {
-                 entityManager.merge(tire);
+                entityManager.merge(tire);
             }
             entityTransaction.commit();
             logger.log(Level.INFO, "Save:" + tire.toString() + " By:" + Temporary.getWorkers().toString());
@@ -150,29 +151,30 @@ public class TiresRepositoryImpl implements  TiresRepository{
         String sumHql;
         List<Object[]> results;
 
-        if(departments!=null) {
-            sumHql = " SELECT t.id_tire,t.height,t.width,t.diameter,t.tag,t.load_index,t.speed_index,d.name," +
-                    " GREATEST(w.date_start, IFNULL(w.date_stop, w.date_start)) FROM works w " +
-                    " INNER JOIN departments d On w.id_department=d.id_department " +
-                    " INNER Join tires t On w.id_tire=t.id_tire WHERE d.id_department=:id GROUP BY t.tag;";
-            results = entityManager.createNativeQuery(sumHql).setParameter("id", departments.getIdDepartment()).getResultList();
-        }else{
-            sumHql = " SELECT t.id_tire,t.height,t.width,t.diameter,t.tag,t.load_index,t.speed_index,d.name," +
-                    " GREATEST(w.date_start, IFNULL(w.date_stop, w.date_start)) FROM works w " +
-                    " INNER JOIN departments d On w.id_department=d.id_department " +
-                    " INNER Join tires t On w.id_tire=t.id_tire GROUP BY t.tag;";
-            results = entityManager.createNativeQuery(sumHql).getResultList();
-        }
+
+        sumHql = " SELECT t.id_tire,t.height,t.width,t.diameter,t.tag,t.load_index,t.speed_index,d.name," +
+                " GREATEST(w.date_start, IFNULL(w.date_stop, w.date_start)) FROM works w " +
+                " INNER JOIN departments d On w.id_department=d.id_department " +
+                " INNER Join tires t On w.id_tire=t.id_tire GROUP BY t.tag;";
+        results = entityManager.createNativeQuery(sumHql).getResultList();
 
 
-        List<TireDepartmentTime> tireDepartmentTimeList=new ArrayList<>();
+        List<TireDepartmentTime> tireDepartmentTimeList = new ArrayList<>();
         for (Object[] result : results) {
             //dailyStatusWorks.add(new DailyStatusWork((String) result[0],(String) result[1],((BigInteger) result[2]).intValue()));
-            tireDepartmentTimeList.add(new TireDepartmentTime((Integer) result[0],(Integer) result[1],(Integer) result[2],(Integer) result[3],
-            (String) result[4],(String) result[5],(String) result[6],(String) result[7], ((Timestamp) result[8]).toLocalDateTime()));
+            if (departments != null) {
+                if (departments.getName().equals((String) result[7])) {
+                    tireDepartmentTimeList.add(new TireDepartmentTime((Integer) result[0], (Integer) result[1], (Integer) result[2], (Integer) result[3],
+                            (String) result[4], (String) result[5], (String) result[6], (String) result[7], ((Timestamp) result[8]).toLocalDateTime()));
+                }
+
+            } else {
+                tireDepartmentTimeList.add(new TireDepartmentTime((Integer) result[0], (Integer) result[1], (Integer) result[2], (Integer) result[3],
+                        (String) result[4], (String) result[5], (String) result[6], (String) result[7], ((Timestamp) result[8]).toLocalDateTime()));
+            }
         }
 
-        return tireDepartmentTimeList.isEmpty() ? null:tireDepartmentTimeList;
+        return tireDepartmentTimeList.isEmpty() ? null : tireDepartmentTimeList;
     }
 
 }

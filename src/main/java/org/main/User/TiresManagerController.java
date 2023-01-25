@@ -5,6 +5,7 @@ import com.fazecast.jSerialComm.SerialPortDataListener;
 import com.fazecast.jSerialComm.SerialPortEvent;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -12,6 +13,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import org.main.App;
 import org.main.Entity.Tires;
 import org.main.Entity.TiresRepositoryImpl;
@@ -51,6 +53,7 @@ public class TiresManagerController extends ConnectionCardReader implements Init
         } catch (Exception e) {
             e.printStackTrace();
         }
+        listenerTable();
     }
 
     public void backToPreviousScene() throws IOException {
@@ -65,6 +68,22 @@ public class TiresManagerController extends ConnectionCardReader implements Init
         diameter.setCellValueFactory(new PropertyValueFactory<>("diameter"));
         tag.setCellValueFactory(new PropertyValueFactory<>("tag"));
 
+    }
+
+    private void listenerTable() {
+        tableTires.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
+                    try {
+                        editTire();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                }
+            }
+        });
     }
 
     ObservableList<Tires> tiresObservableList;

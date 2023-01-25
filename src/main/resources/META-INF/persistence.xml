@@ -19,13 +19,14 @@
             <property name="javax.persistence.jdbc.url"
                       value="jdbc:mysql://localhost:3306/tire_retarding_db"/>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
-
+            <!--
             <property name="javax.persistence.jdbc.user" value="root"/>
             <property name="javax.persistence.jdbc.password" value=""/>
-            <!--
-             <property name="javax.persistence.jdbc.user" value="worker"/>
-             <property name="javax.persistence.jdbc.password" value="Q!W@E#R$T%"/>
-             -->
+            -->
+
+            <property name="javax.persistence.jdbc.user" value="connect_application"/>
+            <property name="javax.persistence.jdbc.password" value="ZAQ!2wsxCDE#"/>
+
             <property name="char.encoding" value="UTF-8"/>
             <property name="hibernate.connection.provider_disables_autocommit" value="true"/>
             <!-- Hibernate properties -->

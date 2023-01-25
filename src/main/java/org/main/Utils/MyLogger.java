@@ -1,5 +1,6 @@
 package org.main.Utils;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
@@ -24,7 +25,7 @@ public class MyLogger {
     public static void setup() throws IOException {
         Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
         logger.setUseParentHandlers(false);
-        fileTxt = new FileHandler("mylogfile.log", true);
+        fileTxt = new FileHandler(System.getProperty("user.home") + File.separator + "appLogFile.log", true);
         formatterTxt = new SimpleFormatter();
         fileTxt.setFormatter(formatterTxt);
         logger.addHandler(fileTxt);

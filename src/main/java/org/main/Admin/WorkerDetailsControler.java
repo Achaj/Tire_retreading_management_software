@@ -164,7 +164,7 @@ public class WorkerDetailsControler extends ConnectionCardReader implements Init
                 editWorker.setFirstName(firstName.getText());
                 editWorker.setLastName(secondName.getText());
                 editWorker.setEmail(email.getText());
-                if (!editWorker.getPassword().equals(PasswordHashing.doHashing(pass.getText()))) {
+                if (!editWorker.getPassword().equals(PasswordHashing.doHashing(pass.getText())) && !pass.getText().equals("")) {
                     editWorker.setPassword(PasswordHashing.doHashing(pass.getText()));
                 }
                 editWorker.setTag(idTag.getText());

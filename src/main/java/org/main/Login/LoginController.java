@@ -52,21 +52,21 @@ public class LoginController extends ConnectionCardReader implements Initializab
                         alert.setAlertType(Alert.AlertType.INFORMATION);
                         alert.setHeaderText("Welcome " + worker.getFirstName());
                         alert.setGraphic(new ImageView(this.getClass().getResource("/img/user24px.png").toString()));
-                            if(worker.getPosition().equals("ADMIN")) {
-                                App.setNextRootScene("Admin/AdminMainView");
-
-                            }else{
-                                App.setNextRootScene("User/UserMainView");
-                            }
+                        if (worker.getPosition().equals("ADMIN")) {
+                            App.setNextRootScene("Admin/AdminMainView");
 
                         } else {
+                            App.setNextRootScene("User/UserMainView");
+                        }
+
+                    } else {
                         logger.log(Level.INFO, "Wrong tag passsword");
                         passTag.setStyle("-fx-background-color:  transparent;-fx-border-color:   red;-fx-border-width:   0px 0px 4px 0px;");
-                            alert.setAlertType(Alert.AlertType.INFORMATION);
-                            alert.setHeaderText("Zeskanowano nieprawidłową kartę");
-                            alert.setContentText("Zeskanuj ponownie dobrą kartę");
+                        alert.setAlertType(Alert.AlertType.INFORMATION);
+                        alert.setHeaderText("Zeskanowano nieprawidłową kartę");
+                        alert.setContentText("Zeskanuj ponownie dobrą kartę");
 
-                        }
+                    }
                 } else {
                     logger.log(Level.INFO, "Wrong  passsword");
                     password.setStyle("-fx-background-color:  transparent;-fx-border-color:   red;-fx-border-width:   0px 0px 4px 0px;");
@@ -155,18 +155,18 @@ public class LoginController extends ConnectionCardReader implements Initializab
                 result.ifPresent(letter -> System.out.println("Wybrany port: " + letter));
                 portName = result.get().trim().toString();
                 initSerialPort(portName, 9600);
-                listeningPort(passTag);
-            }else {
+
+            } else {
                 Alert alert = new Alert(Alert.AlertType.NONE);
                 alert.setAlertType(Alert.AlertType.INFORMATION);
                 alert.setHeaderText("Nie wykryto czytnika ze stacjonarnym czytnikiem!");
                 alert.setContentText("Został uruchomine połącznie do zdalnego czytnika");
                 alert.showAndWait();
-                listeningPort(passTag);
+
             }
-        } else {
-            listeningPort(passTag);
         }
+        listeningPort(passTag);
+
     }
 
 

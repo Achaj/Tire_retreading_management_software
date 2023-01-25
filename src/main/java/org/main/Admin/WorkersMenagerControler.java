@@ -6,10 +6,12 @@ import com.fazecast.jSerialComm.SerialPortEvent;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import org.main.Admin.GeneratorPDF.GenerateListOfHoursWorked;
 import org.main.App;
 import org.main.Entity.Temporaty.EmployeesOverworkedTime;
@@ -130,6 +132,22 @@ public class WorkersMenagerControler extends ConnectionCardReader implements Ini
         }
     }
 
+    private void listenerTable() {
+        tableWorkers.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
+                    try {
+                        editOneUser();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                }
+            }
+        });
+    }
+
     @FXML
     private void editOneUser() throws IOException {
         Workers workers = tableWorkers.getSelectionModel().getSelectedItem();
@@ -202,6 +220,7 @@ public class WorkersMenagerControler extends ConnectionCardReader implements Ini
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initializeColumn();
         loadDateUser(workerRepository.getWorkers());
+        listenerTable();
         try {
             initSerialPort(portName, 9600);
             listeningPort(serchField);

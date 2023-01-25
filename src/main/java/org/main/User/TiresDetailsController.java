@@ -3,14 +3,18 @@ package org.main.User;
 import com.fazecast.jSerialComm.SerialPort;
 import com.fazecast.jSerialComm.SerialPortDataListener;
 import com.fazecast.jSerialComm.SerialPortEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
+import javafx.util.Callback;
 import org.main.App;
 import org.main.Entity.*;
 import org.main.Utils.ConnectionCardReader;
 import org.main.Utils.Temporary;
 import org.main.Utils.ValidadiotData;
+
 
 import java.io.IOException;
 import java.net.URL;
@@ -34,7 +38,7 @@ public class TiresDetailsController extends ConnectionCardReader implements Init
     @FXML
     public ChoiceBox<String> loadIndex;
     @FXML
-    public TreeView<String> lastWork;
+    public TreeView<Works> lastWork;
     @FXML
     private Button removeBTN;
 
@@ -69,6 +73,7 @@ public class TiresDetailsController extends ConnectionCardReader implements Init
         } catch (Exception e) {
             e.printStackTrace();
         }
+        listenerTreeView();
     }
     public void inizjalizeChoiceBox(){
         loadIndex.getItems().clear();
@@ -102,12 +107,13 @@ public class TiresDetailsController extends ConnectionCardReader implements Init
 
             if ( workersList!=null) {
                 for (Works works : workersList) {
-                    rootItem.getChildren().add(new TreeItem<>(works.getName() + " " + works.getStatus() + " "
-                            + works.getWorkers().getFirstName()+" "+works.getWorkers().getLastName()));
+                    rootItem.getChildren().add(new TreeItem<>(works));
                 }
             }
             lastWork.setRoot(rootItem);
+
         }
+
     }
 
 
@@ -271,10 +277,28 @@ public class TiresDetailsController extends ConnectionCardReader implements Init
 
     public void backToPreviousScene() throws IOException {
         App.setPrevRootScene();
-        if(tiresEdit !=null){
-            tiresEdit =null;
+        if (tiresEdit != null) {
+            tiresEdit = null;
         }
     }
 
+    private void listenerTreeView() {
+        lastWork.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if (mouseEvent.getClickCount() == 2) {
+                    TreeItem<Works> item = lastWork.getSelectionModel().getSelectedItem();
+                    System.out.println("Selected Text : " + item.getValue());
+                    WorksDetailsController.setWorksEdit(item.getValue());
+                    try {
+                        App.setNextRootScene("User/WorksDetails");
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                }
+            }
+        });
+    }
 
 }

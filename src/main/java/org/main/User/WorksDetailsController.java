@@ -5,15 +5,18 @@ import com.fazecast.jSerialComm.SerialPortDataListener;
 import com.fazecast.jSerialComm.SerialPortEvent;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.jetbrains.annotations.NotNull;
+import org.main.Admin.WorkerDetailsControler;
 import org.main.App;
 import org.main.Entity.*;
 import org.main.Utils.ConnectionCardReader;
@@ -46,7 +49,7 @@ public class WorksDetailsController extends ConnectionCardReader implements Init
     @FXML
     public TreeView<Tires> tiresTreeView;
     @FXML
-    public TreeView<String> semiProductTreeView;
+    public TreeView<SemiProducts> semiProductTreeView;
     @FXML
     public ComboBox<String> nameChoiceBox;
     @FXML
@@ -72,6 +75,7 @@ public class WorksDetailsController extends ConnectionCardReader implements Init
             e.printStackTrace();
         }
         listeningField();
+        listenerTreeView();
     }
 
     static private Works worksEdit = null;
@@ -158,11 +162,11 @@ public class WorksDetailsController extends ConnectionCardReader implements Init
                 }
                 if (worksRepository.change(worksEdit)) {
                     alert.setAlertType(Alert.AlertType.CONFIRMATION);
-                    alert.setHeaderText("Czy chcesz edytować pozycje pracy?");
+                    alert.setHeaderText("Czy chcesz edytować komponenty pracy?");
                     Optional<ButtonType> result = alert.showAndWait();
                     if (result.isPresent() && result.get() == ButtonType.OK) {
                         //AddSemiProductToWorkController.setWorksEdit(worksEdit);
-                        loadStageEditWorSemiPoroducts(worksEdit, "edit", "Edycja pozycji pracy");
+                        loadStageEditWorSemiPoroducts(worksEdit, "edit", "Edycja komponenty pracy");
                     } else {
                         clearData();
                         backToPreviousScene();
@@ -176,7 +180,7 @@ public class WorksDetailsController extends ConnectionCardReader implements Init
 
             } else {
                 alert.setAlertType(Alert.AlertType.CONFIRMATION);
-                alert.setHeaderText("Czy chcesz edytować tylko pozycje pracy?");
+                alert.setHeaderText("Czy chcesz edytować tylko komponenty pracy?");
                 //alert.setContentText("Czy chcesz dodać  pół produkty do zadania?");
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.isPresent() && result.get() == ButtonType.OK) {
@@ -238,14 +242,7 @@ public class WorksDetailsController extends ConnectionCardReader implements Init
             stage.setScene(scene);
             stage.show();
 
-           /*stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-                @Override
-                public void handle(WindowEvent e) {
-                    AddSemiProductToWorkController.setWorks(null);
-                    AddSemiProductToWorkController.setWorksEdit(null);
-                }
-            });
-           */
+
         } catch (IOException e) {
             Logger logger = Logger.getLogger(getClass().getName());
             logger.log(Level.SEVERE, "Failed to create new Window.", e);
@@ -309,7 +306,7 @@ public class WorksDetailsController extends ConnectionCardReader implements Init
             if (workSave != null) {
                 alert.setAlertType(Alert.AlertType.CONFIRMATION);
                 alert.setHeaderText("Dane zostały zapisane");
-                alert.setContentText("Czy chcesz dodać  pół produkty do zadania?");
+                alert.setContentText("Czy chcesz dodać  komponenty do zadania?");
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.isPresent() && result.get() == ButtonType.OK) {
                     clearData();
@@ -544,6 +541,25 @@ public class WorksDetailsController extends ConnectionCardReader implements Init
                     tiresTreeView.setStyle("-fx-background-color:  white;-fx-border-color:   green;-fx-border-width:   0px 0px 2px 2px;");
                     correctTire = true;
                 });
+    }
+
+    private void listenerTreeView() {
+        tiresTreeView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if (mouseEvent.getClickCount() == 2) {
+                    TreeItem<Tires> item = tiresTreeView.getSelectionModel().getSelectedItem();
+                    System.out.println("Selected Text : " + item.getValue());
+                    TiresDetailsController.setTiresEdit(item.getValue());
+                    try {
+                        App.setNextRootScene("User/TiresDetails");
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                }
+            }
+        });
     }
 
 }

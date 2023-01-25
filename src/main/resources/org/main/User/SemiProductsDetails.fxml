@@ -11,10 +11,11 @@
    <top>
       <AnchorPane prefHeight="82.0" prefWidth="609.0" style="-fx-background-color: #404040;" BorderPane.alignment="CENTER">
          <children>
-            <Text fill="WHITE" layoutX="149.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Szczegóły Półproduktu" wrappingWidth="552.0">
-               <font>
-                  <Font name="System Bold" size="46.0" />
-               </font>
+            <Text fill="WHITE" layoutX="149.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0"
+                  text="Szczegóły Komponentu" wrappingWidth="552.0">
+                <font>
+                    <Font name="System Bold" size="46.0"/>
+                </font>
             </Text>
             <Button layoutX="35.0" layoutY="29.0" mnemonicParsing="false" onAction="#backToPreviousScene" prefHeight="31.0" prefWidth="84.0" style="-fx-background-color: white;" text="Cofinij">
                <graphic>

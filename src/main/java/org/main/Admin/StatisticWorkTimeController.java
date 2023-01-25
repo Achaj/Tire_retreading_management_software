@@ -51,7 +51,8 @@ public class StatisticWorkTimeController extends ConnectionCardReader implements
         loadComboBoxDepartment();
         loadListenersComboBoxes();
         loadComboBoxWorkName();
-        loadAreaChart(worksRepository.countTimeWorkNameWorker(null));
+        allDepartmentStatistic();
+
         try {
             initSerialPort(portName, 9600);
             listeningPort(searchTextField);
@@ -59,10 +60,19 @@ public class StatisticWorkTimeController extends ConnectionCardReader implements
             e.printStackTrace();
         }
     }
+
     @FXML
     void backToPreviousScene() throws IOException {
         App.setPrevRootScene();
     }
+
+    @FXML
+    private void allDepartmentStatistic() {
+        loadAreaChart(worksRepository.countTimeWorkNameWorker(null));
+        loadLineChart(null, null);
+        loadBarChart(null, worksRepository.countTimeWorkNameWorker(null));
+    }
+
     ObservableList<Departments> departmentsObservableList = FXCollections.observableArrayList();
     DepartmentsRepositoryImpl departmentsRepository = new DepartmentsRepositoryImpl();
 
@@ -212,15 +222,17 @@ public class StatisticWorkTimeController extends ConnectionCardReader implements
         float val=hours +  remainderMinutes;
         return  val ;
     }
-    private  void  loadLineChart(List<DaytimeWork> daytimeWorkList,Workers workers){
+    private  void  loadLineChart(List<DaytimeWork> daytimeWorkList,Workers workers) {
         workTimeLineChart.getData().clear();
         workTimeLineChart.setTitle("Przepracowane Godziny");
         XYChart.Series<String, Float> series1 = new XYChart.Series();
-        series1.setName(workers.getFirstName() +" "+ workers.getLastName());
-        if(daytimeWorkList!=null){
-            for(DaytimeWork daytimeWork:daytimeWorkList){
-                series1.getData().add(new XYChart.Data(daytimeWork.getDate().toString(),minutesToHoursAndMinutesFloat(daytimeWork.getMinutes())));
-                System.out.println(daytimeWork.getMinutes()+"xx"+minutesToHoursAndMinutesFloat(daytimeWork.getMinutes()));
+        if (workers != null) {
+            series1.setName(workers.getFirstName() + " " + workers.getLastName());
+        }
+        if (daytimeWorkList != null) {
+            for (DaytimeWork daytimeWork : daytimeWorkList) {
+                series1.getData().add(new XYChart.Data(daytimeWork.getDate().toString(), minutesToHoursAndMinutesFloat(daytimeWork.getMinutes())));
+                System.out.println(daytimeWork.getMinutes() + "xx" + minutesToHoursAndMinutesFloat(daytimeWork.getMinutes()));
             }
             workTimeLineChart.getData().add(series1);
         }

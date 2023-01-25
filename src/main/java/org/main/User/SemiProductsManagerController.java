@@ -5,6 +5,7 @@ import com.fazecast.jSerialComm.SerialPortDataListener;
 import com.fazecast.jSerialComm.SerialPortEvent;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -12,6 +13,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import org.main.App;
 import org.main.Entity.SemiProducts;
 import org.main.Entity.SemiProductsRepositoryImpl;
@@ -35,6 +37,23 @@ public class SemiProductsManagerController extends ConnectionCardReader implemen
         } catch (Exception e) {
             e.printStackTrace();
         }
+        listenerTable();
+    }
+
+    private void listenerTable() {
+        tableView.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
+                    try {
+                        editSemiProduct();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                }
+            }
+        });
     }
 
     @FXML

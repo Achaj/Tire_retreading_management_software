@@ -2,10 +2,12 @@ package org.main.Admin;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import org.main.Admin.GeneratorPDF.GenerateListOfHoursWorked;
 import org.main.App;
 import org.main.Entity.Departments;
@@ -49,10 +51,27 @@ public class DepartmentsManagerController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initializeColumn();
         loadDateUser(departmentsRepository.getDepartments());
+        listenerTable();
     }
 
     public void backToPreviousScene() throws IOException {
         App.setPrevRootScene();
+    }
+
+    private void listenerTable() {
+        tableDepartments.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
+                    try {
+                        editDepartment();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                }
+            }
+        });
     }
 
     private void initializeColumn() {

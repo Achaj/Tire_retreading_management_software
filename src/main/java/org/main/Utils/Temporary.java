@@ -180,27 +180,20 @@ public class Temporary {
     //private static List<String> categorySemi=new ArrayList<>();
 
     public static List<String> getCategorySemi() {
-        List<String> categorySemi=new ArrayList<>();
+        List<String> categorySemi = new ArrayList<>();
         //TRUCK TIRES
-        categorySemi.add("Bieżnik płaskie CT");
-        categorySemi.add("Bieżnik Mini-Wing CT");
-        categorySemi.add("Bieżnik ECL CT");
-        categorySemi.add("Bieżnik płaskie CZ");
-        categorySemi.add("Bieżnik Mini-Wing CZ");
-        categorySemi.add("Bieżnik ECL CZ");
-        categorySemi.add("Bieżnik płaskie CD");
-        categorySemi.add("Bieżnik Mini-Wing CD");
-        categorySemi.add("Bieżnik ECL CD");
-        categorySemi.add("Bieżnik płaskie CF");
-        categorySemi.add("Bieżnik Mini-Wing CF");
-        categorySemi.add("Bieżnik ECL CF");
+        categorySemi.add("Bieżnik CT");
+        categorySemi.add("Bieżnik CZ");
+        categorySemi.add("Bieżnik CD");
+        categorySemi.add("Bieżnik CF");
+        categorySemi.add("Bieżnikg CF");
+
         //CAR TIRES
         categorySemi.add("Bieżnik Asymetryczny SL");
         categorySemi.add("Bieżnik Symetryczny SL");
-        categorySemi.add("Bieżnik Asymetryczny SL");
         categorySemi.add("Bieżnik Asymetryczny SZ");
         categorySemi.add("Bieżnik Symetryczny SZ");
-        categorySemi.add("Bieżnik Asymetryczny SZ");
+
 
         categorySemi.add("Klej");
         categorySemi.add("Łaty");

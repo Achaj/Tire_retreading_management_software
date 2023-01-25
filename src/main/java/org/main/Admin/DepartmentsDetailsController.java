@@ -1,8 +1,10 @@
 package org.main.Admin;
 
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import org.main.App;
 import org.main.Entity.Departments;
 import org.main.Entity.DepartmentsRepositoryImpl;
@@ -24,8 +26,10 @@ public class DepartmentsDetailsController implements Initializable {
     @FXML public TextField street;
     @FXML public TextField flatNumber;
     @FXML public TextField postCode;
-    @FXML public TextField phoneNumber;
-    @FXML public TreeView<String>  workersTreeView;
+    @FXML
+    public TextField phoneNumber;
+    @FXML
+    public TreeView<Workers> workersTreeView;
 
     public static void setDepartments(Departments departments) {
         DepartmentsDetailsController.departmentsEdit = departments;
@@ -36,6 +40,7 @@ public class DepartmentsDetailsController implements Initializable {
         inicjalizeTreeView();
         inicjalizeTextFields();
         listinerTextFiels();
+        listenerTreeView();
 
 
     }
@@ -54,17 +59,37 @@ public class DepartmentsDetailsController implements Initializable {
             TreeItem rootItem = new TreeItem("Pracuje w dziale "+departmentsEdit.getName());
             rootItem.setExpanded(true);
 
-            List<Workers> workersList=workersRepository.getWorkersByDepartment(departmentsEdit.getIdDepartment());
+            List<Workers> workersList = workersRepository.getWorkersByDepartment(departmentsEdit.getIdDepartment());
 
             if (workersList != null) {
                 for (Workers worker : workersList) {
-                    rootItem.getChildren().add(new TreeItem<>(worker.getFirstName()+" "+worker.getLastName()+" "+worker.getPosition()));
+                    rootItem.getChildren().add(new TreeItem<>(worker));
                 }
             }
             workersTreeView.setRoot(rootItem);
         }
     }
-    private void inicjalizeTextFields(){
+
+    private void listenerTreeView() {
+        workersTreeView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if (mouseEvent.getClickCount() == 2) {
+                    TreeItem<Workers> item = workersTreeView.getSelectionModel().getSelectedItem();
+                    System.out.println("Selected Text : " + item.getValue());
+                    WorkerDetailsControler.setEditWorker(item.getValue());
+                    try {
+                        App.setNextRootScene("Admin/WorkerDetails");
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                }
+            }
+        });
+    }
+
+    private void inicjalizeTextFields() {
         if (departmentsEdit != null) {
             name.setText(departmentsEdit.getName());
             hallName.setText(departmentsEdit.getHallName());

@@ -40,17 +40,19 @@
       </AnchorPane>
    </top>
    <center>
-      <GridPane prefHeight="569.0" prefWidth="802.0" BorderPane.alignment="CENTER">
-         <columnConstraints>
-            <ColumnConstraints fillWidth="false" halignment="RIGHT" maxWidth="230.0" minWidth="10.0" prefWidth="135.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="494.0" minWidth="10.0" prefWidth="413.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints fillHeight="false" maxHeight="474.0" minHeight="10.0" prefHeight="285.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="154.0" minHeight="0.0" prefHeight="118.0" valignment="TOP" />
-            <RowConstraints maxHeight="152.0" minHeight="10.0" prefHeight="88.0" valignment="TOP" />
-         </rowConstraints>
+      <GridPane prefHeight="508.0" prefWidth="910.0" BorderPane.alignment="CENTER">
+          <columnConstraints>
+              <ColumnConstraints fillWidth="false" halignment="RIGHT" maxWidth="230.0" minWidth="10.0"
+                                 prefWidth="135.0"/>
+              <ColumnConstraints hgrow="SOMETIMES" maxWidth="494.0" minWidth="10.0" prefWidth="413.0"/>
+              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"/>
+          </columnConstraints>
+          <rowConstraints>
+              <RowConstraints fillHeight="false" maxHeight="474.0" minHeight="10.0" prefHeight="285.0"
+                              vgrow="SOMETIMES"/>
+              <RowConstraints maxHeight="154.0" minHeight="0.0" prefHeight="118.0" valignment="TOP"/>
+              <RowConstraints maxHeight="152.0" minHeight="10.0" prefHeight="88.0" valignment="TOP"/>
+          </rowConstraints>
          <children>
             <VBox alignment="TOP_RIGHT" prefHeight="312.0" prefWidth="130.0">
                <children>
@@ -131,10 +133,12 @@
                   <ChoiceBox fx:id="loadIndex" prefHeight="25.0" prefWidth="449.0" />
                </children>
             </VBox>
-            <TreeView fx:id="lastWork" prefHeight="531.0" prefWidth="247.0" GridPane.columnIndex="2" GridPane.rowSpan="3">
-               <GridPane.margin>
-                  <Insets left="10.0" />
-               </GridPane.margin></TreeView>
+             <TreeView fx:id="lastWork" prefHeight="508.0" prefWidth="292.0" GridPane.columnIndex="2"
+                       GridPane.rowSpan="3">
+                 <GridPane.margin>
+                     <Insets left="10.0"/>
+                 </GridPane.margin>
+             </TreeView>
             <HBox prefHeight="74.0" prefWidth="544.0" GridPane.columnSpan="2" GridPane.rowIndex="1">
                <children>
                   <Button mnemonicParsing="false" onAction="#editTireInDB" prefHeight="42.0" prefWidth="138.0" style="-fx-background-color: #404040;" text="Edytuj" textFill="WHITE" textOverrun="CLIP">

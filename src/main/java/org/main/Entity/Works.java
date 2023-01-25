@@ -115,6 +115,16 @@ public class Works implements Serializable {
 
     @Override
     public String toString() {
+        return
+                "nazwa ='" + name +
+                        ", dateStop=" + dateStop +
+                        ", status='" + status + '\'' +
+                        ", pracownik=" + workers.getFirstName() + " " + workers.getLastName() +
+                        ", dział=" + departments.getName() +
+                        '}';
+    }
+
+    public String toStringLong() {
         return "Works{" +
                 "idWork=" + idWork +
                 ", name='" + name + '\'' +
@@ -127,4 +137,5 @@ public class Works implements Serializable {
                 ", workSemiProducts=" + workSemiProducts +
                 '}';
     }
+
 }

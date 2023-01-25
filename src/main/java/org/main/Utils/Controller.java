@@ -14,21 +14,16 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
 public class Controller {
-
     @FXML
     private TextField textField;
-
     public void setTextField(TextField textField) {
         this.textField = textField;
     }
-
     private ServerSocketHandler serverSocketHandler;
-
     public void initialize() {
         serverSocketHandler = new ServerSocketHandler();
         serverSocketHandler.start();
     }
-
     public void cleanup() {
         if (serverSocketHandler != null) {
             try {
@@ -46,7 +41,6 @@ public class Controller {
         Logger logger = MyLogger.getInstance().getLogger();
         private ServerSocket serverSocket;
         private Socket clientSocket;
-
         public void run() {
             try {
                 serverSocket = new ServerSocket();
@@ -61,7 +55,8 @@ public class Controller {
                         while (!clientSocket.isClosed() && (request = in.readLine()) != null) {
                             String finalRequest = request;
                             System.out.println("Received data: " + request);
-                            logger.log(Level.INFO, "Received data from " + clientSocket.getInetAddress().getHostAddress() + ": " + request);
+                            logger.log(Level.INFO, "Received data from " +
+                                    clientSocket.getInetAddress().getHostAddress() + ": " + request);
                             Platform.runLater(() -> textField.setText(finalRequest));
                         }
                     } catch (IOException e) {
@@ -71,10 +66,12 @@ public class Controller {
                                 serverSocket.close();
                             } catch (IOException ex) {
                                 ex.printStackTrace();
+                                logger.log(Level.WARNING, "When close socket", ex);
                             }
                             break;
                         } else {
                             e.printStackTrace();
+                            logger.log(Level.WARNING, "IO", e);
                         }
                     }
                 }
