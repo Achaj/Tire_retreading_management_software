@@ -6,15 +6,19 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.main.User.WorksManagerController">
-    <left>
-        <AnchorPane prefHeight="518.0" prefWidth="141.0" style="-fx-background-color: #404040;" BorderPane.alignment="CENTER">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0"
+            prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.main.User.WorksManagerController">
+   <left>
+      <AnchorPane prefHeight="518.0" prefWidth="141.0" style="-fx-background-color: #404040;"
+                  BorderPane.alignment="CENTER">
          <children>
             <VBox prefHeight="518.0" prefWidth="137.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#showAllWorks" prefHeight="25.0" prefWidth="126.0" style="-fx-background-color: white;" text="Wszystkie">
+                  <Button mnemonicParsing="false" onAction="#showAllWorks" prefHeight="25.0" prefWidth="126.0"
+                          style="-fx-background-color: white;" text="Wszystkie">
                      <font>
-                        <Font name="System Bold" size="12.0" />
+                        <Font name="System Bold" size="12.0"/>
                      </font>
                      <VBox.margin>
                         <Insets bottom="10.0" />

@@ -21,13 +21,17 @@ import java.util.LinkedList;
  * JavaFX App
  */
 public class App extends Application {
+    public static void main(String[] args) {
+        Application.launch(args);
+    }
 
     private static Scene scene;
-    private static LinkedList<String> linkedListSceneName= new LinkedList<>();
+    private static LinkedList<String> linkedListSceneName = new LinkedList<>();
+
     @Override
     public void start(Stage stage) throws IOException {
 
-        scene= new Scene(loadFXML("LoginView"), 800, 600);
+        scene = new Scene(loadFXML("LoginView"), 800, 600);
         linkedListSceneName.add("LoginView");
         stage.setScene(scene);
         stage.show();

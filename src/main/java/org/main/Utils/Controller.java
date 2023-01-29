@@ -29,8 +29,6 @@ public class Controller {
             try {
                 serverSocketHandler.interrupt();  //stop the thread
                 serverSocketHandler.serverSocket.close(); // close the server socket
-                if (serverSocketHandler.clientSocket != null)
-                    serverSocketHandler.clientSocket.shutdownInput();
             } catch (IOException e) {
                 e.printStackTrace();
             }

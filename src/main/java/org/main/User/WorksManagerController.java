@@ -46,6 +46,7 @@ public class WorksManagerController implements Initializable {
 
                 }
             }
+
         });
         tableView.setRowFactory(tv -> new TableRow<Works>() {
             @Override
@@ -53,6 +54,8 @@ public class WorksManagerController implements Initializable {
                 super.updateItem(item, empty);
                 if (item == null) {
                     setStyle("");
+                } else if (isSelected()) {
+                    setStyle(" -fx-text-fill: black;-fx-background-color: green;");
                 } else if (item.getStatus().equals("Do Zrobienia")) {
                     setStyle("-fx-background-color: #fff7d9;");
                 } else if (item.getStatus().equals("Zaczęto")) {
@@ -66,11 +69,10 @@ public class WorksManagerController implements Initializable {
                 } else {
                     setStyle("");
                 }
-                if (tableView.getSelectionModel().getSelectedItem() == item) {
-                    setStyle("-fx-background-color: blue;-fx-text-fill: red;");
-                }
+
             }
         });
+
 
     }
     @FXML

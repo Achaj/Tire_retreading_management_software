@@ -68,7 +68,7 @@ public class SemiProductsRepositoryImpl implements SemiProductsRepository{
                 entityManager.merge(semiProducts);
             }
             entityTransaction.commit();
-            logger.log(Level.INFO, "SAVE:" + semiProducts.toString() + " By: " + Temporary.getWorkers().toString());
+            logger.log(Level.INFO, "SAVE:" + semiProducts.toString() + " By: ");
             return true;
         } catch (Exception e) {
             e.printStackTrace();

@@ -141,20 +141,32 @@ public class LoginController extends ConnectionCardReader implements Initializab
     }
 
     public void connectionCardReader() throws Exception {
-        initSerialPort(portName, 9600);
-        if (!serialPort.isOpen()) {
-            List<String> choices = getPortNames();
+        List<String> choices = getPortNames();
+        if (choices != null) {
+            initSerialPort(portName, 9600);
             if (!choices.isEmpty()) {
                 ChoiceDialog<String> dialog = new ChoiceDialog<>(choices.get(0), choices);
                 dialog.setTitle("Wybirz port");
                 dialog.setHeaderText("Wybierz port z dostępnych");
                 dialog.setContentText("Wybrany port:");
-
                 // Traditional way to get the response value.
                 Optional<String> result = dialog.showAndWait();
-                result.ifPresent(letter -> System.out.println("Wybrany port: " + letter));
-                portName = result.get().trim().toString();
-                initSerialPort(portName, 9600);
+                result.ifPresent(letter -> {
+                    System.out.println("Wybrany port: " + letter);
+                    portName = result.get().trim().toString();
+                    try {
+                        initSerialPort(portName, 9600);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+                if (!serialPort.isOpen()) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setHeaderText("Nie udane połączenie do czytnika szeregowego!");
+                    alert.setContentText("Włączono nasłuchiwanie czytnika zdalnego");
+                    alert.showAndWait();
+                }
+
 
             } else {
                 Alert alert = new Alert(Alert.AlertType.NONE);

@@ -195,11 +195,15 @@ public class StatisticWorkTimeController extends ConnectionCardReader implements
             if(workers!=null) {
                 alert.setAlertType(Alert.AlertType.INFORMATION);
                 alert.setHeaderText("Zostają wyświetlone statystki dla:");
-                alert.setContentText(workers.getFirstName() +" "+workers.getLastName());
+                alert.setContentText(workers.getFirstName() + " " + workers.getLastName());
                 //Do something hear
-                loadLineChart(workingTimeRepository.getListOfEmployeeMinutesWorked(workers.getIdWorker()),workers);
+                List<Workers> workersList = new ArrayList<>();
+                workersList.add(workers);
+                workerComboBox.getSelectionModel().select(workers);
+                loadComboBoxWorkers(workersList);
+                loadLineChart(workingTimeRepository.getListOfEmployeeMinutesWorked(workers.getIdWorker()), workers);
                 loadAreaChart(worksRepository.countTimeWorkNameWorker(workers));
-                loadBarChart(worksRepository.countTimeWorkNameWorker(workers),worksRepository.countTimeWorkNameWorker(null));
+                loadBarChart(worksRepository.countTimeWorkNameWorker(workers), worksRepository.countTimeWorkNameWorker(null));
 
             }else{
                 alert.setAlertType(Alert.AlertType.INFORMATION);
