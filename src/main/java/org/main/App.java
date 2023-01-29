@@ -6,6 +6,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.main.Entity.WorkingTimeRepositoryImpl;
@@ -34,15 +35,19 @@ public class App extends Application {
         scene = new Scene(loadFXML("LoginView"), 800, 600);
         linkedListSceneName.add("LoginView");
         stage.setScene(scene);
+        Image icon = new Image(getClass().getResourceAsStream("icon.png"));
+        stage.getIcons().add(icon);
+        stage.setTitle("System do zarządzania wybranymi obiektami za pomocach technologii RFID");
         stage.show();
-        stage.setTitle("VulcanizePro");
+
+
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-                @Override
-                public void handle(WindowEvent e) {
-                    if (Temporary.getWorkers() != null) {
-                        App app = new App();
-                        Temporary.workingTime.setDateLogOut(LocalDateTime.now());
-                        app.workingTimeRepository.change(Temporary.workingTime);
+            @Override
+            public void handle(WindowEvent e) {
+                if (Temporary.getWorkers() != null) {
+                    App app = new App();
+                    Temporary.workingTime.setDateLogOut(LocalDateTime.now());
+                    app.workingTimeRepository.change(Temporary.workingTime);
                     }
                     Platform.exit();
                     System.exit(0);
