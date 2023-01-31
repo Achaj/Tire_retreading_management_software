@@ -5,6 +5,7 @@ import org.main.Utils.Temporary;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.logging.Level;
@@ -21,7 +22,7 @@ public class WorkSemiProductsRepositoryImpl implements WorkSemiProductsRepositor
         try {
             entityManager.persist(workSemiProducts);
             entityTransaction.commit();
-            logger.log(Level.INFO, "SAVE:" + workSemiProducts.toString() + " BY:" + Temporary.getWorkers());
+            //   logger.log(Level.INFO, "SAVE:" + workSemiProducts.toString() + " BY:" + Temporary.getWorkers());
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -65,7 +66,7 @@ public class WorkSemiProductsRepositoryImpl implements WorkSemiProductsRepositor
             entityManager.remove(workSemiProducts);
 
             entityTransaction.commit();
-            logger.log(Level.INFO, "REMOVE:" + workSemiProducts.toString() + " BY:" + Temporary.getWorkers());
+            // logger.log(Level.INFO, "REMOVE:" + workSemiProducts.toString() + " BY:" + Temporary.getWorkers());
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -129,4 +130,5 @@ public class WorkSemiProductsRepositoryImpl implements WorkSemiProductsRepositor
         typedQuery.setParameter("id", id);
         return typedQuery.getResultList().isEmpty() ? null : typedQuery.getResultList();
     }
+
 }

@@ -63,13 +63,5 @@ public class WorkSemiProducts implements Serializable {
         this.semiProducts = semiProducts;
     }
 
-    @Override
-    public String toString() {
-        return "WorkSemiProducts{" +
-                "idWorkSemiProduct=" + idWorkSemiProduct +
-                ", amount=" + amount +
-                ", works=" + works +
-                ", semiProducts=" + semiProducts +
-                '}';
-    }
+
 }

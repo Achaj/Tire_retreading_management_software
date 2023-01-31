@@ -84,9 +84,11 @@
                         <Font size="16.0" />
                      </font>
                   </Button>
-                  <Label prefHeight="63.0" prefWidth="322.0" text="Panel kontrolny menedżera działów wyświetla elementy panelu kontrolnego, które są skonfigurowane dla roli menedżera dziłów " textAlignment="JUSTIFY" wrapText="true">
+                  <Label prefHeight="63.0" prefWidth="322.0"
+                         text="Panel kontrolny menedżera działów wyświetla elementy panelu kontrolnego, które są skonfigurowane dla roli menedżera działów "
+                         textAlignment="JUSTIFY" wrapText="true">
                      <HBox.margin>
-                        <Insets left="5.0" />
+                        <Insets left="5.0"/>
                      </HBox.margin>
                   </Label>
                </children>
@@ -104,9 +106,11 @@
                                  <Font size="16.0" />
                                  </font>
                            </Button>
-                  <Label prefHeight="63.0" prefWidth="322.0" text="Panel raportowania to narzędzie umożliwiające generowanie i prezentowanie różnego rodzaju raportów. " textAlignment="JUSTIFY" wrapText="true">
+                  <Label prefHeight="63.0" prefWidth="322.0"
+                         text="Panel raportowania to narzędzie umożliwiające generowanie i prezentowanie różnego rodzaju raporty "
+                         textAlignment="JUSTIFY" wrapText="true">
                      <HBox.margin>
-                        <Insets left="5.0" />
+                        <Insets left="5.0"/>
                      </HBox.margin>
                   </Label>
                </children>

@@ -27,8 +27,9 @@ public class Controller {
     public void cleanup() {
         if (serverSocketHandler != null) {
             try {
-                serverSocketHandler.interrupt();  //stop the thread
                 serverSocketHandler.serverSocket.close(); // close the server socket
+                serverSocketHandler.interrupt();  //stop the thread
+
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -26,14 +26,15 @@ public class ConnectionCardReader {
 
     public void initSerialPort(String name, int baud) throws Exception {
 
-        if (serialPort != null && serialPort.isOpen()) {
-            closePort();
-        }
+        // if (serialPort != null && serialPort.isOpen()) {
+        //     closePort();
+        // }
         serialPort = SerialPort.getCommPort(name);
         serialPort.setParity(SerialPort.NO_PARITY);
         serialPort.setNumStopBits(SerialPort.ONE_STOP_BIT);
         serialPort.setNumDataBits(8);
         serialPort.setBaudRate(baud);
+
         boolean result = serialPort.openPort();
         logger.log(Level.INFO, String.valueOf(result));
         System.out.println("Open Port :" + result);

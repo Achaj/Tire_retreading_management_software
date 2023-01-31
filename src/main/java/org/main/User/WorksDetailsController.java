@@ -228,9 +228,9 @@ public class WorksDetailsController extends ConnectionCardReader implements Init
     private void loadStageEditWorSemiPoroducts(Works works, @NotNull String parameter, String title) {
         try {
             if (parameter.equals("save")) {
-                AddSemiProductToWorkController.setWorks(works);
+                AddSemiProductToWorkController.works = worksRepository.getWorkActual(works);
             } if(parameter.equals("edit")) {
-                AddSemiProductToWorkController.setWorksEdit(works);
+                AddSemiProductToWorkController.worksEdit = worksRepository.getWorkActual(works);
             }
             ConnectionCardReader.closePort();
             FXMLLoader fxmlLoader = new FXMLLoader();

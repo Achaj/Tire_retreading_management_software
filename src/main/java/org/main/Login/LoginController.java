@@ -51,6 +51,7 @@ public class LoginController extends ConnectionCardReader implements Initializab
                         workingTimeRepository.save(Temporary.workingTime);
                         alert.setAlertType(Alert.AlertType.INFORMATION);
                         alert.setHeaderText("Welcome " + worker.getFirstName());
+                        logger.log(Level.INFO, "Zalogowano użytkownika: " + worker.toString());
                         alert.setGraphic(new ImageView(this.getClass().getResource("/img/user24px.png").toString()));
                         if (worker.getPosition().equals("ADMIN")) {
                             App.setNextRootScene("Admin/AdminMainView");
@@ -75,10 +76,12 @@ public class LoginController extends ConnectionCardReader implements Initializab
                     alert.setContentText("Wpisz poprawne hasło");
                 }
             } else {
+                username.setStyle("-fx-background-color:  transparent;-fx-border-color:   red;-fx-border-width:   0px 0px 4px 0px;");
                 alert.setAlertType(Alert.AlertType.INFORMATION);
                 alert.setHeaderText("Nie ma konta z podany adresem email");
             }
         } else {
+            username.setStyle("-fx-background-color:  transparent;-fx-border-color:   red;-fx-border-width:   0px 0px 4px 0px;");
             alert.setAlertType(Alert.AlertType.WARNING);
             alert.setHeaderText("Nie uzupełiono pól lub wprowdzono zabronione znaki");
         }
@@ -143,7 +146,7 @@ public class LoginController extends ConnectionCardReader implements Initializab
     public void connectionCardReader() throws Exception {
         List<String> choices = getPortNames();
         if (choices != null) {
-            initSerialPort(portName, 9600);
+            //initSerialPort(portName, 9600);
             if (!choices.isEmpty()) {
                 ChoiceDialog<String> dialog = new ChoiceDialog<>(choices.get(0), choices);
                 dialog.setTitle("Wybirz port");
@@ -160,7 +163,7 @@ public class LoginController extends ConnectionCardReader implements Initializab
                         throw new RuntimeException(e);
                     }
                 });
-                if (!serialPort.isOpen()) {
+                if (!serialPort.isOpen() || serialPort == null) {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setHeaderText("Nie udane połączenie do czytnika szeregowego!");
                     alert.setContentText("Włączono nasłuchiwanie czytnika zdalnego");

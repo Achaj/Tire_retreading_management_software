@@ -40,17 +40,22 @@ public class GenerateStockLevel extends Generator{
             String DEST = getPathFileSaved("Stan Magazynowy");
             //  String DEST = "Faktura Vat NR_" + tmpOrder.getIdZamowienia() + ".pdf";
             PdfDocument pdf = new PdfDocument(new PdfWriter(DEST));
-            pdf.getCatalog().put(PdfName.Lang,new PdfString("PL"));
+            pdf.getCatalog().put(PdfName.Lang, new PdfString("PL"));
             Document document = new Document(pdf);
             pdf.setDefaultPageSize(PageSize.A4);
-            pdf.getDocumentInfo().setAuthor(Temporary.getWorkers().getFirstName() +" "+ Temporary.getWorkers().getLastName());
+            pdf.getDocumentInfo().setAuthor(Temporary.getWorkers().getFirstName() + " " + Temporary.getWorkers().getLastName());
             pdf.getDocumentInfo().setTitle("Stan Magazynowy Opon");
             pdf.getDocumentInfo().setKeywords("keywords, pdf, iText 7");
 
 
-            PdfFont font = PdfFontFactory.createFont("src/main/resources/fonts/Anonymous_Pro.ttf", CP1250);
-            PdfFont fontBold = PdfFontFactory.createFont("src/main/resources/fonts/Anonymous_Pro_B.ttf", CP1250);
-            PdfFont fontBoldItalic = PdfFontFactory.createFont("src/main/resources/fonts/Anonymous_Pro_BI.ttf", CP1250);
+            String pathtofont = "/fonts/Anonymous_Pro.ttf";
+            String fontname = GenerateListOfHoursWorked.class.getResource(pathtofont).toString();
+
+            String pathtofontBold = "/fonts/Anonymous_Pro_B.ttf";
+            String fontnameBold = GenerateListOfHoursWorked.class.getResource(pathtofontBold).toString();
+
+            PdfFont font = PdfFontFactory.createFont(fontname, CP1250);
+            PdfFont fontBold = PdfFontFactory.createFont(fontnameBold, CP1250);
 
             float col = 285f;
             float threcoll = 190f;
@@ -139,17 +144,23 @@ public class GenerateStockLevel extends Generator{
             String DEST = getPathFileSaved("Prefabrykaty");
             //  String DEST = "Faktura Vat NR_" + tmpOrder.getIdZamowienia() + ".pdf";
             PdfDocument pdf = new PdfDocument(new PdfWriter(DEST));
-            pdf.getCatalog().put(PdfName.Lang,new PdfString("PL"));
+            pdf.getCatalog().put(PdfName.Lang, new PdfString("PL"));
             Document document = new Document(pdf);
             pdf.setDefaultPageSize(PageSize.A4);
-            pdf.getDocumentInfo().setAuthor(Temporary.getWorkers().getFirstName() +" "+ Temporary.getWorkers().getLastName());
+            pdf.getDocumentInfo().setAuthor(Temporary.getWorkers().getFirstName() + " " + Temporary.getWorkers().getLastName());
             pdf.getDocumentInfo().setTitle("Stan Magazynowy prefabrykatów");
             pdf.getDocumentInfo().setKeywords("keywords, pdf, iText 7");
 
 
-            PdfFont font = PdfFontFactory.createFont("src/main/resources/fonts/Anonymous_Pro.ttf", CP1250);
-            PdfFont fontBold = PdfFontFactory.createFont("src/main/resources/fonts/Anonymous_Pro_B.ttf", CP1250);
-            PdfFont fontBoldItalic = PdfFontFactory.createFont("src/main/resources/fonts/Anonymous_Pro_BI.ttf", CP1250);
+            String pathtofont = "/fonts/Anonymous_Pro.ttf";
+            String fontname = GenerateListOfHoursWorked.class.getResource(pathtofont).toString();
+
+            String pathtofontBold = "/fonts/Anonymous_Pro_B.ttf";
+            String fontnameBold = GenerateListOfHoursWorked.class.getResource(pathtofontBold).toString();
+
+            PdfFont font = PdfFontFactory.createFont(fontname, CP1250);
+            PdfFont fontBold = PdfFontFactory.createFont(fontnameBold, CP1250);
+
 
             float col = 285f;
             float threcoll = 190f;

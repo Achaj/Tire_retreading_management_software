@@ -10,6 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import org.main.App;
+import org.main.Entity.Workers;
 import org.main.Entity.Works;
 import org.main.Entity.WorksRepositoryImpl;
 import org.main.Utils.Temporary;
@@ -158,8 +159,10 @@ public class WorksManagerController implements Initializable {
     }
 
     public void editSelectWork() throws IOException {
-        if (tableView.getSelectionModel().getSelectedItem() != null) {
-            WorksDetailsController.setWorksEdit(tableView.getSelectionModel().getSelectedItem());
+        Works works = tableView.getSelectionModel().getSelectedItem();
+        if (works != null) {
+            worksRepository.removeNative(works);
+            WorksDetailsController.setWorksEdit(works);
             App.setNextRootScene("User/WorksDetails");
         }
     }

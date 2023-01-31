@@ -56,33 +56,31 @@ public class AddSemiProductToWorkController extends ConnectionCardReader impleme
     @FXML
     private Button buttonSaveWorkSemiProducts;
 
-    private static Works works = null;
+    public static Works works;
+    static WorksRepositoryImpl worksRepository = new WorksRepositoryImpl();
 
-    public static void setWorks(Works works) {
-        AddSemiProductToWorkController.works = works;
-    }
 
-    private static Works worksEdit = null;
-
-    public static void setWorksEdit(Works worksEdit) {
-        AddSemiProductToWorkController.worksEdit = worksEdit;
-    }
+    public static Works worksEdit;
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+
         initializeTableColumn();
         loadTableData(semiProductsRepository.getSemiProducts());
-        if (worksEdit != null && worksEdit.getWorkSemiProducts() != null) {
+        if (worksEdit != null) {
+            List<WorkSemiProducts> workSemiProductsList = workSemiProductsRepository.getSemiProductsByWork(worksEdit.getIdWork());
+            if (workSemiProductsList != null) {
+                for (WorkSemiProducts workSemiProducts : workSemiProductsList) {
+                    SemiProducts copySemiProducts = new SemiProducts();
+                    copySemiProducts.copy(workSemiProducts.getSemiProducts());
+                    copySemiProducts.setAmount(workSemiProducts.getAmount());
+                    semiProductsAddWorkList.add(copySemiProducts);
+                }
 
-            for (WorkSemiProducts workSemiProducts : worksEdit.getWorkSemiProducts()) {
-                SemiProducts copySemiProducts = new SemiProducts();
-                copySemiProducts.copy(workSemiProducts.getSemiProducts());
-                copySemiProducts.setAmount(workSemiProducts.getAmount());
-                semiProductsAddWorkList.add(copySemiProducts);
+                loadTableAddProductWorkData(semiProductsAddWorkList);
             }
-            loadTableAddProductWorkData(semiProductsAddWorkList);
         }
         try {
             initSerialPort(portName, 9600);
@@ -244,7 +242,7 @@ public class AddSemiProductToWorkController extends ConnectionCardReader impleme
 
 
     WorkSemiProductsRepositoryImpl workSemiProductsRepository = new WorkSemiProductsRepositoryImpl();
-    WorksRepositoryImpl worksRepository = new WorksRepositoryImpl();
+
 
     public void save() throws IOException {
         if (!semiProductsAddWorkList.isEmpty()) {
@@ -259,46 +257,36 @@ public class AddSemiProductToWorkController extends ConnectionCardReader impleme
                     workSemiProducts.setAmount(products.getAmount());
                     System.out.print(workSemiProducts);
                     if (workSemiProductsRepository.save(workSemiProducts)) {
-                        logger.log(Level.SEVERE, "Suceesful save Semiprodut on work." + products.toString());
+
                         saveSuccessful = true;
                     } else {
-                        logger.log(Level.SEVERE, "Faild save Semiprodut on work." + products.toString());
+
                         saveSuccessful = false;
                         break;
                     }
 
                 }
+                // worksRepository.change(works);
             }
             if (worksEdit != null) {
                 List<WorkSemiProducts> workSemiProductsList = workSemiProductsToChange(semiProductsAddWorkList);
                 if (workSemiProductsList != null) {
                     for (WorkSemiProducts products : workSemiProductsList) {
                         if (products.getIdWorkSemiProduct() > 0) {
-                            if (products.getAmount() > 0) {
-                                if (workSemiProductsRepository.save(products)) {
-                                    logger.log(Level.SEVERE, "Suceesful change Semiprodut on work." + products.toString());
-                                    saveSuccessful = true;
-                                } else {
-                                    logger.log(Level.SEVERE, "Faild change Semiprodut on work." + products.toString());
-                                    saveSuccessful = false;
-                                    break;
-                                }
-                            }else {
-                                if (workSemiProductsRepository.remove(products.getIdWorkSemiProduct())) {
-                                    logger.log(Level.SEVERE, "Suceesful removed Semiprodut on work." + products.toString());
-                                    saveSuccessful = true;
-                                } else {
-                                    logger.log(Level.SEVERE, "Faild removed Semiprodut on work." + products.toString());
-                                    saveSuccessful = false;
-                                    break;
-                                }
+                            if (workSemiProductsRepository.change(products)) {
+                                logger.log(Level.SEVERE, "Suceesful change Semiprodut on work.");
+                                saveSuccessful = true;
+                            } else {
+                                logger.log(Level.SEVERE, "Faild change Semiprodut on work.");
+                                saveSuccessful = false;
+                                break;
                             }
                         } else {
                             if (workSemiProductsRepository.save(products)) {
-                                logger.log(Level.SEVERE, "Suceesful save Semiprodut on work." + products.toString());
+                                logger.log(Level.SEVERE, "Suceesful save Semiprodut on work.");
                                 saveSuccessful = true;
                             } else {
-                                logger.log(Level.SEVERE, "Faild save Semiprodut on work." + products.toString());
+                                logger.log(Level.SEVERE, "Faild save Semiprodut on work.");
                                 saveSuccessful = false;
                                 break;
                             }
@@ -306,17 +294,24 @@ public class AddSemiProductToWorkController extends ConnectionCardReader impleme
 
                     }
                 }
+                //worksRepository.removeNative(worksEdit);
+                // worksRepository.change(worksEdit);
+                //
             }
 
             if (saveSuccessful) {
+                ConnectionCardReader.closePort();
+
+                works = null;
+                worksEdit = null;
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("WorksDetails.fxml"));
                 Parent root = (Parent) loader.load();
                 WorksDetailsController controller = (WorksDetailsController) loader.getController();
+
                 Stage stage = (Stage) buttonSaveWorkSemiProducts.getScene().getWindow(); // get the current stage
                 stage.close(); // close the stage
                 controller.backToPreviousScene();
-                works = null;
-                worksEdit = null;
+
             }
         }
 

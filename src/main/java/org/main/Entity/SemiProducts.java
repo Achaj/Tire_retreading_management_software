@@ -119,16 +119,6 @@ public class SemiProducts implements Serializable,Comparable<SemiProducts> {
         return Integer.compare(this.idSemiProduct, o.idSemiProduct);
     }
 
-    @Override
-    public String toString() {
-        return "SemiProducts{" +
-                "idSemiProduct=" + idSemiProduct +
-                ", name='" + name + '\'' +
-                ", category='" + category + '\'' +
-                ", tag='" + tag + '\'' +
-                ", amount=" + amount +
-                ", workSemiProducts=" + workSemiProducts +
-                '}';
-    }
+
 }
 

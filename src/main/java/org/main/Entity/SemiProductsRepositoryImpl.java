@@ -5,6 +5,7 @@ import org.main.Utils.Temporary;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.logging.Level;
@@ -75,8 +76,6 @@ public class SemiProductsRepositoryImpl implements SemiProductsRepository{
             entityTransaction.rollback();
             logger.log(Level.WARNING, "ERROR  By: " + Temporary.getWorkers().toString(), e);
             return false;
-        }finally {
-            entityManager.getEntityManagerFactory().getCache().evictAll();
         }
     }
 
@@ -95,8 +94,6 @@ public class SemiProductsRepositoryImpl implements SemiProductsRepository{
             entityTransaction.rollback();
             logger.log(Level.WARNING, "ERROR  By: " + Temporary.getWorkers().toString(), e);
             return false;
-        }finally {
-            entityManager.getEntityManagerFactory().getCache().evictAll();
         }
     }
 
@@ -116,8 +113,7 @@ public class SemiProductsRepositoryImpl implements SemiProductsRepository{
             entityTransaction.rollback();
             logger.log(Level.WARNING, "ERROR  By: " + Temporary.getWorkers().toString(), e);
             return false;
-        }finally {
-            entityManager.getEntityManagerFactory().getCache().evictAll();
         }
     }
+
 }
