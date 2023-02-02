@@ -9,16 +9,19 @@
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.main.User.UserMainController">
    <left>
       <VBox alignment="CENTER" fillWidth="false" minHeight="-Infinity" minWidth="-Infinity" prefHeight="476.0" prefWidth="226.0" style="-fx-background-color: #404040;">
-            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="System Zarzadzanie Obiektami" textAlignment="CENTER" wrappingWidth="218.0498046875">
+            <Text fill="WHITE" stroke="WHITE" strokeType="OUTSIDE" strokeWidth="0.0"
+                  text="System do zarządzania wybranymi obiektami " textAlignment="CENTER" textOrigin="TOP"
+                  wrappingWidth="218.0498046875">
                <font>
-                  <Font name="System Bold" size="31.0" />
+                  <Font name="System Bold" size="31.0"/>
                </font>
             </Text>
-            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Przy pomocy RFID" textAlignment="CENTER">
-               <font>
-                  <Font size="15.0" />
-               </font>
-            </Text>
+         <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="za pomocach technologii RFID"
+               textAlignment="CENTER">
+            <font>
+               <Font size="15.0"/>
+            </font>
+         </Text>
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>

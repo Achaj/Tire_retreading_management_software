@@ -9,14 +9,16 @@
     <left>
         <AnchorPane prefHeight="400.0" prefWidth="460.0" style="-fx-background-color: #404040;" BorderPane.alignment="CENTER">
             <children>
-                <Text fill="WHITE" layoutX="18.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Systrm do zarządzania obiektów fizycznych  " wrappingWidth="435.51171875">
+                <Text fill="WHITE" layoutX="7.0" layoutY="214.0" strokeType="OUTSIDE" strokeWidth="0.0"
+                      text="System do zarządzania wybranymi obiektami " wrappingWidth="445.51171875">
                     <font>
-                        <Font name="System Bold" size="41.0" />
+                        <Font name="System Bold" size="41.0"/>
                     </font>
                 </Text>
-                <Text fill="WHITE" layoutX="96.0" layoutY="307.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Za pomocą technologi RFID">
+                <Text fill="WHITE" layoutX="100.0" layoutY="329.0" strokeType="OUTSIDE" strokeWidth="0.0"
+                      text="za pomocą technologi RFID">
                     <font>
-                        <Font size="18.0" />
+                        <Font size="18.0"/>
                     </font>
                 </Text>
             </children>

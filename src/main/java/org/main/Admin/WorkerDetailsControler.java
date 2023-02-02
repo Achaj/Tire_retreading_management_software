@@ -126,14 +126,17 @@ public class WorkerDetailsControler extends ConnectionCardReader implements Init
             }
             Alert alert = new Alert(Alert.AlertType.NONE);
             if (workersRepository.saveWorker(worker)) {
-
                 alert.setAlertType(Alert.AlertType.INFORMATION);
                 alert.setHeaderText("Dane zostały zapisane");
                 clearFields();
-
             } else {
-                idTag.setText("");
-                email.setText("");
+                idTag.setText("-");
+                email.setText("-");
+                idTag.setStyle("-fx-background-color:  white;-fx-border-color:   #404040;-fx-border-width:   0px 0px 0px 0px;");
+                correctTag = false;
+                email.setStyle("-fx-background-color:  white;-fx-border-color:   #404040;-fx-border-width:   0px 0px 0px 0px;");
+                correctEmail = false;
+
                 alert.setAlertType(Alert.AlertType.WARNING);
                 alert.setHeaderText("Taki adres emial lub tag jest już używany ");
                 alert.setContentText("Użyj innego adresu email");
