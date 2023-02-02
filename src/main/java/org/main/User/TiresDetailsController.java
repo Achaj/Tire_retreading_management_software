@@ -42,14 +42,14 @@ public class TiresDetailsController extends ConnectionCardReader implements Init
     @FXML
     private Button removeBTN;
 
-    private boolean corectIdTag=false;
-    private boolean corectHeight=false;
-    private boolean corectWidth=false;
-    private boolean corectDiameter=false;
-    private boolean corectSpeedIndex=false;
-    private boolean corectLoadIndex=false;
+    private boolean corectIdTag = false;
+    private boolean corectHeight = false;
+    private boolean corectWidth = false;
+    private boolean corectDiameter = false;
+    private boolean corectSpeedIndex = false;
+    private boolean corectLoadIndex = false;
 
-    private static Tires tiresEdit =null;
+    private static Tires tiresEdit = null;
 
     public static void setTiresEdit(Tires tiresEdit) {
         TiresDetailsController.tiresEdit = tiresEdit;
@@ -75,18 +75,20 @@ public class TiresDetailsController extends ConnectionCardReader implements Init
         }
         listenerTreeView();
     }
-    public void inizjalizeChoiceBox(){
+
+    public void inizjalizeChoiceBox() {
         loadIndex.getItems().clear();
-        for (TireIndex load  : Temporary.getLoadIndexTiere()) {
-            loadIndex.getItems().add(load.getName()+" - "+load.getVlaue() +" kg");
+        for (TireIndex load : Temporary.getLoadIndexTiere()) {
+            loadIndex.getItems().add(load.getName() + " - " + load.getVlaue() + " kg");
         }
         speedIndex.getItems().clear();
-        for (TireIndex speed  : Temporary.getSpeedIndexTire()) {
-            speedIndex.getItems().add(speed.getName()+" - "+speed.getVlaue()+" km/h");
+        for (TireIndex speed : Temporary.getSpeedIndexTire()) {
+            speedIndex.getItems().add(speed.getName() + " - " + speed.getVlaue() + " km/h");
         }
 
     }
-    public void loadTiere(){
+
+    public void loadTiere() {
         idTag.setText(String.valueOf(tiresEdit.getTag()));
         height.setText(String.valueOf(tiresEdit.getHeight()));
         diameter.setText(String.valueOf(tiresEdit.getDiameter()));
@@ -96,8 +98,9 @@ public class TiresDetailsController extends ConnectionCardReader implements Init
         inicjalizeTreeView();
 
     }
+
     private void inicjalizeTreeView() {
-        WorksRepositoryImpl worksRepository= new WorksRepositoryImpl();
+        WorksRepositoryImpl worksRepository = new WorksRepositoryImpl();
         if (tiresEdit != null) {
             TreeItem rootItem = new TreeItem("Ostatnio wykonywana Praca");
             rootItem.setExpanded(true);
@@ -105,7 +108,7 @@ public class TiresDetailsController extends ConnectionCardReader implements Init
             List<Works> workersList = worksRepository.getListWorksByTire(tiresEdit.getIdTire());
             //System.out.println(tiresEdit.getIdTire());
 
-            if ( workersList!=null) {
+            if (workersList != null) {
                 for (Works works : workersList) {
                     rootItem.getChildren().add(new TreeItem<>(works));
                 }
@@ -117,10 +120,11 @@ public class TiresDetailsController extends ConnectionCardReader implements Init
     }
 
 
-            TiresRepositoryImpl tiresRepository=new TiresRepositoryImpl();
+    TiresRepositoryImpl tiresRepository = new TiresRepositoryImpl();
+
     public void editTireInDB() {
-        if(corectIdTag || corectHeight|| corectWidth||
-                corectDiameter|| corectSpeedIndex|| corectLoadIndex){
+        if (corectIdTag || corectHeight || corectWidth ||
+                corectDiameter || corectSpeedIndex || corectLoadIndex) {
             tiresEdit.setDiameter(Integer.parseInt(diameter.getText()));
             tiresEdit.setWidth(Integer.parseInt(width.getText()));
             tiresEdit.setHeight(Integer.parseInt(height.getText()));
@@ -150,7 +154,7 @@ public class TiresDetailsController extends ConnectionCardReader implements Init
             if (tiresRepository.delateTire(tiresEdit.getIdTire())) {
                 alert.setAlertType(Alert.AlertType.INFORMATION);
                 alert.setHeaderText("Opracja została wykonana poprawnie");
-                tiresEdit=null;
+                tiresEdit = null;
                 backToPreviousScene();
             } else {
                 alert.setAlertType(Alert.AlertType.WARNING);
@@ -164,11 +168,13 @@ public class TiresDetailsController extends ConnectionCardReader implements Init
         }
         alert.show();
     }
-    WorksRepositoryImpl worksRepository=new WorksRepositoryImpl();
+
+    WorksRepositoryImpl worksRepository = new WorksRepositoryImpl();
+
     public void addTireToDB() {
-        if(corectIdTag&& corectHeight&& corectWidth&&
-        corectDiameter&& corectSpeedIndex&& corectLoadIndex){
-            Tires tires=new Tires();
+        if (corectIdTag && corectHeight && corectWidth &&
+                corectDiameter && corectSpeedIndex && corectLoadIndex) {
+            Tires tires = new Tires();
             tires.setIdTire(0);
             tires.setDiameter(Integer.parseInt(diameter.getText()));
             tires.setWidth(Integer.parseInt(width.getText()));
@@ -177,9 +183,9 @@ public class TiresDetailsController extends ConnectionCardReader implements Init
             tires.setLoadIndex(loadIndex.getValue());
             tires.setSpeedIndex(speedIndex.getValue());
             Alert alert = new Alert(Alert.AlertType.NONE);
-            Tires savedTire=tiresRepository.save(tires);
-            if (savedTire!=null && savedTire.getIdTire()!=0 ) {
-                Works works=new Works();
+            Tires savedTire = tiresRepository.save(tires);
+            if (savedTire != null && savedTire.getIdTire() != 0) {
+                Works works = new Works();
                 works.setTires(savedTire);
                 works.setWorkers(Temporary.getWorkers());
                 works.setDateStart(LocalDateTime.now());
@@ -187,7 +193,7 @@ public class TiresDetailsController extends ConnectionCardReader implements Init
                 works.setDepartments(Temporary.getWorkers().getDepartments());
                 works.setStatus("Zakończono");
                 works.setName("Przyjęcie na stan");
-                if(worksRepository.save(works)) {
+                if (worksRepository.save(works)) {
                     alert.setAlertType(Alert.AlertType.INFORMATION);
                     alert.setHeaderText("Dane zostały zapisane");
 
@@ -201,64 +207,66 @@ public class TiresDetailsController extends ConnectionCardReader implements Init
             alert.show();
         }
     }
-    private void clearFields(){
+
+    private void clearFields() {
         idTag.setText("");
         height.setText("");
         diameter.setText("");
         width.setText("");
         inizjalizeChoiceBox();
-        corectIdTag=false;
-        corectHeight=false;
-        corectWidth=false;
-        corectDiameter=false;
-        corectSpeedIndex=false;
-        corectLoadIndex=false;
+        corectIdTag = false;
+        corectHeight = false;
+        corectWidth = false;
+        corectDiameter = false;
+        corectSpeedIndex = false;
+        corectLoadIndex = false;
         speedIndex.setStyle("-fx-background-color:  white;-fx-border-color:   #404040;-fx-border-width:   0px 0px 0px 0px;");
         loadIndex.setStyle("-fx-background-color:  white;-fx-border-color:   #404040;-fx-border-width:   0px 0px 0px 0px;");
     }
 
-    public void listinerField(){
+    public void listinerField() {
+
         height.textProperty().addListener((observable, oldValue, newValue) -> {
             if (ValidadiotData.validateDecimalNumberTIRE(newValue)) {
                 height.setStyle("-fx-background-color:  white;-fx-border-color:   green;-fx-border-width:   0px 0px 2px 2px;");
-                corectHeight=true;
+                corectHeight = true;
 
             } else {
                 height.setStyle("-fx-background-color:  white;-fx-border-color:   #404040;-fx-border-width:   0px 0px 0px 0px;");
-                corectHeight=false;
+                corectHeight = false;
             }
 
         });
         width.textProperty().addListener((observable, oldValue, newValue) -> {
             if (ValidadiotData.validateDecimalNumberTIRE(newValue)) {
                 width.setStyle("-fx-background-color:  white;-fx-border-color:   green;-fx-border-width:   0px 0px 2px 2px;");
-                corectWidth=true;
+                corectWidth = true;
 
             } else {
                 width.setStyle("-fx-background-color:  white;-fx-border-color:   #404040;-fx-border-width:   0px 0px 0px 0px;");
-                corectWidth=false;
+                corectWidth = false;
             }
 
         });
         diameter.textProperty().addListener((observable, oldValue, newValue) -> {
             if (ValidadiotData.validateDecimalNumberTIRE(newValue)) {
                 diameter.setStyle("-fx-background-color:  white;-fx-border-color:   green;-fx-border-width:   0px 0px 2px 2px;");
-                corectDiameter=true;
+                corectDiameter = true;
 
             } else {
                 diameter.setStyle("-fx-background-color:  white;-fx-border-color:   #404040;-fx-border-width:   0px 0px 0px 0px;");
-                corectDiameter=false;
+                corectDiameter = false;
             }
 
         });
         idTag.textProperty().addListener((observable, oldValue, newValue) -> {
             if (ValidadiotData.validateTAG(newValue)) {
                 idTag.setStyle("-fx-background-color:  white;-fx-border-color:   green;-fx-border-width:   0px 0px 2px 2px;");
-                corectIdTag=true;
+                corectIdTag = true;
 
             } else {
                 idTag.setStyle("-fx-background-color:  white;-fx-border-color:   #404040;-fx-border-width:   0px 0px 0px 0px;");
-                corectIdTag=false;
+                corectIdTag = false;
             }
 
         });
@@ -299,6 +307,7 @@ public class TiresDetailsController extends ConnectionCardReader implements Init
                 }
             }
         });
+
     }
 
 }

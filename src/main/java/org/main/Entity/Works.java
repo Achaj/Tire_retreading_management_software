@@ -35,7 +35,7 @@ public class Works implements Serializable {
     @JoinColumn(name = "id_department", nullable = false)
     private Departments departments;
 
-    @OneToMany(mappedBy = "works", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "works", cascade = CascadeType.ALL)
     private List<WorkSemiProducts> workSemiProducts = new ArrayList<>();
 
     public void setWorkSemiProducts(List<WorkSemiProducts> workSemiProducts) {
@@ -119,7 +119,6 @@ public class Works implements Serializable {
                 "nazwa ='" + name +
                         ", dateStop=" + dateStop +
                         ", status='" + status + '\'' +
-                        ", pracownik=" + workers.getFirstName() + " " + workers.getLastName() +
                         ", dział=" + departments.getName() +
                         '}';
     }

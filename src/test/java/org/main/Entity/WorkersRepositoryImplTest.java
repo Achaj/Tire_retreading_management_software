@@ -2,6 +2,7 @@ package org.main.Entity;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.main.Utils.Temporary;
 
 import java.sql.Date;
 
@@ -26,7 +27,11 @@ public class WorkersRepositoryImplTest {
 
     @Test
     public void testSaveWorker() {
-
+        Workers workers = new Workers();
+        workers.setFirstName("test");
+        workers.setLastName("test");
+        workers.setPosition("test");
+        Temporary.setWorkers(workers);
         assertTrue(departmentDAO.saveDepartment(departments));
         // Check if department was saved to the database
         Departments savedDepartment = departmentDAO.getDepartmentByName("TEST");
@@ -40,6 +45,11 @@ public class WorkersRepositoryImplTest {
 
     @Test
     public void testGetWorker() {
+        Workers workers = new Workers();
+        workers.setFirstName("test");
+        workers.setLastName("test");
+        workers.setPosition("test");
+        Temporary.setWorkers(workers);
         assertTrue(departmentDAO.saveDepartment(departments));
         // Check if department was saved to the database
         Departments savedDepartment = departmentDAO.getDepartmentByName("TEST");
@@ -52,6 +62,11 @@ public class WorkersRepositoryImplTest {
 
     @Test
     public void testGetWorkerByEmail() {
+        Workers workers = new Workers();
+        workers.setFirstName("test");
+        workers.setLastName("test");
+        workers.setPosition("test");
+        Temporary.setWorkers(workers);
         assertTrue(departmentDAO.saveDepartment(departments));
         // Check if department was saved to the database
         Departments savedDepartment = departmentDAO.getDepartmentByName("TEST");
@@ -64,6 +79,11 @@ public class WorkersRepositoryImplTest {
 
     @Test
     public void testGetWorkerByTag() {
+        Workers workers = new Workers();
+        workers.setFirstName("test");
+        workers.setLastName("test");
+        workers.setPosition("test");
+        Temporary.setWorkers(workers);
         assertTrue(departmentDAO.saveDepartment(departments));
         // Check if department was saved to the database
         Departments savedDepartment = departmentDAO.getDepartmentByName("TEST");
@@ -76,6 +96,11 @@ public class WorkersRepositoryImplTest {
 
     @Test
     public void testChangeDadataWorker() {
+        Workers workers = new Workers();
+        workers.setFirstName("test");
+        workers.setLastName("test");
+        workers.setPosition("test");
+        Temporary.setWorkers(workers);
         assertTrue(departmentDAO.saveDepartment(departments));
         // Check if department was saved to the database
         Departments savedDepartment = departmentDAO.getDepartmentByName("TEST");

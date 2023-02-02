@@ -3,7 +3,10 @@ package org.main.Admin.GeneratorPDF;
 import com.itextpdf.layout.borders.Border;
 import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Paragraph;
+
+
 import com.itextpdf.layout.properties.TextAlignment;
+import javafx.scene.control.Alert;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -51,6 +54,8 @@ public class Generator {
             System.out.println("Done");
 
         } catch (Exception ex) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.show();
             ex.printStackTrace();
         }
     }

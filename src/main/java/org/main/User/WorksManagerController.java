@@ -10,6 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import org.main.App;
+import org.main.Entity.Workers;
 import org.main.Entity.Works;
 import org.main.Entity.WorksRepositoryImpl;
 import org.main.Utils.Temporary;
@@ -22,14 +23,18 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class WorksManagerController implements Initializable {
+    @FXML
+    private Button newWorkButton;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initializeTableColumn();
         loadTableData(worksRepository.getListWorks());
         loadComboBox();
-
-
         listenerTable();
+        if (Temporary.getWorkers().getPosition().equals("ADMIN")) {
+
+            newWorkButton.setDisable(false);
+        }
 
     }
 
@@ -46,6 +51,7 @@ public class WorksManagerController implements Initializable {
 
                 }
             }
+
         });
         tableView.setRowFactory(tv -> new TableRow<Works>() {
             @Override
@@ -53,6 +59,8 @@ public class WorksManagerController implements Initializable {
                 super.updateItem(item, empty);
                 if (item == null) {
                     setStyle("");
+                } else if (isSelected()) {
+                    setStyle(" -fx-text-fill: black;-fx-background-color: green;");
                 } else if (item.getStatus().equals("Do Zrobienia")) {
                     setStyle("-fx-background-color: #fff7d9;");
                 } else if (item.getStatus().equals("Zaczęto")) {
@@ -66,11 +74,10 @@ public class WorksManagerController implements Initializable {
                 } else {
                     setStyle("");
                 }
-                if (tableView.getSelectionModel().getSelectedItem() == item) {
-                    setStyle("-fx-background-color: blue;-fx-text-fill: red;");
-                }
+
             }
         });
+
 
     }
     @FXML
@@ -156,8 +163,10 @@ public class WorksManagerController implements Initializable {
     }
 
     public void editSelectWork() throws IOException {
-        if (tableView.getSelectionModel().getSelectedItem() != null) {
-            WorksDetailsController.setWorksEdit(tableView.getSelectionModel().getSelectedItem());
+        Works works = tableView.getSelectionModel().getSelectedItem();
+        if (works != null) {
+            worksRepository.removeNative(works);
+            WorksDetailsController.setWorksEdit(works);
             App.setNextRootScene("User/WorksDetails");
         }
     }

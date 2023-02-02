@@ -1,6 +1,7 @@
 package org.main.Entity;
 
 import org.junit.Test;
+import org.main.Utils.Temporary;
 
 import java.util.List;
 
@@ -9,6 +10,11 @@ import static org.junit.Assert.*;
 public class TiresRepositoryImplTest {
     @Test
     public void testGetTireById() {
+        Workers workers = new Workers();
+        workers.setFirstName("test");
+        workers.setLastName("test");
+        workers.setPosition("test");
+        Temporary.setWorkers(workers);
         TiresRepository tiresRepository = new TiresRepositoryImpl();
         Tires tire = new Tires(0, 225, 45, 17, "tag1", "H", "91");
         tiresRepository.saveTire(tire);
@@ -28,6 +34,11 @@ public class TiresRepositoryImplTest {
 
     @Test
     public void testGetTireByTag() {
+        Workers workers = new Workers();
+        workers.setFirstName("test");
+        workers.setLastName("test");
+        workers.setPosition("test");
+        Temporary.setWorkers(workers);
         TiresRepository tiresRepository = new TiresRepositoryImpl();
         Tires tire = new Tires(0, 225, 45, 17, "tag1", "H", "91");
 

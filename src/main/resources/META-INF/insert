@@ -132,11 +132,6 @@ INSERT INTO `semi_products` (`id_semi_product`, `amount`, `category`, `name`, `t
 INSERT INTO `semi_products` (`id_semi_product`, `amount`, `category`, `name`, `tag`) VALUES(19, 20, 'Rozpuszczalnik', 'NITRO', '7074926182');
 INSERT INTO `semi_products` (`id_semi_product`, `amount`, `category`, `name`, `tag`) VALUES(20, 20, 'Wypełniacz Chemiczny', 'INNERLINER SEALER X-TRA SEAL', '8866539374');
 
-
-
-
-
-
 INSERT INTO `departments` (`id_department`, `city`, `flat_number`, `hall_name`, `name`, `phone_number`, `post_code`, `street`) VALUES (1, 'Rzeszów', '12', 'A1', 'Magazyn', '555444333', '11-115', 'Kopisto');
 INSERT INTO `departments` (`id_department`, `city`, `flat_number`, `hall_name`, `name`, `phone_number`, `post_code`, `street`) VALUES (2, 'Rzeszów', '12', 'A2', 'Kontrola Jakości', '555444333', '11-115', 'Kopisto');
 INSERT INTO `departments` (`id_department`, `city`, `flat_number`, `hall_name`, `name`, `phone_number`, `post_code`, `street`) VALUES (3, 'Rzeszów', '12', 'A3', 'Obróbka Wstępna', '555444333', '11-115', 'Kopisto');

@@ -113,7 +113,6 @@ public class WorkerDetailsControler extends ConnectionCardReader implements Init
                 correctPosition && correctTag &&
                 correctDepartment && correctEnploymentDate) {
             Workers worker = new Workers();
-            worker.setIdWorker(0);
             worker.setFirstName(firstName.getText());
             worker.setLastName(secondName.getText());
             worker.setEmail(email.getText());
@@ -130,10 +129,16 @@ public class WorkerDetailsControler extends ConnectionCardReader implements Init
                 alert.setAlertType(Alert.AlertType.INFORMATION);
                 alert.setHeaderText("Dane zostały zapisane");
                 clearFields();
-
             } else {
+                idTag.setText("-");
+                email.setText("-");
+                idTag.setStyle("-fx-background-color:  white;-fx-border-color:   #404040;-fx-border-width:   0px 0px 0px 0px;");
+                correctTag = false;
+                email.setStyle("-fx-background-color:  white;-fx-border-color:   #404040;-fx-border-width:   0px 0px 0px 0px;");
+                correctEmail = false;
+
                 alert.setAlertType(Alert.AlertType.WARNING);
-                alert.setHeaderText("Taki adres emial jest już używany");
+                alert.setHeaderText("Taki adres emial lub tag jest już używany ");
                 alert.setContentText("Użyj innego adresu email");
 
             }
@@ -224,11 +229,17 @@ public class WorkerDetailsControler extends ConnectionCardReader implements Init
         email.setText("");
         pass.setText("");
         confirmPass.setText("");
-        positionChoiceBox.setStyle("-fx-background-color:  white;-fx-border-color:   green;-fx-border-width:   0px 0px 2px 2px;");
-        departmentChoiceBox.setStyle("-fx-background-color:  white;-fx-border-color:   green;-fx-border-width:   0px 0px 2px 2px;");
-        loadDataChoiceBox();
-        getDepartmens();
+        // positionChoiceBox.setStyle("-fx-background-color:  white;-fx-border-color:   white;-fx-border-width:   0px 0px 2px 2px;");
+        // departmentChoiceBox.setStyle("-fx-background-color:  white;-fx-border-color:   white;-fx-border-width:   0px 0px 2px 2px;");
+        // loadDataChoiceBox();
+        positionChoiceBox.getSelectionModel().clearSelection();
+        departmentChoiceBox.getSelectionModel().clearSelection();
+        // getDepartmens();
         stackingDate.setValue(null);
+        //stackingDate.setStyle("-fx-background-color:  white;-fx-border-color:   white;-fx-border-width:   0px 0px 2px 2px;");
+        // enploymentDate.setStyle("-fx-background-color:  white;-fx-border-color:   white;-fx-border-width:   0px 0px 2px 2px;");
+
+
         enploymentDate.setValue(null);
 
     }
@@ -318,21 +329,34 @@ public class WorkerDetailsControler extends ConnectionCardReader implements Init
         });
         positionChoiceBox.getSelectionModel().selectedItemProperty()
                 .addListener((observable, oldValue, newValue) -> {
-                    positionChoiceBox.setStyle("-fx-background-color:  white;-fx-border-color:   green;-fx-border-width:   0px 0px 2px 2px;");
-                    correctPosition = true;
+                    if (newValue != null) {
+                        positionChoiceBox.setStyle("-fx-background-color:  white;-fx-border-color:   green;-fx-border-width:   0px 0px 2px 2px;");
+                        correctPosition = true;
+                    } else {
+                        positionChoiceBox.setStyle("-fx-background-color: white");
+                        correctPosition = false;
+                    }
                 });
         departmentChoiceBox.getSelectionModel().selectedItemProperty()
                 .addListener((observable, oldValue, newValue) -> {
-                    departmentChoiceBox.setStyle("-fx-background-color:  white;-fx-border-color:   green;-fx-border-width:   0px 0px 2px 2px;");
-                    correctDepartment = true;
+                    if (newValue != null) {
+                        departmentChoiceBox.setStyle("-fx-background-color:  white;-fx-border-color:   green;-fx-border-width:   0px 0px 2px 2px;");
+                        correctDepartment = true;
+                    } else {
+                        departmentChoiceBox.setStyle("-fx-background-color: white");
+                        correctDepartment = false;
+                    }
                 });
 
         enploymentDate.valueProperty().addListener((ov, oldValue, newValue) -> {
             try {
-
-                correctEnploymentDate = true;
-                enploymentDate.setStyle("-fx-background-color:  white;-fx-border-color:   green;-fx-border-width:   0px 0px 2px 2px;");
-
+                if (newValue != null) {
+                    correctEnploymentDate = true;
+                    enploymentDate.setStyle("-fx-background-color:  white;-fx-border-color:   green;-fx-border-width:   0px 0px 2px 2px;");
+                } else {
+                    correctEnploymentDate = false;
+                    enploymentDate.setStyle("-fx-background-color:  white;-fx-border-color:   white;-fx-border-width:   0px 0px 2px 2px;");
+                }
 
             } catch (DateTimeParseException dateTimeParseException) {
                 correctEnploymentDate = false;
@@ -341,9 +365,13 @@ public class WorkerDetailsControler extends ConnectionCardReader implements Init
         });
         stackingDate.valueProperty().addListener((ov, oldValue, newValue) -> {
             try {
-                correctStackingtDate = true;
-                stackingDate.setStyle("-fx-background-color:  white;-fx-border-color:   green;-fx-border-width:   0px 0px 2px 2px;");
-
+                if (newValue != null) {
+                    correctStackingtDate = true;
+                    stackingDate.setStyle("-fx-background-color:  white;-fx-border-color:   green;-fx-border-width:   0px 0px 2px 2px;");
+                } else {
+                    correctStackingtDate = false;
+                    stackingDate.setStyle("-fx-background-color:  white;-fx-border-color:   white;-fx-border-width:   0px 0px 2px 2px;");
+                }
             } catch (DateTimeParseException exception) {
                 correctStackingtDate = false;
                 stackingDate.setStyle("-fx-background-color:  white;-fx-border-color:   red;-fx-border-width:   0px 0px 2px 2px;");

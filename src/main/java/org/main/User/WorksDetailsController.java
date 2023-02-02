@@ -56,13 +56,18 @@ public class WorksDetailsController extends ConnectionCardReader implements Init
     public ComboBox<String> statusChoiceBox;
     @FXML
     private Button removeBTN;
-
+    @FXML
+    private Button editButton;
+    @FXML
+    private Button saveButton;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         if (Temporary.getWorkers().getPosition().equals("ADMIN")) {
             removeBTN.setDisable(false);
             departmentsComboBox.setDisable(false);
+            editButton.setDisable(false);
+            saveButton.setDisable(false);
         }
         loadWorkersToComboBox();
         loadDepartmentsToComboBox();
@@ -228,9 +233,9 @@ public class WorksDetailsController extends ConnectionCardReader implements Init
     private void loadStageEditWorSemiPoroducts(Works works, @NotNull String parameter, String title) {
         try {
             if (parameter.equals("save")) {
-                AddSemiProductToWorkController.setWorks(works);
+                AddSemiProductToWorkController.works = worksRepository.getWorkActual(works);
             } if(parameter.equals("edit")) {
-                AddSemiProductToWorkController.setWorksEdit(works);
+                AddSemiProductToWorkController.worksEdit = worksRepository.getWorkActual(works);
             }
             ConnectionCardReader.closePort();
             FXMLLoader fxmlLoader = new FXMLLoader();
@@ -251,6 +256,9 @@ public class WorksDetailsController extends ConnectionCardReader implements Init
 
     public void loadEditWork() {
         if (worksEdit != null) {
+            if (worksEdit.getWorkers().equals(Temporary.getWorkers())) {
+                editButton.setDisable(false);
+            }
             workersComboBox.getSelectionModel().select(worksEdit.getWorkers());
             departmentsComboBox.getSelectionModel().select(worksEdit.getDepartments());
 

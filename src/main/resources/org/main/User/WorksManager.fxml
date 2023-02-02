@@ -6,19 +6,24 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.main.User.WorksManagerController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0"
+            prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.main.User.WorksManagerController">
     <left>
-        <AnchorPane prefHeight="518.0" prefWidth="141.0" style="-fx-background-color: #404040;" BorderPane.alignment="CENTER">
-         <children>
-            <VBox prefHeight="518.0" prefWidth="137.0">
-               <children>
-                  <Button mnemonicParsing="false" onAction="#showAllWorks" prefHeight="25.0" prefWidth="126.0" style="-fx-background-color: white;" text="Wszystkie">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets bottom="10.0" />
-                     </VBox.margin></Button>
+        <AnchorPane prefHeight="518.0" prefWidth="141.0" style="-fx-background-color: #404040;"
+                    BorderPane.alignment="CENTER">
+            <children>
+                <VBox prefHeight="518.0" prefWidth="137.0">
+                    <children>
+                        <Button mnemonicParsing="false" onAction="#showAllWorks" prefHeight="25.0" prefWidth="126.0"
+                                style="-fx-background-color: white;" text="Wszystkie">
+                            <font>
+                                <Font name="System Bold" size="12.0"/>
+                            </font>
+                            <VBox.margin>
+                                <Insets bottom="10.0"/>
+                            </VBox.margin>
+                        </Button>
                   <Button mnemonicParsing="false" onAction="#editSelectWork" prefHeight="25.0" prefWidth="126.0" style="-fx-background-color: white;" text="Edytuj">
                      <graphic>
                         <ImageView fitHeight="17.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
@@ -34,17 +39,20 @@
                         <Insets bottom="10.0" />
                      </VBox.margin>
                   </Button>
-                  <Button layoutX="15.0" layoutY="120.0" mnemonicParsing="false" onAction="#crateNewWork" prefHeight="45.0" prefWidth="126.0" style="-fx-background-color: white;" text="Nowe Zadanie" textAlignment="CENTER" wrapText="true">
-                     <graphic>
-                        <ImageView fitHeight="17.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../img/briefcase.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font>
+                        <Button fx:id="newWorkButton" disable="true" layoutX="15.0" layoutY="120.0"
+                                mnemonicParsing="false" onAction="#crateNewWork" prefHeight="45.0" prefWidth="126.0"
+                                style="-fx-background-color: white;" text="Nowe Zadanie" textAlignment="CENTER"
+                                wrapText="true">
+                            <graphic>
+                                <ImageView fitHeight="17.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../../../img/briefcase.png"/>
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                            <font>
+                                <Font name="System Bold" size="12.0"/>
+                            </font>
                      <VBox.margin>
                         <Insets bottom="10.0" />
                      </VBox.margin>

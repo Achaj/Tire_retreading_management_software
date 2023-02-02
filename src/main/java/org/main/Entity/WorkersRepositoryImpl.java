@@ -24,14 +24,11 @@ public class WorkersRepositoryImpl implements WorkersRepository {
 
     @Override
     public boolean saveWorker(Workers worker) {
-
+        if (!entityTransaction.isActive()) {
+            entityTransaction.begin();
+        }
         try {
-
-            if (worker.getIdWorker() == 0) {
-                entityManager.persist(worker);
-            } else {
-                entityManager.merge(worker);
-            }
+            entityManager.persist(worker);
             logger.log(Level.INFO, "Save :" + worker.toStringLong() + " By:" + Temporary.getWorkers().toString());
             entityTransaction.commit();
 

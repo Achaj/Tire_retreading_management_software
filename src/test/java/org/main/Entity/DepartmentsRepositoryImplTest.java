@@ -6,6 +6,7 @@ import static org.junit.Assert.*;
 
 import org.main.Entity.Departments;
 import org.main.Entity.DepartmentsRepositoryImpl;
+import org.main.Utils.Temporary;
 
 import java.util.List;
 
@@ -13,7 +14,6 @@ import java.util.List;
 import static org.junit.Assert.assertTrue;
 
 public class DepartmentsRepositoryImplTest {
-
 
     @Test
     public void testGetDepartments() {
@@ -25,7 +25,13 @@ public class DepartmentsRepositoryImplTest {
 
     @Test
     public void testSaveDepartment() {
+        Workers workers = new Workers();
+        workers.setFirstName("test");
+        workers.setLastName("test");
+        workers.setPosition("test");
+        Temporary.setWorkers(workers);
         Departments department = new Departments();
+
         department.setName("Test Department");
         department.setCity("Test City");
         department.setStreet("Test Street");

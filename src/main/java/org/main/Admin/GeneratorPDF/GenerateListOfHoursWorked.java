@@ -20,7 +20,7 @@ import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 
 
-import com.itextpdf.layout.properties.TextAlignment;
+import javafx.scene.control.Alert;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -52,17 +52,22 @@ public class GenerateListOfHoursWorked  extends Generator{
             String DEST = getPathFileSaved("Przepracoowane Godziny");
             //  String DEST = "Faktura Vat NR_" + tmpOrder.getIdZamowienia() + ".pdf";
             PdfDocument pdf = new PdfDocument(new PdfWriter(DEST));
-            pdf.getCatalog().put(PdfName.Lang,new PdfString("PL"));
+            pdf.getCatalog().put(PdfName.Lang, new PdfString("PL"));
             Document document = new Document(pdf);
             pdf.setDefaultPageSize(PageSize.A4);
-            pdf.getDocumentInfo().setAuthor(Temporary.getWorkers().getFirstName() +" "+ Temporary.getWorkers().getLastName());
+            pdf.getDocumentInfo().setAuthor(Temporary.getWorkers().getFirstName() + " " + Temporary.getWorkers().getLastName());
             pdf.getDocumentInfo().setTitle("Przepracowane Godziny w miesiącu");
             pdf.getDocumentInfo().setKeywords("keywords, pdf, iText 7");
 
+            String pathtofont = "/fonts/Anonymous_Pro.ttf";
+            String fontname = GenerateListOfHoursWorked.class.getResource(pathtofont).toString();
 
-            PdfFont font = PdfFontFactory.createFont("src/main/resources/fonts/Anonymous_Pro.ttf", CP1250);
-            PdfFont fontBold = PdfFontFactory.createFont("src/main/resources/fonts/Anonymous_Pro_B.ttf", CP1250);
-            PdfFont fontBoldItalic = PdfFontFactory.createFont("src/main/resources/fonts/Anonymous_Pro_BI.ttf", CP1250);
+            String pathtofontBold = "/fonts/Anonymous_Pro_B.ttf";
+            String fontnameBold = GenerateListOfHoursWorked.class.getResource(pathtofontBold).toString();
+
+            PdfFont font = PdfFontFactory.createFont(fontname, CP1250);
+            PdfFont fontBold = PdfFontFactory.createFont(fontnameBold, CP1250);
+
 
             float col = 285f;
             float threcoll = 190f;
@@ -130,7 +135,13 @@ public class GenerateListOfHoursWorked  extends Generator{
             openPDFAfterSave(DEST);
         } catch (NullPointerException exception) {
             exception.getMessage();
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setHeaderText("NULL POIT" + exception.getMessage());
+            alert.show();
         } catch (IOException e) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setHeaderText("IO" + e.getMessage());
+            alert.show();
             e.printStackTrace();
         }
     }
@@ -146,17 +157,23 @@ public class GenerateListOfHoursWorked  extends Generator{
             String DEST = getPathFileSaved("Przepracoowane Godziny");
             //  String DEST = "Faktura Vat NR_" + tmpOrder.getIdZamowienia() + ".pdf";
             PdfDocument pdf = new PdfDocument(new PdfWriter(DEST));
-            pdf.getCatalog().put(PdfName.Lang,new PdfString("PL"));
+            pdf.getCatalog().put(PdfName.Lang, new PdfString("PL"));
             Document document = new Document(pdf);
             pdf.setDefaultPageSize(PageSize.A4);
-            pdf.getDocumentInfo().setAuthor(Temporary.getWorkers().getFirstName() +" "+ Temporary.getWorkers().getLastName());
+            pdf.getDocumentInfo().setAuthor(Temporary.getWorkers().getFirstName() + " " + Temporary.getWorkers().getLastName());
             pdf.getDocumentInfo().setTitle("Przepracowane Godziny w miesiącu");
             pdf.getDocumentInfo().setKeywords("keywords, pdf, iText 7");
 
 
-            PdfFont font = PdfFontFactory.createFont("src/main/resources/fonts/Anonymous_Pro.ttf", CP1250);
-            PdfFont fontBold = PdfFontFactory.createFont("src/main/resources/fonts/Anonymous_Pro_B.ttf", CP1250);
-            PdfFont fontBoldItalic = PdfFontFactory.createFont("src/main/resources/fonts/Anonymous_Pro_BI.ttf", CP1250);
+            String pathtofont = "/fonts/Anonymous_Pro.ttf";
+            String fontname = GenerateListOfHoursWorked.class.getResource(pathtofont).toString();
+
+            String pathtofontBold = "/fonts/Anonymous_Pro_B.ttf";
+            String fontnameBold = GenerateListOfHoursWorked.class.getResource(pathtofontBold).toString();
+
+            PdfFont font = PdfFontFactory.createFont(fontname, CP1250);
+            PdfFont fontBold = PdfFontFactory.createFont(fontnameBold, CP1250);
+
 
             float col = 285f;
             float threcoll = 190f;
@@ -231,7 +248,11 @@ public class GenerateListOfHoursWorked  extends Generator{
             openPDFAfterSave(DEST);
         } catch (NullPointerException exception) {
             exception.getMessage();
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.show();
         } catch (IOException e) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.show();
             e.printStackTrace();
         }
     }

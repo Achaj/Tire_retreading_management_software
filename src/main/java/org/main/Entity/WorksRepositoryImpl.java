@@ -37,6 +37,7 @@ public class WorksRepositoryImpl implements WorksRepository {
     public Works getLastWorkByTire(int idTire) {
         if (!entityTransaction.isActive()) {
             entityTransaction.begin();
+
         }
         TypedQuery<Works> typedQuery = entityManager.createQuery("SELECT w FROM Works w INNER JOIN w.tires  t WHERE t.idTire=:id ORDER BY w.dateStop DESC",Works.class);
         //typedQuery.setParameter("id", idTire);
@@ -388,12 +389,35 @@ public class WorksRepositoryImpl implements WorksRepository {
         results = entityManager.createNativeQuery(sumHql).setParameter("id",workers.getIdWorker()).getResultList();
 
 
-
-        List<DailyStatusWork> dailyStatusWorks=new ArrayList<>();
+        List<DailyStatusWork> dailyStatusWorks = new ArrayList<>();
         for (Object[] result : results) {
-            dailyStatusWorks.add(new DailyStatusWork((String) result[0],(String) result[1],((BigInteger) result[2]).intValue()));
+            dailyStatusWorks.add(new DailyStatusWork((String) result[0], (String) result[1], ((BigInteger) result[2]).intValue()));
         }
 
-        return dailyStatusWorks.isEmpty() ? null:dailyStatusWorks;
+        return dailyStatusWorks.isEmpty() ? null : dailyStatusWorks;
+    }
+
+    public int removeNative(Works workers) {
+        if (!entityTransaction.isActive()) {
+            entityTransaction.begin();
+        }
+        Query query = entityManager.createQuery("delete WorkSemiProducts where amount = 0 and works.idWork =:ID");
+        query.setParameter("ID", workers.getIdWork());
+
+        int result = query.executeUpdate();
+
+        if (result > 0) {
+            System.out.println("Expensive products was removed");
+            entityManager.detach(workers);
+        }
+        return result;
+    }
+
+    public Works getWorkActual(Works workers) {
+        if (!entityTransaction.isActive()) {
+            entityTransaction.begin();
+        }
+        Works works = entityManager.find(Works.class, workers.getIdWork());
+        return works;
     }
 }

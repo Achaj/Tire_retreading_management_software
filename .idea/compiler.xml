@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="Tire_retreading_management_software" target="11" />
+      <module name="Tire_retreading_management_software" target="15" />
     </bytecodeTargetLevel>
   </component>
 </project>

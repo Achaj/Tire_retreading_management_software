@@ -8,6 +8,7 @@ module org.example {
     requires java.xml.bind;
     requires org.hibernate.orm.core;
     //requires mysql.connector.java;
+
     requires java.naming;
     requires net.bytebuddy;
     requires kernel;
@@ -19,6 +20,7 @@ module org.example {
     opens org.main to javafx.fxml;
     opens org.main.Admin to javafx.fxml;
     opens org.main.User to javafx.fxml;
+
 
     opens org.main.Entity to org.hibernate.orm.core, javafx.base;
 

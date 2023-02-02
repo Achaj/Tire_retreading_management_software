@@ -20,16 +20,22 @@ import java.util.ResourceBundle;
 
 public class DepartmentsDetailsController implements Initializable {
 
-    @FXML public TextField name;
-    @FXML public TextField hallName;
-    @FXML public TextField city;
-    @FXML public TextField street;
-    @FXML public TextField flatNumber;
-    @FXML public TextField postCode;
     @FXML
-    public TextField phoneNumber;
+    private TextField name;
     @FXML
-    public TreeView<Workers> workersTreeView;
+    private TextField hallName;
+    @FXML
+    private TextField city;
+    @FXML
+    private TextField street;
+    @FXML
+    private TextField flatNumber;
+    @FXML
+    private TextField postCode;
+    @FXML
+    private TextField phoneNumber;
+    @FXML
+    private TreeView<Workers> workersTreeView;
 
     public static void setDepartments(Departments departments) {
         DepartmentsDetailsController.departmentsEdit = departments;
