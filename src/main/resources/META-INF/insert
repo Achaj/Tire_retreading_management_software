@@ -111,9 +111,9 @@ create table tire_retarding_db.work_semi_products
         foreign key (id_work) references tire_retarding_db.works (id_work)
 );
 
-INSERT INTO `semi_products` (`id_semi_product`, `amount`, `category`, `name`, `tag`) VALUES(1, 20, 'Bieżnik CT', 'ECOTIRE CTW 1', '17985235');
-INSERT INTO `semi_products` (`id_semi_product`, `amount`, `category`, `name`, `tag`) VALUES(2, 20, 'Bieżnik CT', 'ECOTIRE CT 3', '3210639994');
-INSERT INTO `semi_products` (`id_semi_product`, `amount`, `category`, `name`, `tag`) VALUES(3, 20, 'Bieżnik CT', 'ECOTIRE CT 1', '6534369084');
+INSERT INTO `semi_products` (`id_semi_product`, `amount`, `category`, `name`, `tag`) VALUES(1, 20, 'Bieżnik CT', 'ECOTIRE CTW 1', '0007584378');
+INSERT INTO `semi_products` (`id_semi_product`, `amount`, `category`, `name`, `tag`) VALUES(2, 20, 'Bieżnik CT', 'ECOTIRE CT 3', '0005173456');
+INSERT INTO `semi_products` (`id_semi_product`, `amount`, `category`, `name`, `tag`) VALUES(3, 20, 'Bieżnik CT', 'ECOTIRE CT 1', '0015184656');
 INSERT INTO `semi_products` (`id_semi_product`, `amount`, `category`, `name`, `tag`) VALUES(4, 20, 'Bieżnik CZ', 'EXTREME T1', '5929607456');
 INSERT INTO `semi_products` (`id_semi_product`, `amount`, `category`, `name`, `tag`) VALUES(5, 20, 'Bieżnik CZ', 'EXTREME T2', '7836858796');
 INSERT INTO `semi_products` (`id_semi_product`, `amount`, `category`, `name`, `tag`) VALUES(6, 20, 'Bieżnik CZ', 'EXTREME T3', '8057690767');
@@ -198,9 +198,9 @@ INSERT INTO `working_time` (`id_working_time`, `date_login`, `date_logout`, `id_
 
 
 
-INSERT INTO `tires` (`id_tire`, `diameter`, `height`, `load_index`, `speed_index`, `tag`, `width`) VALUES(1, 16, 55, '76 - 400 kg', 'S - 180 km/h', '3316718438', 165);
-INSERT INTO `tires` (`id_tire`, `diameter`, `height`, `load_index`, `speed_index`, `tag`, `width`) VALUES(2, 16, 55, '76 - 400 kg', 'S - 180 km/h', '3849835281', 175);
-INSERT INTO `tires` (`id_tire`, `diameter`, `height`, `load_index`, `speed_index`, `tag`, `width`) VALUES(3, 16, 55, '76 - 400 kg', 'S - 180 km/h', '6683747800', 185);
+INSERT INTO `tires` (`id_tire`, `diameter`, `height`, `load_index`, `speed_index`, `tag`, `width`) VALUES(1, 16, 55, '76 - 400 kg', 'S - 180 km/h', '0013505765', 165);
+INSERT INTO `tires` (`id_tire`, `diameter`, `height`, `load_index`, `speed_index`, `tag`, `width`) VALUES(2, 16, 55, '76 - 400 kg', 'S - 180 km/h', '0013634381', 175);
+INSERT INTO `tires` (`id_tire`, `diameter`, `height`, `load_index`, `speed_index`, `tag`, `width`) VALUES(3, 16, 55, '76 - 400 kg', 'S - 180 km/h', '0009592223', 185);
 INSERT INTO `tires` (`id_tire`, `diameter`, `height`, `load_index`, `speed_index`, `tag`, `width`) VALUES(4, 16, 55, '76 - 400 kg', 'S - 180 km/h', '5960903330', 195);
 INSERT INTO `tires` (`id_tire`, `diameter`, `height`, `load_index`, `speed_index`, `tag`, `width`) VALUES(5, 16, 55, '76 - 400 kg', 'S - 180 km/h', '6417099450', 205);
 INSERT INTO `tires` (`id_tire`, `diameter`, `height`, `load_index`, `speed_index`, `tag`, `width`) VALUES(6, 16, 55, '76 - 400 kg', 'S - 180 km/h', '4864815773', 215);
