@@ -23,14 +23,18 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class WorksManagerController implements Initializable {
+    @FXML
+    private Button newWorkButton;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initializeTableColumn();
         loadTableData(worksRepository.getListWorks());
         loadComboBox();
-
-
         listenerTable();
+        if (Temporary.getWorkers().getPosition().equals("ADMIN")) {
+
+            newWorkButton.setDisable(false);
+        }
 
     }
 

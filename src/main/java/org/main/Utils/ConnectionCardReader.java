@@ -43,7 +43,7 @@ public class ConnectionCardReader {
     }
     static Controller controller = new Controller();
     public static void closePort() {
-        if (serialPort.isOpen()) {
+        if (serialPort != null && serialPort.isOpen()) {
             serialPort.closePort();
 
         }

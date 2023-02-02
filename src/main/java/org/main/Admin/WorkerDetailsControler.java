@@ -113,7 +113,6 @@ public class WorkerDetailsControler extends ConnectionCardReader implements Init
                 correctPosition && correctTag &&
                 correctDepartment && correctEnploymentDate) {
             Workers worker = new Workers();
-            worker.setIdWorker(0);
             worker.setFirstName(firstName.getText());
             worker.setLastName(secondName.getText());
             worker.setEmail(email.getText());
@@ -127,11 +126,14 @@ public class WorkerDetailsControler extends ConnectionCardReader implements Init
             }
             Alert alert = new Alert(Alert.AlertType.NONE);
             if (workersRepository.saveWorker(worker)) {
+
                 alert.setAlertType(Alert.AlertType.INFORMATION);
                 alert.setHeaderText("Dane zostały zapisane");
                 clearFields();
 
             } else {
+                idTag.setText("");
+                email.setText("");
                 alert.setAlertType(Alert.AlertType.WARNING);
                 alert.setHeaderText("Taki adres emial lub tag jest już używany ");
                 alert.setContentText("Użyj innego adresu email");
