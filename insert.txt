@@ -1,0 +1,363 @@
+CREATE DATABASE IF NOT EXISTS `tire_retarding_db` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_polish_ci;
+USE `tire_retarding_db`;
+
+CREATE USER 'connect_application'@'localhost' IDENTIFIED BY 'ZAQ!2wsxCDE#';
+GRANT SELECT,INSERT, UPDATE, DELETE ON tire_retarding_db.* TO 'connect_application'@'localhost';
+CREATE USER 'connect_application'@'127.0.0.1' IDENTIFIED BY 'ZAQ!2wsxCDE#';
+GRANT SELECT,INSERT, UPDATE, DELETE ON tire_retarding_db.* TO 'connect_application'@'127.0.0.1';
+
+create table tire_retarding_db.departments
+(
+    id_department int auto_increment
+        primary key,
+    city          varchar(255) not null,
+    flat_number   varchar(255) not null,
+    hall_name     varchar(255) not null,
+    name          varchar(255) not null,
+    phone_number  varchar(255) not null,
+    post_code     varchar(255) not null,
+    street        varchar(255) not null,
+    constraint UK_jgekpgygvdlc7q47p4pr12bx7
+        unique (name)
+);
+
+create table tire_retarding_db.semi_products
+(
+    id_semi_product int auto_increment
+        primary key,
+    amount          int          not null,
+    category        varchar(255) not null,
+    name            varchar(255) not null,
+    tag             varchar(255) not null,
+    constraint UK_5c66r3xini1elpd8o2uhfwv0o
+        unique (tag)
+);
+
+create table tire_retarding_db.tires
+(
+    id_tire     int auto_increment
+        primary key,
+    diameter    int          not null,
+    height      int          not null,
+    load_index  varchar(255) not null,
+    speed_index varchar(255) not null,
+    tag         varchar(255) not null,
+    width       int          not null,
+    constraint UK_lm32y7mx4gffk483q8timx00c
+        unique (tag)
+);
+
+create table tire_retarding_db.workers
+(
+    id_worker       int auto_increment
+        primary key,
+    email           varchar(255) not null,
+    employment_date date         not null,
+    first_name      varchar(255) not null,
+    last_name       varchar(255) not null,
+    password        varchar(255) not null,
+    position        varchar(255) not null,
+    stacking_date   date         null,
+    tag             varchar(255) not null,
+    id_department   int          not null,
+    constraint UK_fj43safv8iv8huckidh7a9gyf
+        unique (tag),
+    constraint UK_i6vwpyxsybidq4u5krwa12aa7
+        unique (email),
+    constraint FKdddb0406wfy877o5ev788rqhn
+        foreign key (id_department) references tire_retarding_db.departments (id_department)
+);
+
+create table tire_retarding_db.working_time
+(
+    id_working_time int auto_increment
+        primary key,
+    date_logout     datetime(6) null,
+    date_login      datetime(6) not null,
+    id_worker       int         not null,
+    constraint FKqkx0yx89xagrb1m4an3brgr7s
+        foreign key (id_worker) references tire_retarding_db.workers (id_worker)
+);
+
+create table tire_retarding_db.works
+(
+    id_work       int auto_increment
+        primary key,
+    date_start    datetime(6)  null,
+    date_stop     datetime(6)  null,
+    name          varchar(255) not null,
+    status        varchar(255) not null,
+    id_department int          not null,
+    id_tire       int          not null,
+    id_worker     int          not null,
+    constraint FK170oky38eejjdnya7hxr4dyym
+        foreign key (id_department) references tire_retarding_db.departments (id_department),
+    constraint FKavx4ryw0bkxifqop0arvr4rec
+        foreign key (id_worker) references tire_retarding_db.workers (id_worker),
+    constraint FKbyj64k98e7ijot93677rk88lg
+        foreign key (id_tire) references tire_retarding_db.tires (id_tire)
+);
+
+create table tire_retarding_db.work_semi_products
+(
+    id_work_semi_product int auto_increment
+        primary key,
+    amount               int not null,
+    id_semi_product      int null,
+    id_work              int null,
+    constraint FKgd8bga6hmahrdobpf6ggtn9kk
+        foreign key (id_semi_product) references tire_retarding_db.semi_products (id_semi_product),
+    constraint FKryjhuwyds3p81ath4jav9p4el
+        foreign key (id_work) references tire_retarding_db.works (id_work)
+);
+
+INSERT INTO `semi_products` (`id_semi_product`, `amount`, `category`, `name`, `tag`) VALUES(1, 20, 'Bieżnik CT', 'ECOTIRE CTW 1', '0007584378');
+INSERT INTO `semi_products` (`id_semi_product`, `amount`, `category`, `name`, `tag`) VALUES(2, 20, 'Bieżnik CT', 'ECOTIRE CT 3', '0005173456');
+INSERT INTO `semi_products` (`id_semi_product`, `amount`, `category`, `name`, `tag`) VALUES(3, 20, 'Bieżnik CT', 'ECOTIRE CT 1', '0015184656');
+INSERT INTO `semi_products` (`id_semi_product`, `amount`, `category`, `name`, `tag`) VALUES(4, 20, 'Bieżnik CZ', 'EXTREME T1', '5929607456');
+INSERT INTO `semi_products` (`id_semi_product`, `amount`, `category`, `name`, `tag`) VALUES(5, 20, 'Bieżnik CZ', 'EXTREME T2', '7836858796');
+INSERT INTO `semi_products` (`id_semi_product`, `amount`, `category`, `name`, `tag`) VALUES(6, 20, 'Bieżnik CZ', 'EXTREME T3', '8057690767');
+INSERT INTO `semi_products` (`id_semi_product`, `amount`, `category`, `name`, `tag`) VALUES(7, 20, 'Bieżnik CD', 'ECOTIRE CDECO', '5316868670');
+INSERT INTO `semi_products` (`id_semi_product`, `amount`, `category`, `name`, `tag`) VALUES(8, 20, 'Bieżnik CD', 'ECOTIRE CD 2', '4526067760');
+INSERT INTO `semi_products` (`id_semi_product`, `amount`, `category`, `name`, `tag`) VALUES(9, 20, 'Bieżnik CF', 'Proxes CF 1', '6239215437');
+INSERT INTO `semi_products` (`id_semi_product`, `amount`, `category`, `name`, `tag`) VALUES(10, 20, 'Bieżnik CF', 'Proxes CF 2', '3726208918');
+INSERT INTO `semi_products` (`id_semi_product`, `amount`, `category`, `name`, `tag`) VALUES(11, 20, 'Bieżnik CF', 'Proxes CF 3', '6351359106');
+INSERT INTO `semi_products` (`id_semi_product`, `amount`, `category`, `name`, `tag`) VALUES(12, 20, 'Bieżnik Asymetryczny SL', ' QUATRAC 3', '6499925195');
+INSERT INTO `semi_products` (`id_semi_product`, `amount`, `category`, `name`, `tag`) VALUES(13, 20, 'Bieżnik Symetryczny SL', 'VECTOR 5', '8775892655');
+INSERT INTO `semi_products` (`id_semi_product`, `amount`, `category`, `name`, `tag`) VALUES(14, 20, 'Bieżnik Asymetryczny SZ', 'VARIO V2', '3245738926');
+INSERT INTO `semi_products` (`id_semi_product`, `amount`, `category`, `name`, `tag`) VALUES(15, 20, 'Bieżnik Symetryczny SZ', 'SPORT PLUS', '549988996');
+INSERT INTO `semi_products` (`id_semi_product`, `amount`, `category`, `name`, `tag`) VALUES(16, 200, 'Klej', 'EUROSTICK SC-6000', '2536799348');
+INSERT INTO `semi_products` (`id_semi_product`, `amount`, `category`, `name`, `tag`) VALUES(17, 20, 'Łaty', 'RADIALNA 135 TL Premium', '284551583');
+INSERT INTO `semi_products` (`id_semi_product`, `amount`, `category`, `name`, `tag`) VALUES(18, 120, 'Tarszcze', '3M Cubitron II', '442881794');
+INSERT INTO `semi_products` (`id_semi_product`, `amount`, `category`, `name`, `tag`) VALUES(19, 20, 'Rozpuszczalnik', 'NITRO', '7074926182');
+INSERT INTO `semi_products` (`id_semi_product`, `amount`, `category`, `name`, `tag`) VALUES(20, 20, 'Wypełniacz Chemiczny', 'INNERLINER SEALER X-TRA SEAL', '8866539374');
+
+INSERT INTO `departments` (`id_department`, `city`, `flat_number`, `hall_name`, `name`, `phone_number`, `post_code`, `street`) VALUES (1, 'Rzeszów', '12', 'A1', 'Magazyn', '555444333', '11-115', 'Kopisto');
+INSERT INTO `departments` (`id_department`, `city`, `flat_number`, `hall_name`, `name`, `phone_number`, `post_code`, `street`) VALUES (2, 'Rzeszów', '12', 'A2', 'Kontrola Jakości', '555444333', '11-115', 'Kopisto');
+INSERT INTO `departments` (`id_department`, `city`, `flat_number`, `hall_name`, `name`, `phone_number`, `post_code`, `street`) VALUES (3, 'Rzeszów', '12', 'A3', 'Obróbka Wstępna', '555444333', '11-115', 'Kopisto');
+INSERT INTO `departments` (`id_department`, `city`, `flat_number`, `hall_name`, `name`, `phone_number`, `post_code`, `street`) VALUES (4, 'Rzeszów', '12', 'A3', 'Obróbka Właściwa', '555444333', '11-115', 'Kopisto');
+INSERT INTO `departments` (`id_department`, `city`, `flat_number`, `hall_name`, `name`, `phone_number`, `post_code`, `street`) VALUES (5, 'Rzeszów', '12', 'A4', 'Wólkanizaca', '555444333', '11-115', 'Kopisto');
+
+INSERT INTO `workers` (`id_worker`, `email`, `employment_date`, `first_name`, `last_name`, `password`, `position`, `stacking_date`, `tag`, `id_department`) VALUES (1, 'jan@op.pl', '2022-12-01', 'Jan', 'Rozbujny', 'ac372981350dfb7490424abf990a7b0ac90c2ea3d0750623dbe029ec75befa1d18bae6c9e44262641ec90305d150bd33efc5d34e6ecf0536a97b766ace951262', 'ADMIN', NULL, '17985235', '1');
+INSERT INTO `workers` (`id_worker`, `email`, `employment_date`, `first_name`, `last_name`, `password`, `position`, `stacking_date`, `tag`, `id_department`) VALUES (2, 'pawel@op.pl', '2022-12-01', 'Paweł', 'Rozbujny', 'ac372981350dfb7490424abf990a7b0ac90c2ea3d0750623dbe029ec75befa1d18bae6c9e44262641ec90305d150bd33efc5d34e6ecf0536a97b766ace951262', 'STOREMAN', NULL, '3316718438', '1');
+INSERT INTO `workers` (`id_worker`, `email`, `employment_date`, `first_name`, `last_name`, `password`, `position`, `stacking_date`, `tag`, `id_department`) VALUES (3, 'michal@op.pl', '2022-12-01', 'Michał', 'Rozbujny', 'ac372981350dfb7490424abf990a7b0ac90c2ea3d0750623dbe029ec75befa1d18bae6c9e44262641ec90305d150bd33efc5d34e6ecf0536a97b766ace951262', 'ADMIN', NULL, '17985237', '1');
+INSERT INTO `workers` (`id_worker`, `email`, `employment_date`, `first_name`, `last_name`, `password`, `position`, `stacking_date`, `tag`, `id_department`) VALUES (4, 'jannowak@op.pl', '2022-12-01', 'Jan', 'Nowak', 'ac372981350dfb7490424abf990a7b0ac90c2ea3d0750623dbe029ec75befa1d18bae6c9e44262641ec90305d150bd33efc5d34e6ecf0536a97b766ace951262', 'CHECKER', NULL, '17985238', '2');
+INSERT INTO `workers` (`id_worker`, `email`, `employment_date`, `first_name`, `last_name`, `password`, `position`, `stacking_date`, `tag`, `id_department`) VALUES (5, 'pawelnowek@op.pl', '2022-12-01', 'Paweł', 'Nowak', 'ac372981350dfb7490424abf990a7b0ac90c2ea3d0750623dbe029ec75befa1d18bae6c9e44262641ec90305d150bd33efc5d34e6ecf0536a97b766ace951262', 'STOREMAN', NULL, '17985239', '2');
+INSERT INTO `workers` (`id_worker`, `email`, `employment_date`, `first_name`, `last_name`, `password`, `position`, `stacking_date`, `tag`, `id_department`) VALUES (6, 'michalnowak@op.pl', '2022-12-01', 'Michał', 'Nowak', 'ac372981350dfb7490424abf990a7b0ac90c2ea3d0750623dbe029ec75befa1d18bae6c9e44262641ec90305d150bd33efc5d34e6ecf0536a97b766ace951262', 'VULCANISER', NULL, '17985230', '2');
+INSERT INTO `workers` (`id_worker`, `email`, `employment_date`, `first_name`, `last_name`, `password`, `position`, `stacking_date`, `tag`, `id_department`) VALUES (7, 'janabramik@op.pl', '2022-12-01', 'Jan', 'Abramik', 'ac372981350dfb7490424abf990a7b0ac90c2ea3d0750623dbe029ec75befa1d18bae6c9e44262641ec90305d150bd33efc5d34e6ecf0536a97b766ace951262', 'CHECKER', NULL, '37985238', '3');
+INSERT INTO `workers` (`id_worker`, `email`, `employment_date`, `first_name`, `last_name`, `password`, `position`, `stacking_date`, `tag`, `id_department`) VALUES (8, 'pawelabramik@op.pl', '2022-12-01', 'Paweł', 'Abramik', 'ac372981350dfb7490424abf990a7b0ac90c2ea3d0750623dbe029ec75befa1d18bae6c9e44262641ec90305d150bd33efc5d34e6ecf0536a97b766ace951262', 'STOREMAN', NULL, '37985239', '3');
+INSERT INTO `workers` (`id_worker`, `email`, `employment_date`, `first_name`, `last_name`, `password`, `position`, `stacking_date`, `tag`, `id_department`) VALUES (9, 'michalabramik@op.pl', '2022-12-01', 'Michał', 'Abramik', 'ac372981350dfb7490424abf990a7b0ac90c2ea3d0750623dbe029ec75befa1d18bae6c9e44262641ec90305d150bd33efc5d34e6ecf0536a97b766ace951262', 'VULCANISER', NULL, '37985230', '3');
+INSERT INTO `workers` (`id_worker`, `email`, `employment_date`, `first_name`, `last_name`, `password`, `position`, `stacking_date`, `tag`, `id_department`) VALUES (10, 'janfergisz@op.pl', '2022-12-01', 'Jan', 'Fergisz', 'ac372981350dfb7490424abf990a7b0ac90c2ea3d0750623dbe029ec75befa1d18bae6c9e44262641ec90305d150bd33efc5d34e6ecf0536a97b766ace951262', 'CHECKER', NULL, '47985238', '4');
+INSERT INTO `workers` (`id_worker`, `email`, `employment_date`, `first_name`, `last_name`, `password`, `position`, `stacking_date`, `tag`, `id_department`) VALUES (11, 'pawelfergisz@op.pl', '2022-12-01', 'Paweł', 'Fergisz', 'ac372981350dfb7490424abf990a7b0ac90c2ea3d0750623dbe029ec75befa1d18bae6c9e44262641ec90305d150bd33efc5d34e6ecf0536a97b766ace951262', 'STOREMAN', NULL, '47985239', '4');
+INSERT INTO `workers` (`id_worker`, `email`, `employment_date`, `first_name`, `last_name`, `password`, `position`, `stacking_date`, `tag`, `id_department`) VALUES (12, 'michalfergisz@op.pl', '2022-12-01', 'Michał', 'Fergisz', 'ac372981350dfb7490424abf990a7b0ac90c2ea3d0750623dbe029ec75befa1d18bae6c9e44262641ec90305d150bd33efc5d34e6ecf0536a97b766ace951262', 'VULCANISER', NULL, '47985230', '4');
+INSERT INTO `workers` (`id_worker`, `email`, `employment_date`, `first_name`, `last_name`, `password`, `position`, `stacking_date`, `tag`, `id_department`) VALUES (13, 'jankowalczyk@op.pl', '2022-12-01', 'Jan', 'Kowalczyk', 'ac372981350dfb7490424abf990a7b0ac90c2ea3d0750623dbe029ec75befa1d18bae6c9e44262641ec90305d150bd33efc5d34e6ecf0536a97b766ace951262', 'CHECKER', NULL, '57985238', '5');
+INSERT INTO `workers` (`id_worker`, `email`, `employment_date`, `first_name`, `last_name`, `password`, `position`, `stacking_date`, `tag`, `id_department`) VALUES (14, 'pawelkowalczyk@op.pl', '2022-12-01', 'Paweł', 'Kowalczyk', 'ac372981350dfb7490424abf990a7b0ac90c2ea3d0750623dbe029ec75befa1d18bae6c9e44262641ec90305d150bd33efc5d34e6ecf0536a97b766ace951262', 'STOREMAN', NULL, '57985239', '5');
+INSERT INTO `workers` (`id_worker`, `email`, `employment_date`, `first_name`, `last_name`, `password`, `position`, `stacking_date`, `tag`, `id_department`) VALUES (15, 'michalkowalczyk@op.pl', '2022-12-01', 'Michał', 'Kowalczyk', 'ac372981350dfb7490424abf990a7b0ac90c2ea3d0750623dbe029ec75befa1d18bae6c9e44262641ec90305d150bd33efc5d34e6ecf0536a97b766ace951262', 'VULCANISER', NULL, '57985230', '5');
+
+INSERT INTO `working_time` (`id_working_time`, `date_login`, `date_logout`, `id_worker`) VALUES(1, '2023-01-01 08:15:14.000000', '2023-01-01 15:26:54.000000', 1);
+INSERT INTO `working_time` (`id_working_time`, `date_login`, `date_logout`, `id_worker`) VALUES(2, '2023-01-01 08:15:14.000000', '2023-01-01 15:26:54.000000', 2);
+INSERT INTO `working_time` (`id_working_time`, `date_login`, `date_logout`, `id_worker`) VALUES(3, '2023-01-01 08:15:14.000000', '2023-01-01 15:26:54.000000', 3);
+INSERT INTO `working_time` (`id_working_time`, `date_login`, `date_logout`, `id_worker`) VALUES(4, '2023-01-01 08:15:14.000000', '2023-01-01 15:26:54.000000', 4);
+INSERT INTO `working_time` (`id_working_time`, `date_login`, `date_logout`, `id_worker`) VALUES(5, '2023-01-01 08:15:14.000000', '2023-01-01 15:26:54.000000', 5);
+INSERT INTO `working_time` (`id_working_time`, `date_login`, `date_logout`, `id_worker`) VALUES(6, '2023-01-01 08:15:14.000000', '2023-01-01 15:26:54.000000', 6);
+INSERT INTO `working_time` (`id_working_time`, `date_login`, `date_logout`, `id_worker`) VALUES(7, '2023-01-01 08:15:14.000000', '2023-01-01 15:26:54.000000', 7);
+INSERT INTO `working_time` (`id_working_time`, `date_login`, `date_logout`, `id_worker`) VALUES(8, '2023-01-01 08:15:14.000000', '2023-01-01 15:26:54.000000', 8);
+INSERT INTO `working_time` (`id_working_time`, `date_login`, `date_logout`, `id_worker`) VALUES(9, '2023-01-01 08:15:14.000000', '2023-01-01 15:26:54.000000', 9);
+INSERT INTO `working_time` (`id_working_time`, `date_login`, `date_logout`, `id_worker`) VALUES(10, '2023-01-02 09:29:14.000000', '2023-01-02 12:26:54.000000', 1);
+INSERT INTO `working_time` (`id_working_time`, `date_login`, `date_logout`, `id_worker`) VALUES(11, '2023-01-02 09:29:14.000000', '2023-01-02 12:26:54.000000', 2);
+INSERT INTO `working_time` (`id_working_time`, `date_login`, `date_logout`, `id_worker`) VALUES(12, '2023-01-02 09:29:14.000000', '2023-01-02 12:26:54.000000', 3);
+INSERT INTO `working_time` (`id_working_time`, `date_login`, `date_logout`, `id_worker`) VALUES(13, '2023-01-02 09:29:14.000000', '2023-01-02 12:26:54.000000', 4);
+INSERT INTO `working_time` (`id_working_time`, `date_login`, `date_logout`, `id_worker`) VALUES(14, '2023-01-02 09:29:14.000000', '2023-01-02 12:26:54.000000', 5);
+INSERT INTO `working_time` (`id_working_time`, `date_login`, `date_logout`, `id_worker`) VALUES(15, '2023-01-02 09:29:14.000000', '2023-01-02 12:26:54.000000', 6);
+INSERT INTO `working_time` (`id_working_time`, `date_login`, `date_logout`, `id_worker`) VALUES(16, '2023-01-02 09:29:14.000000', '2023-01-02 12:26:54.000000', 7);
+INSERT INTO `working_time` (`id_working_time`, `date_login`, `date_logout`, `id_worker`) VALUES(17, '2023-01-02 09:29:14.000000', '2023-01-02 12:26:54.000000', 8);
+INSERT INTO `working_time` (`id_working_time`, `date_login`, `date_logout`, `id_worker`) VALUES(18, '2023-01-02 09:29:14.000000', '2023-01-02 12:26:54.000000', 9);
+INSERT INTO `working_time` (`id_working_time`, `date_login`, `date_logout`, `id_worker`) VALUES(19, '2023-01-02 09:29:14.000000', '2023-01-02 12:26:54.000000', 10);
+INSERT INTO `working_time` (`id_working_time`, `date_login`, `date_logout`, `id_worker`) VALUES(20, '2023-01-02 09:29:14.000000', '2023-01-02 12:26:54.000000', 11);
+INSERT INTO `working_time` (`id_working_time`, `date_login`, `date_logout`, `id_worker`) VALUES(21, '2023-01-02 09:29:14.000000', '2023-01-02 12:26:54.000000', 12);
+INSERT INTO `working_time` (`id_working_time`, `date_login`, `date_logout`, `id_worker`) VALUES(22, '2023-01-02 09:29:14.000000', '2023-01-02 12:26:54.000000', 13);
+INSERT INTO `working_time` (`id_working_time`, `date_login`, `date_logout`, `id_worker`) VALUES(23, '2023-01-02 09:29:14.000000', '2023-01-02 12:26:54.000000', 14);
+INSERT INTO `working_time` (`id_working_time`, `date_login`, `date_logout`, `id_worker`) VALUES(24, '2023-01-02 09:29:14.000000', '2023-01-02 12:26:54.000000', 15);
+INSERT INTO `working_time` (`id_working_time`, `date_login`, `date_logout`, `id_worker`) VALUES(25, '2023-01-03 14:29:14.000000', '2023-01-03 16:26:54.000000', 1);
+INSERT INTO `working_time` (`id_working_time`, `date_login`, `date_logout`, `id_worker`) VALUES(26, '2023-01-03 14:29:14.000000', '2023-01-03 16:26:54.000000', 2);
+INSERT INTO `working_time` (`id_working_time`, `date_login`, `date_logout`, `id_worker`) VALUES(27, '2023-01-03 14:29:14.000000', '2023-01-03 16:26:54.000000', 3);
+INSERT INTO `working_time` (`id_working_time`, `date_login`, `date_logout`, `id_worker`) VALUES(28, '2023-01-03 14:29:14.000000', '2023-01-03 16:26:54.000000', 4);
+INSERT INTO `working_time` (`id_working_time`, `date_login`, `date_logout`, `id_worker`) VALUES(29, '2023-01-03 14:29:14.000000', '2023-01-03 16:26:54.000000', 5);
+INSERT INTO `working_time` (`id_working_time`, `date_login`, `date_logout`, `id_worker`) VALUES(30, '2023-01-03 14:29:14.000000', '2023-01-03 16:26:54.000000', 6);
+INSERT INTO `working_time` (`id_working_time`, `date_login`, `date_logout`, `id_worker`) VALUES(31, '2023-01-03 14:29:14.000000', '2023-01-03 16:26:54.000000', 7);
+INSERT INTO `working_time` (`id_working_time`, `date_login`, `date_logout`, `id_worker`) VALUES(32, '2023-01-03 14:29:14.000000', '2023-01-03 16:26:54.000000', 8);
+INSERT INTO `working_time` (`id_working_time`, `date_login`, `date_logout`, `id_worker`) VALUES(33, '2023-01-04 10:29:14.000000', '2023-01-04 19:26:54.000000', 9);
+INSERT INTO `working_time` (`id_working_time`, `date_login`, `date_logout`, `id_worker`) VALUES(34, '2023-01-04 10:29:14.000000', '2023-01-04 19:26:54.000000', 10);
+INSERT INTO `working_time` (`id_working_time`, `date_login`, `date_logout`, `id_worker`) VALUES(35, '2023-01-04 10:29:14.000000', '2023-01-04 19:26:54.000000', 11);
+INSERT INTO `working_time` (`id_working_time`, `date_login`, `date_logout`, `id_worker`) VALUES(36, '2023-01-04 10:29:14.000000', '2023-01-04 19:26:54.000000', 12);
+INSERT INTO `working_time` (`id_working_time`, `date_login`, `date_logout`, `id_worker`) VALUES(37, '2023-01-04 10:29:14.000000', '2023-01-04 19:26:54.000000', 13);
+INSERT INTO `working_time` (`id_working_time`, `date_login`, `date_logout`, `id_worker`) VALUES(38, '2023-01-04 10:29:14.000000', '2023-01-04 19:26:54.000000', 14);
+INSERT INTO `working_time` (`id_working_time`, `date_login`, `date_logout`, `id_worker`) VALUES(39, '2023-01-04 10:29:14.000000', '2023-01-04 19:26:54.000000', 15);
+INSERT INTO `working_time` (`id_working_time`, `date_login`, `date_logout`, `id_worker`) VALUES(40, '2023-01-04 10:29:14.000000', '2023-01-04 19:26:54.000000', 1);
+
+
+
+
+INSERT INTO `tires` (`id_tire`, `diameter`, `height`, `load_index`, `speed_index`, `tag`, `width`) VALUES(1, 16, 55, '76 - 400 kg', 'S - 180 km/h', '0013505765', 165);
+INSERT INTO `tires` (`id_tire`, `diameter`, `height`, `load_index`, `speed_index`, `tag`, `width`) VALUES(2, 16, 55, '76 - 400 kg', 'S - 180 km/h', '0013634381', 175);
+INSERT INTO `tires` (`id_tire`, `diameter`, `height`, `load_index`, `speed_index`, `tag`, `width`) VALUES(3, 16, 55, '76 - 400 kg', 'S - 180 km/h', '0009592223', 185);
+INSERT INTO `tires` (`id_tire`, `diameter`, `height`, `load_index`, `speed_index`, `tag`, `width`) VALUES(4, 16, 55, '76 - 400 kg', 'S - 180 km/h', '5960903330', 195);
+INSERT INTO `tires` (`id_tire`, `diameter`, `height`, `load_index`, `speed_index`, `tag`, `width`) VALUES(5, 16, 55, '76 - 400 kg', 'S - 180 km/h', '6417099450', 205);
+INSERT INTO `tires` (`id_tire`, `diameter`, `height`, `load_index`, `speed_index`, `tag`, `width`) VALUES(6, 16, 55, '76 - 400 kg', 'S - 180 km/h', '4864815773', 215);
+INSERT INTO `tires` (`id_tire`, `diameter`, `height`, `load_index`, `speed_index`, `tag`, `width`) VALUES(7, 16, 55, '76 - 400 kg', 'S - 180 km/h', '8699098064', 225);
+INSERT INTO `tires` (`id_tire`, `diameter`, `height`, `load_index`, `speed_index`, `tag`, `width`) VALUES(8, 16, 55, '76 - 400 kg', 'S - 180 km/h', '6472583314', 235);
+INSERT INTO `tires` (`id_tire`, `diameter`, `height`, `load_index`, `speed_index`, `tag`, `width`) VALUES(9, 16, 55, '76 - 400 kg', 'S - 180 km/h', '7193082628', 245);
+
+INSERT INTO `tires` (`id_tire`, `diameter`, `height`, `load_index`, `speed_index`, `tag`, `width`) VALUES(10, 17, 55, '76 - 400 kg', 'S - 180 km/h', '2786315498', 165);
+INSERT INTO `tires` (`id_tire`, `diameter`, `height`, `load_index`, `speed_index`, `tag`, `width`) VALUES(11, 17, 55, '76 - 400 kg', 'S - 180 km/h', '6381621993', 175);
+INSERT INTO `tires` (`id_tire`, `diameter`, `height`, `load_index`, `speed_index`, `tag`, `width`) VALUES(12, 17, 55, '76 - 400 kg', 'S - 180 km/h', '8948133928', 185);
+INSERT INTO `tires` (`id_tire`, `diameter`, `height`, `load_index`, `speed_index`, `tag`, `width`) VALUES(13, 17, 55, '76 - 400 kg', 'S - 180 km/h', '7755812736', 195);
+INSERT INTO `tires` (`id_tire`, `diameter`, `height`, `load_index`, `speed_index`, `tag`, `width`) VALUES(14, 17, 55, '76 - 400 kg', 'S - 180 km/h', '9263085984', 205);
+INSERT INTO `tires` (`id_tire`, `diameter`, `height`, `load_index`, `speed_index`, `tag`, `width`) VALUES(15, 17, 55, '76 - 400 kg', 'S - 180 km/h', '8060218007', 215);
+INSERT INTO `tires` (`id_tire`, `diameter`, `height`, `load_index`, `speed_index`, `tag`, `width`) VALUES(16, 17, 55, '76 - 400 kg', 'S - 180 km/h', '3398403588', 225);
+INSERT INTO `tires` (`id_tire`, `diameter`, `height`, `load_index`, `speed_index`, `tag`, `width`) VALUES(17, 17, 55, '76 - 400 kg', 'S - 180 km/h', '5470146207', 235);
+INSERT INTO `tires` (`id_tire`, `diameter`, `height`, `load_index`, `speed_index`, `tag`, `width`) VALUES(18, 17, 55, '76 - 400 kg', 'S - 180 km/h', '3667163566', 245);
+INSERT INTO `tires` (`id_tire`, `diameter`, `height`, `load_index`, `speed_index`, `tag`, `width`) VALUES(19, 17, 55, '76 - 400 kg', 'S - 180 km/h', '3323014068', 255);
+
+INSERT INTO `tires` (`id_tire`, `diameter`, `height`, `load_index`, `speed_index`, `tag`, `width`) VALUES(20, 18, 65, '76 - 400 kg', 'S - 180 km/h', '5197892909', 165);
+INSERT INTO `tires` (`id_tire`, `diameter`, `height`, `load_index`, `speed_index`, `tag`, `width`) VALUES(21, 18, 65, '76 - 400 kg', 'S - 180 km/h', '1172054730', 175);
+INSERT INTO `tires` (`id_tire`, `diameter`, `height`, `load_index`, `speed_index`, `tag`, `width`) VALUES(22, 18, 65, '76 - 400 kg', 'S - 180 km/h', '6071149768', 185);
+INSERT INTO `tires` (`id_tire`, `diameter`, `height`, `load_index`, `speed_index`, `tag`, `width`) VALUES(23, 18, 65, '76 - 400 kg', 'S - 180 km/h', '5409540628', 195);
+INSERT INTO `tires` (`id_tire`, `diameter`, `height`, `load_index`, `speed_index`, `tag`, `width`) VALUES(24, 18, 65, '76 - 400 kg', 'S - 180 km/h', '2470181917', 205);
+INSERT INTO `tires` (`id_tire`, `diameter`, `height`, `load_index`, `speed_index`, `tag`, `width`) VALUES(25, 18, 65, '76 - 400 kg', 'S - 180 km/h', '2857265352', 215);
+INSERT INTO `tires` (`id_tire`, `diameter`, `height`, `load_index`, `speed_index`, `tag`, `width`) VALUES(26, 18, 65, '76 - 400 kg', 'S - 180 km/h', '486846551', 225);
+INSERT INTO `tires` (`id_tire`, `diameter`, `height`, `load_index`, `speed_index`, `tag`, `width`) VALUES(27, 18, 65, '76 - 400 kg', 'S - 180 km/h', '6399001820', 235);
+INSERT INTO `tires` (`id_tire`, `diameter`, `height`, `load_index`, `speed_index`, `tag`, `width`) VALUES(28, 18, 65, '76 - 400 kg', 'S - 180 km/h', '1780040690', 245);
+INSERT INTO `tires` (`id_tire`, `diameter`, `height`, `load_index`, `speed_index`, `tag`, `width`) VALUES(29, 18, 65, '76 - 400 kg', 'S - 180 km/h', '3039875108', 255);
+INSERT INTO `tires` (`id_tire`, `diameter`, `height`, `load_index`, `speed_index`, `tag`, `width`) VALUES(30, 18, 65, '76 - 400 kg', 'S - 180 km/h', '7484193664', 265);
+
+
+INSERT INTO `tires` (`id_tire`, `diameter`, `height`, `load_index`, `speed_index`, `tag`, `width`) VALUES(31, 17, 55, '76 - 400 kg', 'S - 180 km/h', '837978707', 175);
+INSERT INTO `tires` (`id_tire`, `diameter`, `height`, `load_index`, `speed_index`, `tag`, `width`) VALUES(32, 17, 55, '76 - 400 kg', 'S - 180 km/h', '8101166592', 185);
+INSERT INTO `tires` (`id_tire`, `diameter`, `height`, `load_index`, `speed_index`, `tag`, `width`) VALUES(33, 17, 55, '76 - 400 kg', 'S - 180 km/h', '1390152311', 195);
+INSERT INTO `tires` (`id_tire`, `diameter`, `height`, `load_index`, `speed_index`, `tag`, `width`) VALUES(34, 17, 55, '76 - 400 kg', 'S - 180 km/h', '7676014175', 205);
+INSERT INTO `tires` (`id_tire`, `diameter`, `height`, `load_index`, `speed_index`, `tag`, `width`) VALUES(35, 17, 55, '76 - 400 kg', 'S - 180 km/h', '5507984434', 215);
+INSERT INTO `tires` (`id_tire`, `diameter`, `height`, `load_index`, `speed_index`, `tag`, `width`) VALUES(36, 17, 55, '76 - 400 kg', 'S - 180 km/h', '7890019449', 225);
+INSERT INTO `tires` (`id_tire`, `diameter`, `height`, `load_index`, `speed_index`, `tag`, `width`) VALUES(37, 17, 55, '76 - 400 kg', 'S - 180 km/h', '5058750353', 235);
+INSERT INTO `tires` (`id_tire`, `diameter`, `height`, `load_index`, `speed_index`, `tag`, `width`) VALUES(38, 17, 55, '76 - 400 kg', 'S - 180 km/h', '8388684124', 245);
+INSERT INTO `tires` (`id_tire`, `diameter`, `height`, `load_index`, `speed_index`, `tag`, `width`) VALUES(39, 17, 55, '76 - 400 kg', 'S - 180 km/h', '5585279878', 255);
+
+
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(1, '2023-01-01 12:49:17.000000', '2023-01-01 12:55:17.000000', 'Przyjęcie na stan', 'Zakończono', 1, 1, 1);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(2, '2023-01-01 12:49:17.000000', '2023-01-01 12:55:17.000000', 'Przyjęcie na stan', 'Zakończono', 1, 2, 2);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(3, '2023-01-01 12:49:17.000000', '2023-01-01 12:55:17.000000', 'Przyjęcie na stan', 'Zakończono', 1, 3, 2);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(4, '2023-01-01 12:49:17.000000', '2023-01-01 12:55:17.000000', 'Przyjęcie na stan', 'Zakończono', 1, 4, 2);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(5, '2023-01-02 12:49:17.000000', '2023-01-02 12:55:17.000000', 'Przyjęcie na stan', 'Zakończono', 1, 5, 2);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(6, '2023-01-02 12:49:17.000000', '2023-01-02 12:55:17.000000', 'Przyjęcie na stan', 'Zakończono', 1, 6, 2);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(7, '2023-01-02 12:49:17.000000', '2023-01-02 12:55:17.000000', 'Przyjęcie na stan', 'Zakończono', 1, 7, 1);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(8, '2023-01-02 12:49:17.000000', '2023-01-02 12:55:17.000000', 'Przyjęcie na stan', 'Zakończono', 1, 8, 2);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(9, '2023-01-02 12:49:17.000000', '2023-01-02 12:55:17.000000', 'Przyjęcie na stan', 'Zakończono', 1, 9, 2);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(10, '2023-01-03 12:49:17.000000', '2023-01-03 12:58:17.000000', 'Przyjęcie na stan', 'Zakończono', 1, 10, 2);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(11, '2023-01-03 12:49:17.000000', '2023-01-03 12:58:17.000000', 'Przyjęcie na stan', 'Zakończono', 1, 11, 2);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(12, '2023-01-03 12:49:17.000000', '2023-01-03 12:58:17.000000', 'Przyjęcie na stan', 'Zakończono', 1, 12, 2);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(13, '2023-01-03 12:49:17.000000', '2023-01-03 12:58:17.000000', 'Przyjęcie na stan', 'Zakończono', 1, 13, 2);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(14, '2023-01-03 12:49:17.000000', '2023-01-03 12:58:17.000000', 'Przyjęcie na stan', 'Zakończono', 1, 14, 2);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(15, '2023-01-04 12:49:17.000000', '2023-01-04 12:58:17.000000', 'Przyjęcie na stan', 'Zakończono', 1, 15, 2);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(16, '2023-01-04 12:49:17.000000', '2023-01-04 12:58:17.000000', 'Przyjęcie na stan', 'Zakończono', 1, 16, 2);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(17, '2023-01-04 12:49:17.000000', '2023-01-04 12:58:17.000000', 'Przyjęcie na stan', 'Zakończono', 1, 17, 2);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(18, '2023-01-04 12:49:17.000000', '2023-01-04 12:58:17.000000', 'Przyjęcie na stan', 'Zakończono', 1, 18, 2);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(19, '2023-01-04 12:49:17.000000', '2023-01-04 12:58:17.000000', 'Przyjęcie na stan', 'Zakończono', 1, 19, 2);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(20, '2023-01-05 12:49:17.000000', '2023-01-05 12:59:17.000000', 'Przyjęcie na stan', 'Zakończono', 1, 20, 2);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(21, '2023-01-05 12:49:17.000000', '2023-01-05 12:59:17.000000', 'Przyjęcie na stan', 'Zakończono', 1, 21, 2);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(22, '2023-01-05 12:49:17.000000', '2023-01-05 12:59:17.000000', 'Przyjęcie na stan', 'Zakończono', 1, 22, 2);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(23, '2023-01-05 12:49:17.000000', '2023-01-05 12:59:17.000000', 'Przyjęcie na stan', 'Zakończono', 1, 23, 2);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(24, '2023-01-05 12:49:17.000000', '2023-01-05 12:59:17.000000', 'Przyjęcie na stan', 'Zakończono', 1, 24, 2);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(25, '2023-01-06 12:49:17.000000', '2023-01-06 12:59:17.000000', 'Przyjęcie na stan', 'Zakończono', 1, 25, 2);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(26, '2023-01-06 12:49:17.000000', '2023-01-06 12:59:17.000000', 'Przyjęcie na stan', 'Zakończono', 1, 26, 2);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(27, '2023-01-06 12:49:17.000000', '2023-01-06 12:59:17.000000', 'Przyjęcie na stan', 'Zakończono', 1, 27, 2);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(28, '2023-01-06 12:49:17.000000', '2023-01-06 12:59:17.000000', 'Przyjęcie na stan', 'Zakończono', 1, 28, 2);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(29, '2023-01-06 12:49:17.000000', '2023-01-06 12:59:17.000000', 'Przyjęcie na stan', 'Zakończono', 1, 29, 2);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(30, '2023-01-07 12:49:17.000000', '2023-01-07 12:53:17.000000', 'Przyjęcie na stan', 'Zakończono', 1, 30, 2);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(31, '2023-01-07 12:49:17.000000', '2023-01-07 12:53:17.000000', 'Przyjęcie na stan', 'Zakończono', 1, 31, 2);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(32, '2023-01-07 12:49:17.000000', '2023-01-07 12:53:17.000000', 'Przyjęcie na stan', 'Zakończono', 1, 32, 2);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(33, '2023-01-07 12:49:17.000000', '2023-01-07 12:53:17.000000', 'Przyjęcie na stan', 'Zakończono', 1, 33, 2);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(34, '2023-01-07 12:49:17.000000', '2023-01-07 12:53:17.000000', 'Przyjęcie na stan', 'Zakończono', 1, 34, 2);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(35, '2023-01-07 12:49:17.000000', '2023-01-07 12:53:17.000000', 'Przyjęcie na stan', 'Zakończono', 1, 35, 2);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(36, '2023-01-08 12:49:17.000000', '2023-01-08 12:53:17.000000', 'Przyjęcie na stan', 'Zakończono', 1, 36, 2);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(37, '2023-01-08 12:49:17.000000', '2023-01-08 12:53:17.000000', 'Przyjęcie na stan', 'Zakończono', 1, 37, 2);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(38, '2023-01-08 12:49:17.000000', '2023-01-08 12:53:17.000000', 'Przyjęcie na stan', 'Zakończono', 1, 38, 2);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(39, '2023-01-08 12:49:17.000000', '2023-01-08 12:53:17.000000', 'Przyjęcie na stan', 'Zakończono', 1, 39, 2);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(40, '2023-01-01 16:49:17.000000', '2023-01-01 17:55:17.000000', 'Wstępna kontrola', 'Zakończono', 2, 1, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(41, '2023-01-01 16:49:17.000000', '2023-01-01 17:55:17.000000', 'Wstępna kontrola', 'Zakończono', 2, 2, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(42, '2023-01-01 16:49:17.000000', '2023-01-01 17:55:17.000000', 'Wstępna kontrola', 'Zakończono', 2, 3, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(43, '2023-01-01 16:49:17.000000', '2023-01-01 17:55:17.000000', 'Wstępna kontrola', 'Zakończono', 2, 4, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(44, '2023-01-02 16:49:17.000000', '2023-01-02 17:55:17.000000', 'Wstępna kontrola', 'Zakończono', 2, 5, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(45, '2023-01-02 16:49:17.000000', '2023-01-02 17:55:17.000000', 'Wstępna kontrola', 'Zakończono', 2, 6, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(46, '2023-01-02 16:49:17.000000', '2023-01-02 17:55:17.000000', 'Wstępna kontrola', 'Zakończono', 2, 7, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(47, '2023-01-02 16:49:17.000000', '2023-01-02 17:55:17.000000', 'Wstępna kontrola', 'Zakończono', 2, 8, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(48, '2023-01-02 16:49:17.000000', '2023-01-02 17:55:17.000000', 'Wstępna kontrola', 'Zakończono', 2, 9, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(49, '2023-01-03 16:49:17.000000', '2023-01-03 17:58:17.000000', 'Wstępna kontrola', 'Zakończono', 2, 10, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(50, '2023-01-03 16:49:17.000000', '2023-01-03 17:58:17.000000', 'Wstępna kontrola', 'Zakończono', 2, 11, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(51, '2023-01-03 16:49:17.000000', '2023-01-03 17:58:17.000000', 'Wstępna kontrola', 'Zakończono', 2, 12, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(52, '2023-01-03 16:49:17.000000', '2023-01-03 17:58:17.000000', 'Wstępna kontrola', 'Zakończono', 2, 13, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(53, '2023-01-03 16:49:17.000000', '2023-01-03 17:58:17.000000', 'Wstępna kontrola', 'Zakończono', 2, 14, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(54, '2023-01-04 16:49:17.000000', '2023-01-04 17:58:17.000000', 'Wstępna kontrola', 'Zakończono', 2, 15, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(55, '2023-01-04 16:49:17.000000', '2023-01-04 17:58:17.000000', 'Wstępna kontrola', 'Zakończono', 2, 16, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(56, '2023-01-04 16:49:17.000000', '2023-01-04 17:58:17.000000', 'Wstępna kontrola', 'Zakończono', 2, 17, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(57, '2023-01-04 16:49:17.000000', '2023-01-04 17:58:17.000000', 'Wstępna kontrola', 'Zakończono', 2, 18, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(58, '2023-01-04 16:49:17.000000', '2023-01-04 17:58:17.000000', 'Wstępna kontrola', 'Zakończono', 2, 19, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(59, '2023-01-05 16:49:17.000000', '2023-01-05 17:59:17.000000', 'Wstępna kontrola', 'Zakończono', 2, 20, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(60, '2023-01-05 16:49:17.000000', '2023-01-05 17:59:17.000000', 'Wstępna kontrola', 'Zakończono', 2, 21, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(61, '2023-01-05 16:49:17.000000', '2023-01-05 17:59:17.000000', 'Wstępna kontrola', 'Zakończono', 2, 22, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(62, '2023-01-05 16:49:17.000000', '2023-01-05 17:59:17.000000', 'Wstępna kontrola', 'Zakończono', 2, 23, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(63, '2023-01-05 16:49:17.000000', '2023-01-05 17:59:17.000000', 'Wstępna kontrola', 'Zakończono', 2, 24, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(64, '2023-01-06 16:49:17.000000', '2023-01-06 17:59:17.000000', 'Wstępna kontrola', 'Zakończono', 2, 25, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(65, '2023-01-06 16:49:17.000000', '2023-01-06 17:59:17.000000', 'Wstępna kontrola', 'Zakończono', 2, 26, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(66, '2023-01-06 16:49:17.000000', '2023-01-06 17:59:17.000000', 'Wstępna kontrola', 'Zakończono', 2, 27, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(67, '2023-01-06 16:49:17.000000', '2023-01-06 17:59:17.000000', 'Wstępna kontrola', 'Zakończono', 2, 28, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(68, '2023-01-06 16:49:17.000000', '2023-01-06 17:59:17.000000', 'Wstępna kontrola', 'Zakończono', 2, 29, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(69, '2023-01-07 16:49:17.000000', '2023-01-07 17:53:17.000000', 'Wstępna kontrola', 'Zakończono', 2, 30, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(70, '2023-01-07 16:49:17.000000', '2023-01-07 17:53:17.000000', 'Wstępna kontrola', 'Zakończono', 2, 31, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(71, '2023-01-07 16:49:17.000000', '2023-01-07 17:53:17.000000', 'Wstępna kontrola', 'Zakończono', 2, 32, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(72, '2023-01-07 16:49:17.000000', '2023-01-07 17:53:17.000000', 'Wstępna kontrola', 'Zakończono', 2, 33, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(73, '2023-01-07 16:49:17.000000', '2023-01-07 17:53:17.000000', 'Wstępna kontrola', 'Zakończono', 2, 34, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(74, '2023-01-07 16:49:17.000000', '2023-01-07 17:53:17.000000', 'Wstępna kontrola', 'Zakończono', 2, 35, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(75, '2023-01-08 16:49:17.000000', '2023-01-08 17:53:17.000000', 'Wstępna kontrola', 'Zakończono', 2, 36, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(76, '2023-01-08 16:49:17.000000', '2023-01-08 17:53:17.000000', 'Wstępna kontrola', 'Zakończono', 2, 37, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(77, '2023-01-08 16:49:17.000000', '2023-01-08 17:53:17.000000', 'Wstępna kontrola', 'Zakończono', 2, 38, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(78, '2023-01-08 16:49:17.000000', '2023-01-08 17:53:17.000000', 'Wstępna kontrola', 'Zakończono', 2, 39, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(79, '2023-01-01 19:49:17.000000', '2023-01-01 19:55:17.000000', 'Kontrola maszynowa', 'Odrzucono', 2, 1, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(80, '2023-01-01 19:49:17.000000', '2023-01-01 19:55:17.000000', 'Kontrola maszynowa', 'Zakończono', 2, 2, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(81, '2023-01-01 19:49:17.000000', '2023-01-01 19:55:17.000000', 'Kontrola maszynowa', 'Anulowano', 2, 3, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(82, '2023-01-01 19:49:17.000000', '2023-01-01 19:55:17.000000', 'Kontrola maszynowa', 'Zakończono', 2, 4, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(83, '2023-01-02 19:49:17.000000', '2023-01-02 19:55:17.000000', 'Kontrola maszynowa', 'Zakończono', 2, 5, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(84, '2023-01-02 19:49:17.000000', '2023-01-02 19:55:17.000000', 'Kontrola maszynowa', 'Odrzucono', 2, 6, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(85, '2023-01-02 19:49:17.000000', '2023-01-02 19:55:17.000000', 'Kontrola maszynowa', 'Zakończono', 2, 7, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(86, '2023-01-02 19:49:17.000000', '2023-01-02 19:55:17.000000', 'Kontrola maszynowa', 'Zakończono', 2, 8, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(87, '2023-01-02 19:49:17.000000', '2023-01-02 19:55:17.000000', 'Kontrola maszynowa', 'Zakończono', 2, 9, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(88, '2023-01-03 19:49:17.000000', '2023-01-03 19:58:17.000000', 'Kontrola maszynowa', 'Zakończono', 2, 10, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(89, '2023-01-03 19:49:17.000000', '2023-01-03 19:58:17.000000', 'Kontrola maszynowa', 'Zakończono', 2, 11, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(90, '2023-01-03 19:49:17.000000', '2023-01-03 19:58:17.000000', 'Kontrola maszynowa', 'Zakończono', 2, 12, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(91, '2023-01-03 19:49:17.000000', '2023-01-03 19:58:17.000000', 'Kontrola maszynowa', 'Odrzucono', 2, 13, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(92, '2023-01-03 19:49:17.000000', '2023-01-03 19:58:17.000000', 'Kontrola maszynowa', 'Zakończono', 2, 14, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(93, '2023-01-04 19:49:17.000000', '2023-01-04 19:58:17.000000', 'Kontrola maszynowa', 'Zakończono', 2, 15, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(94, '2023-01-04 19:49:17.000000', '2023-01-04 19:58:17.000000', 'Kontrola maszynowa', 'Zakończono', 2, 16, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(95, '2023-01-04 19:49:17.000000', '2023-01-04 19:58:17.000000', 'Kontrola maszynowa', 'Zakończono', 2, 17, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(96, '2023-01-04 19:49:17.000000', '2023-01-04 19:58:17.000000', 'Kontrola maszynowa', 'Zakończono', 2, 18, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(97, '2023-01-04 19:49:17.000000', '2023-01-04 19:58:17.000000', 'Kontrola maszynowa', 'Zakończono', 2, 19, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(98, '2023-01-05 19:49:17.000000', '2023-01-05 19:59:17.000000', 'Kontrola maszynowa', 'Zakończono', 2, 20, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(99, '2023-01-05 19:49:17.000000', '2023-01-05 19:59:17.000000', 'Kontrola maszynowa', 'Zakończono', 2, 21, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(100, '2023-01-05 20:15:17.000000', '2023-01-05 20:59:17.000000', 'Kontrola maszynowa', 'Zakończono', 2, 22, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(101, '2023-01-05 20:15:17.000000', '2023-01-05 20:59:17.000000', 'Kontrola maszynowa', 'Zakończono', 2, 23, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(102, '2023-01-05 20:15:17.000000', '2023-01-05 20:59:17.000000', 'Kontrola maszynowa', 'Odrzucono', 2, 24, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(103, '2023-01-06 20:15:17.000000', '2023-01-06 20:59:17.000000', 'Kontrola maszynowa', 'Zakończono', 2, 25, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(104, '2023-01-06 20:15:17.000000', '2023-01-06 20:59:17.000000', 'Kontrola maszynowa', 'Zakończono', 2, 26, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(105, '2023-01-06 20:15:17.000000', '2023-01-06 20:59:17.000000', 'Kontrola maszynowa', 'Zakończono', 2, 27, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(106, '2023-01-06 20:15:17.000000', '2023-01-06 20:59:17.000000', 'Kontrola maszynowa', 'Zakończono', 2, 28, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(107, '2023-01-06 20:15:17.000000', '2023-01-06 20:59:17.000000', 'Kontrola maszynowa', 'Zakończono', 2, 29, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(108, '2023-01-07 20:15:17.000000', '2023-01-07 20:53:17.000000', 'Kontrola maszynowa', 'Zakończono', 2, 30, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(109, '2023-01-07 20:15:17.000000', '2023-01-07 20:53:17.000000', 'Kontrola maszynowa', 'Zakończono', 2, 31, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(110, '2023-01-07 20:15:17.000000', '2023-01-07 20:53:17.000000', 'Kontrola maszynowa', 'Zakończono', 2, 32, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(111, '2023-01-07 20:15:17.000000', '2023-01-07 20:53:17.000000', 'Kontrola maszynowa', 'Zakończono', 2, 33, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(112, '2023-01-07 20:15:17.000000', '2023-01-07 20:53:17.000000', 'Kontrola maszynowa', 'Odrzucono', 2, 34, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(113, '2023-01-07 20:15:17.000000', '2023-01-07 20:53:17.000000', 'Kontrola maszynowa', 'Zakończono', 2, 35, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(114, '2023-01-08 20:15:17.000000', '2023-01-08 20:53:17.000000', 'Kontrola maszynowa', 'Zakończono', 2, 36, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(115, '2023-01-08 20:15:17.000000', '2023-01-08 20:53:17.000000', 'Kontrola maszynowa', 'Zakończono', 2, 37, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(116, '2023-01-08 20:15:17.000000', '2023-01-08 20:53:17.000000', 'Kontrola maszynowa', 'Odrzucono', 2, 38, 4);
+INSERT INTO `works` (`id_work`, `date_start`, `date_stop`, `name`, `status`, `id_department`, `id_tire`, `id_worker`) VALUES(117, '2023-01-08 20:15:17.000000', '2023-01-08 20:53:17.000000', 'Kontrola maszynowa', 'Zakończono', 2, 39, 4);
+
