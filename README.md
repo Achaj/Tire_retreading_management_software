@@ -44,6 +44,38 @@ The project is built using modern Java-based technologies:
 ├── pom.xml # Maven configuration
 └── README.md
 ```
+---
+
+## ⚙️ Requirements
+To run this project locally on your machine, you need:
+
+✔ **Java 17 JDK**  
+✔ **Maven**  
+✔ **RFID Reader hardware (optional)**  
+✔ **Database** (configured via Hibernate — MySQL)
+
+---
+
+## ▶️ How to Compile and Run
+
+### 1️⃣ Clone the repository
+```bash
+git clone https://github.com/Achaj/Tire_retreading_management_software.git
+cd Tire_retreading_management_software
+```
+### 2️⃣ Run MySQL Server on port 3306
+  Copy the contents of the insert.txt file into the server console and run the script.
+  
+### 3️⃣ Build with Maven
+```
+mvn clean install
+```
+### 4️⃣ Run the application
+```
+mvn javafx:run
+```
+⚠ Ensure your database is running and configured in the hibernate.cfg.xml file before starting the application.
+
 ## 📌 Hardware Integration (RFID)
 The repository includes:
 - RFID Reader.ino — Arduino sketch for RFID reader communication
